@@ -229,6 +229,14 @@ prompt, which is why it asks each time and shows you the command first.
 - **Idle projects.** Build folders are dated by the project's own files, not
   by the last `npm install`, and one link selects every project nobody has
   changed in 60 days.
+- **Projects.** One row per project with everything it costs, wherever it
+  lies: its `node_modules` and `.next`, its folder in DerivedData, the
+  Docker images only its Compose containers use. It shows how much that
+  grew this week, warns when it was built this week (an archive then lasts
+  only until the next build), marks DerivedData whose project is gone, and
+  archives the lot in one click, never touching source files or Docker
+  volumes. "Copy card" puts the totals on an image for a post, naming no
+  project.
 - **Unused simulator runtimes.** A runtime no installed SDK builds against and
   no simulator sits on is marked unused — every Xcode update leaves one.
 - **Docker, piece by piece.** Build cache, unused images, stopped containers
@@ -255,7 +263,7 @@ prompt, which is why it asks each time and shows you the command first.
 | Developer tool data | Ollama and Hugging Face models, nvm/rustup/pyenv/rbenv/SDKMAN toolchains, conda, Maven, CocoaPods specs, Gradle distributions, Go modules, Bun, Deno, VS Code and Cursor extensions, Docker CLI, OrbStack, Lima, Colima; the AI coding tools (Claude Code, Codex, Grok, Copilot, Kilo, Gemini, Antigravity); any other hidden home folder over 100 MB | Safe / Review |
 | Logs & diagnostics | unified log store (`log erase`), crash reports, ASL, `~/Library/Logs` | Safe |
 | Temporary files | `/private/var/folders` user cache and temp, files older than 3 days | Safe |
-| Docker | `docker system prune` reclaimable space | Review |
+| Docker | `docker system prune` reclaimable space, and per Compose project the images only its containers use and its attached volumes | Review / Manual |
 | Virtual machines | Parallels, UTM, VMware Fusion, VirtualBox, Tart | Review |
 | Trash | `~/.Trash` | Safe |
 | iOS device backups | each MobileSync backup with device name and date | Review |

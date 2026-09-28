@@ -5,6 +5,28 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.6.0 — 2026-09-28
+
+- **Projects.** A new view, one row per project, with everything that
+  project costs wherever the scan found it: its build folders, its folder in
+  DerivedData and, when Docker is running, the images only its Compose
+  containers use. A monorepo is one project, found by its git root.
+  DerivedData whose project no longer exists is marked as such, and a
+  project nobody touched in 60 days says so. Archive deletes what its next
+  build recreates; source files are never an item, and Docker volumes,
+  where databases live, are listed but never archived.
+- **This week.** Each project shows how much its build output grew since a
+  scan about a week old, and warns when it was built this week: archiving
+  it then frees the space only until the next build.
+- **Docker images counted once.** A project's images are sized by the part
+  no other image shares, so a base layer every Node image starts from is
+  not counted again for each one. An image two projects use belongs to
+  neither, and images and volumes nothing uses stay in the Docker prune
+  rows rather than being counted twice.
+- **Copy card.** A button on the Projects summary copies an image of the
+  totals, the idle share and what they are made of, ready to paste into a
+  post. It names no project.
+
 ## v1.5.3 — 2026-09-25
 
 - **Your language again on macOS 27.** On macOS 27 the app showed English
