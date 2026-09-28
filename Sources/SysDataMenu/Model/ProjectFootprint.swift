@@ -64,9 +64,10 @@ struct ProjectFootprint: Identifiable, Sendable {
 
 extension StorageItem {
     /// What this item is within its project, for a project's breakdown:
-    /// "node_modules", ".next", "DerivedData".
+    /// "node_modules", ".next", "DerivedData", "Docker images".
     var partName: String {
         if category == .xcode { return "DerivedData" }
+        if category == .docker { return name.components(separatedBy: ":").first ?? name }
         return revealURL?.lastPathComponent ?? name
     }
 }

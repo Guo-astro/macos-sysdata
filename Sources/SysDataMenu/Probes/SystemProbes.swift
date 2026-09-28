@@ -110,7 +110,11 @@ struct DockerProbe: StorageProbe {
             )].compactMap { $0 }
         }
 
-        return Self.items(fromSystemDF: df.output, docker: docker, reveal: vms)
+        var items = Self.items(fromSystemDF: df.output, docker: docker, reveal: vms)
+        if let usage = await DockerProjects.usage(docker: docker) {
+            items += DockerProjects.items(from: usage, docker: docker)
+        }
+        return items
     }
 
     /// One row per kind of thing Docker can let go of, each with the prune
