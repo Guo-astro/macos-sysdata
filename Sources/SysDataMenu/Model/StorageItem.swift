@@ -174,6 +174,10 @@ struct StorageItem: Identifiable, Sendable {
     /// Locations this item accounts for beyond its action and reveal paths
     /// (for example the second half of the unified log store).
     let alsoClaims: [URL]
+    /// The project this item was built for, when it belongs to one: its
+    /// node_modules or .build, or its folder in DerivedData. The Projects view
+    /// groups by it.
+    let project: URL?
 
     init(
         id: String,
@@ -185,7 +189,8 @@ struct StorageItem: Identifiable, Sendable {
         action: ReclaimAction,
         revealURL: URL? = nil,
         lastModified: Date? = nil,
-        alsoClaims: [URL] = []
+        alsoClaims: [URL] = [],
+        project: URL? = nil
     ) {
         self.id = id
         self.category = category
@@ -197,6 +202,7 @@ struct StorageItem: Identifiable, Sendable {
         self.revealURL = revealURL
         self.lastModified = lastModified
         self.alsoClaims = alsoClaims
+        self.project = project
     }
 
     /// Whole days since anything inside changed.
@@ -209,7 +215,13 @@ struct StorageItem: Identifiable, Sendable {
     /// worth a badge. Below a fortnight the age says nothing useful: a cache
     /// touched yesterday and one touched last week are both simply in use.
     var idleLabel: String? {
-        guard let days = idleDays, days >= 14 else { return nil }
+        idleDays.flatMap(Self.idlePhrase)
+    }
+
+    /// "3 months idle", or nil under a fortnight. Shared with the Projects
+    /// view, so a project and its rows describe the same age the same way.
+    static func idlePhrase(days: Int) -> String? {
+        guard days >= 14 else { return nil }
         let months = days / 30
         let years = days / 365
         if years >= 1 { return years == 1 ? L("1 year idle") : L("%lld years idle", years) }

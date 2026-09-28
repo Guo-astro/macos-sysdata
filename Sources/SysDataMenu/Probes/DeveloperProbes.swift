@@ -233,11 +233,70 @@ struct RuntimeProbe: StorageProbe {
 struct XcodeProbe: StorageProbe {
     private let root = URL.home("Library/Developer/Xcode")
 
+    /// One row per project in DerivedData, so each can be seen — and, in the
+    /// Projects view, archived — with the rest of what that project costs.
+    /// What belongs to no project (the module and symbol caches) stays one
+    /// row under the id the whole folder used to have, so its history goes on.
+    private func derivedData() async -> [StorageItem] {
+        let folder = root.appending(path: "DerivedData")
+        let detail = "Build products and indexes. Rebuilt on the next build."
+        var items: [StorageItem] = []
+        var shared: [URL] = []
+        for entry in folder.children(includeHidden: false) where entry.isDirectory {
+            guard let project = Self.project(ofDerivedData: entry) else {
+                shared.append(entry)
+                continue
+            }
+            let exists = project.exists
+            if let measured = await ProbeSupport.directoryItem(
+                id: "xcode-deriveddata-\(entry.lastPathComponent)", category: .xcode,
+                name: "DerivedData: \(project.lastPathComponent)",
+                detail: exists
+                    ? "\(project.abbreviatedPath). \(detail)"
+                    : "\(project.abbreviatedPath), which no longer exists. Nothing will rebuild this.",
+                url: entry, safety: .safe, action: .removePaths([entry]), minimumBytes: ProbeSupport.megabyte
+            ) {
+                // Dated by the project's own files, like its build folders: a
+                // build yesterday says less than an edit a year ago.
+                let activity = exists ? ProjectProbe.lastActivity(in: project) : nil
+                items.append(StorageItem(
+                    id: measured.id, category: measured.category, name: measured.name,
+                    detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
+                    action: measured.action, revealURL: measured.revealURL,
+                    lastModified: activity ?? measured.lastModified, project: project
+                ))
+            }
+        }
+        if !shared.isEmpty, let item = await ProbeSupport.directoryItem(
+            id: "xcode-DerivedData", category: .xcode, name: "DerivedData",
+            detail: "Module and symbol caches shared by every project. \(detail)",
+            url: folder, safety: .safe, action: .removePaths(shared)
+        ) {
+            items.append(item)
+        }
+        return items
+    }
+
+    /// The project a DerivedData folder was built for, from the workspace
+    /// path Xcode records in its info.plist: the folder holding the
+    /// .xcodeproj or .xcworkspace, or the package folder itself.
+    static func project(ofDerivedData folder: URL) -> URL? {
+        guard let info = NSDictionary(contentsOf: folder.appending(path: "info.plist")),
+              let path = info["WorkspacePath"] as? String, !path.isEmpty else { return nil }
+        var workspace = URL(fileURLWithPath: path).standardizedFileURL
+        // project.xcworkspace lives inside the .xcodeproj it belongs to.
+        while ["xcodeproj", "xcworkspace"].contains(workspace.pathExtension) {
+            workspace = workspace.deletingLastPathComponent()
+        }
+        return workspace.exists ? ProjectProbe.projectRoot(of: workspace) : workspace
+    }
+
     func probe() async -> [StorageItem] {
         var items: [StorageItem] = []
 
+        items += await derivedData()
+
         let entries: [(String, String, String, Safety)] = [
-            ("DerivedData", "DerivedData", "Build products and indexes. Rebuilt on the next build.", .safe),
             ("iOS DeviceSupport", "iOS DeviceSupport", "Symbols copied from connected iPhones and iPads. Copied again on the next connection.", .safe),
             ("watchOS DeviceSupport", "watchOS DeviceSupport", "Symbols copied from connected watches.", .safe),
             ("tvOS DeviceSupport", "tvOS DeviceSupport", "Symbols copied from connected Apple TVs.", .safe),

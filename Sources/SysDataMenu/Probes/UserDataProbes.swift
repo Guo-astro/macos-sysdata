@@ -328,15 +328,32 @@ struct ProjectProbe: StorageProbe {
                 // Dated by the project, not by the folder: node_modules is as
                 // old as the last install, which says nothing about whether
                 // anyone still works on the code next to it.
+                let root = Self.projectRoot(of: project)
                 items.append(StorageItem(
                     id: measured.id, category: measured.category, name: measured.name,
                     detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
                     action: measured.action, revealURL: measured.revealURL,
-                    lastModified: Self.lastActivity(in: project) ?? measured.lastModified
+                    lastModified: Self.lastActivity(in: root) ?? measured.lastModified,
+                    project: root
                 ))
             }
         }
         return items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) }
+    }
+
+    /// The project a folder belongs to: the nearest enclosing git repository,
+    /// so a monorepo's apps/web/node_modules and apps/api/.build count as one
+    /// project, or the folder itself when there is none. Never one of the
+    /// folders projects are searched in, and never above the home folder.
+    static func projectRoot(of folder: URL, stoppingAt stops: [URL] = roots) -> URL {
+        let start = folder.standardizedFileURL
+        let stopPaths = Set(stops.map(\.standardizedFileURL.path) + [URL.home.standardizedFileURL.path])
+        var current = start
+        while !stopPaths.contains(current.path), current.path.count > 1 {
+            if FileManager.default.fileExists(atPath: current.appending(path: ".git").path) { return current }
+            current = current.deletingLastPathComponent().standardizedFileURL
+        }
+        return start
     }
 
     /// When someone last changed anything in a project: the newest file in

@@ -25,6 +25,10 @@ struct MenuView: View {
     @State private var notificationsRefused = false
     @State private var showsPlan = false
     @State private var copiedPlan = false
+    /// Whether the list is grouped by project rather than by category.
+    @AppStorage("listsByProject") private var listsByProject = false
+    /// The project an archive is being confirmed for; nil for any other batch.
+    @State private var archivingProject: String?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// What the pending delete will actually do, whether it is one row or a
@@ -175,7 +179,7 @@ struct MenuView: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
-                Text(L("Delete %lld items?", model.selectedItems.count))
+                Text(archivingProject.map { L("Archive %@?", $0) } ?? L("Delete %lld items?", model.selectedItems.count))
                     .font(.subheadline.weight(.semibold))
                 Text(batchMessage)
                     .font(.caption)
@@ -227,6 +231,7 @@ struct MenuView: View {
                 Button(L("Cancel")) {
                     pendingDeletion = nil
                     confirmsBatch = false
+                    archivingProject = nil
                     showsPlan = false
                     copiedPlan = false
                 }
@@ -239,10 +244,13 @@ struct MenuView: View {
                     }
                     pendingDeletion = nil
                     confirmsBatch = false
+                    archivingProject = nil
                     showsPlan = false
                     copiedPlan = false
                 } label: {
-                    Text(pendingDeletion != nil ? L("Delete") : L("Delete %lld items", model.selectedItems.count))
+                    Text(pendingDeletion != nil ? L("Delete")
+                         : archivingProject != nil ? L("Archive")
+                         : L("Delete %lld items", model.selectedItems.count))
                 }
                 .keyboardShortcut(.defaultAction)
                 .tint(.red)
@@ -475,7 +483,20 @@ struct MenuView: View {
                 overview
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
-                list
+                Picker(L("Group by"), selection: $listsByProject) {
+                    Text(L("By category")).tag(false)
+                    Text(L("By project")).tag(true)
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .controlSize(.small)
+                .padding(.horizontal, 16)
+                .padding(.top, 4)
+                if listsByProject {
+                    projectList
+                } else {
+                    list
+                }
             }
         }
     }
@@ -548,6 +569,68 @@ struct MenuView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
+    }
+
+    /// Every project the scan found build output for, largest first. Each row
+    /// is what one project costs across the disk; archiving one selects its
+    /// items and goes through the same confirmation as any batch, commands
+    /// shown.
+    @ViewBuilder
+    private var projectList: some View {
+        let projects = model.projectFootprints
+        if projects.isEmpty {
+            VStack(spacing: 8) {
+                Spacer()
+                Image(systemName: "folder")
+                    .font(.largeTitle)
+                    .foregroundStyle(.secondary)
+                Text(model.isScanning ? L("Measuring…") : L("No project build output found"))
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+        } else {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 0) {
+                    projectSummary(projects)
+                        .padding(.top, 6)
+                        .padding(.bottom, 2)
+                    ForEach(projects) { project in
+                        ProjectRow(
+                            project: project,
+                            isBusy: project.items.contains { model.busyItemIDs.contains($0.id) }
+                        ) { archive(project) }
+                        Divider()
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 4)
+            }
+        }
+    }
+
+    /// "31 projects · 18.2 GB · 9 idle 60+ days: 6.1 GB"
+    private func projectSummary(_ projects: [ProjectFootprint]) -> some View {
+        let total = projects.reduce(0) { $0 + $1.totalBytes }
+        let idle = projects.filter { !$0.exists || ($0.idleDays ?? 0) >= ScanModel.idleProjectDays }
+        let idleBytes = idle.reduce(0) { $0 + $1.totalBytes }
+        var parts = [projects.count == 1
+            ? L("1 project · %@", total.byteString)
+            : L("%lld projects · %@", projects.count, total.byteString)]
+        if !idle.isEmpty {
+            parts.append(L("%lld idle %lld+ days: %@", idle.count, ScanModel.idleProjectDays, idleBytes.byteString))
+        }
+        return Text(parts.joined(separator: " · "))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .monospacedDigit()
+    }
+
+    private func archive(_ project: ProjectFootprint) {
+        pendingDeletion = nil
+        model.selectedIDs = Set(project.archivableItems.map(\.id))
+        archivingProject = project.name
+        confirmsBatch = true
     }
 
     /// The category's bar, and an amber mark when it has grown well past its
@@ -859,7 +942,9 @@ struct MenuView: View {
                     .tint(.red)
                     .controlSize(.small)
                     .disabled(!model.busyItemIDs.isEmpty)
-                    if model.selectedOffScreenCount > 0 {
+                    // In the Projects view the rows are projects, and an
+                    // archive's items are in them, not off screen.
+                    if !listsByProject, model.selectedOffScreenCount > 0 {
                         // The batch reaches further than the window does. Say
                         // so, rather than deleting rows nobody can see.
                         Text(L("%lld not on screen", model.selectedOffScreenCount))

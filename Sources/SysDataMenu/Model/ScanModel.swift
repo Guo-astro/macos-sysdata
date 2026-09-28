@@ -350,6 +350,15 @@ final class ScanModel {
     /// Build folders of projects nobody has changed in two months. Dated by
     /// the project's own files, so a codebase edited daily whose
     /// node_modules is old does not qualify.
+    /// The listed items that belong to a project, grouped by project, for
+    /// the Projects view. The filter narrows it by project name.
+    var projectFootprints: [ProjectFootprint] {
+        let all = ProjectFootprint.group(visibleItems)
+        let query = filterText.trimmingCharacters(in: .whitespaces)
+        guard !query.isEmpty else { return all }
+        return all.filter { $0.name.localizedCaseInsensitiveContains(query) }
+    }
+
     var idleProjectItems: [StorageItem] {
         listedItems.filter { $0.category == .projects && ($0.idleDays ?? 0) >= Self.idleProjectDays }
     }
