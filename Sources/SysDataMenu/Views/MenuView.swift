@@ -620,10 +620,31 @@ struct MenuView: View {
         if !idle.isEmpty {
             parts.append(L("%lld idle %lld+ days: %@", idle.count, ScanModel.idleProjectDays, idleBytes.byteString))
         }
-        return Text(parts.joined(separator: " · "))
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .monospacedDigit()
+        return HStack(alignment: .firstTextBaseline) {
+            Text(parts.joined(separator: " · "))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .monospacedDigit()
+            Spacer(minLength: 8)
+            Button {
+                copyShareCard(projects)
+            } label: {
+                Label(L("Copy card"), systemImage: "square.and.arrow.up")
+                    .font(.caption)
+            }
+            .buttonStyle(.borderless)
+            .help(L("Copy an image of these totals to paste into a post. It names no project."))
+        }
+    }
+
+    /// Puts the share card on the pasteboard, where every place people post
+    /// takes an image from, and says so.
+    private func copyShareCard(_ projects: [ProjectFootprint]) {
+        guard let image = ProjectShareCard.image(for: projects) else { return }
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.writeObjects([image])
+        model.errorMessage = nil
+        model.notice = L("Card copied. Paste it into a post.")
     }
 
     private func archive(_ project: ProjectFootprint) {

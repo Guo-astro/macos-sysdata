@@ -3,9 +3,11 @@
 "%@ free on disk" = "diskte %@ boş";
 "%@ free · %@ of safe items can go now" = "%@ boş · %@ güvenli öğe şimdi silinebilir";
 "%@ grew %@ beyond its recent size." = "%@ son dönem boyutunun %@ üstüne çıktı.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "Bunun %1$@ kadarı %2$lld+ gündür dokunulmamış projelere ait.";
 "%@ purgeable" = "%@ temizlenebilir";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "%@ güvenle boşaltılabilir · diskte %@ boş · %@ temizlenebilir";
 "%@ safe · %@ to review · %@ manual" = "%@ güvenli · %@ incelenecek · %@ manuel";
+"%@ this week" = "bu hafta %@";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@: simülatör hâlâ çalışıyor. Simulator'ı ve Xcode'u kapatıp tekrar dene.";
 "%lld days idle" = "%lld gündür boşta";
 "%lld hidden" = "%lld gizli";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "Güvenli öğeleri otomatik boşalt";
 "Back to the list" = "Listeye dön";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Açık simülatörler çıkış isteğini yok sayar ve kapanışı 33 saniye bekletir. Bu seçenek önce onları kapatır.";
+"Built this week: archiving frees this only until the next build." = "Bu hafta derlendi: arşivlemek bu alanı yalnızca bir sonraki derlemeye kadar boşaltır.";
 "By category" = "Kategoriye göre";
 "By project" = "Projeye göre";
 "Came back" = "Geri geldi";
 "Cancel" = "Vazgeç";
 "Cancelled. %d already deleted, the rest left alone." = "İptal edildi. %d tanesi silinmişti, kalanlara dokunulmadı.";
 "Cancelled. Nothing was deleted." = "İptal edildi. Hiçbir şey silinmedi.";
+"Card copied. Paste it into a post." = "Kart kopyalandı. Bir paylaşıma yapıştırabilirsin.";
 "Check for updates" = "Güncellemeleri denetle";
 "Clear" = "Temizle";
 "Cleared %lld safe items that had built back up." = "Yeniden birikmiş %lld güvenli öğe temizlendi.";
@@ -44,6 +48,8 @@
 "Collapse all" = "Tümünü daralt";
 "Copied" = "Kopyalandı";
 "Copy" = "Kopyala";
+"Copy an image of these totals to paste into a post. It names no project." = "Bu toplamların bir görselini paylaşımına yapıştırmak için kopyala. Hiçbir projenin adı geçmez.";
+"Copy card" = "Kartı kopyala";
 "Copy the plan" = "Planı kopyala";
 "Delete" = "Sil";
 "Delete %@" = "%@ silinir";
@@ -74,6 +80,7 @@
 "Forget everything" = "Hepsini unut";
 "Free" = "Boş";
 "Free %@" = "%@ boşalt";
+"Free and open source" = "Ücretsiz ve açık kaynak";
 "Free space" = "Boş alan";
 "Free space on the startup disk." = "Başlangıç diskindeki boş alan.";
 "Freed %@ automatically" = "%@ otomatik boşaltıldı";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "Çoğunlukla %1$@, %2$@ arttı.";
 "Move safe items to the Trash" = "Güvenli öğeleri Çöp Sepeti'ne taşı";
 "Moved to the Trash. Empty the Trash to free the space." = "Çöp Sepeti'ne taşındı. Alanı boşaltmak için Çöp Sepeti'ni boşaltın.";
+"My Mac keeps" = "Mac’im şunu tutuyor";
 "No item matches" = "Eşleşen öğe yok";
 "No project build output found" = "Proje derleme çıktısı bulunamadı";
 "Nobody has changed this project's own files in %lld days." = "Bu projenin kendi dosyalarına %lld gündür kimse dokunmadı.";
@@ -124,6 +132,7 @@
 "Open in a window" = "Pencerede aç";
 "Open x.com/yigitech" = "x.com/yigitech adresini aç";
 "Order rows by size, or by how long they have sat untouched" = "Satırları boyuta ya da ne kadardır dokunulmadığına göre sırala";
+"Other" = "Diğer";
 "Other files" = "Diğer dosyalar";
 "Other large folders" = "Diğer büyük klasörler";
 "Package managers" = "Paket yöneticileri";
@@ -197,4 +206,6 @@
 "different developer" = "farklı geliştirici";
 "iOS device backups" = "iOS aygıt yedekleri";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS bu uygulamanın bildirimlerine izin vermiyor. Sistem Ayarları > Bildirimler'den açabilirsin.";
+"of build output for %lld projects" = "derleme çıktısı, %lld proje için";
+"of build output for 1 project" = "derleme çıktısı, 1 proje için";
 "safe to free now" = "şimdi güvenle silinebilir";

@@ -353,7 +353,10 @@ final class ScanModel {
     /// The listed items that belong to a project, grouped by project, for
     /// the Projects view. The filter narrows it by project name.
     var projectFootprints: [ProjectFootprint] {
-        let all = ProjectFootprint.group(visibleItems)
+        let all = ProjectFootprint.group(
+            visibleItems,
+            changes: ScanHistory.itemChanges(overPastDays: 7, in: history)
+        )
         let query = filterText.trimmingCharacters(in: .whitespaces)
         guard !query.isEmpty else { return all }
         return all.filter { $0.name.localizedCaseInsensitiveContains(query) }

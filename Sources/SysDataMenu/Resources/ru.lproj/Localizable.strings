@@ -3,9 +3,11 @@
 "%@ free on disk" = "%@ свободно на диске";
 "%@ free · %@ of safe items can go now" = "%@ свободно · %@ безопасных элементов можно освободить прямо сейчас";
 "%@ grew %@ beyond its recent size." = "%@ вырос на %@ по сравнению с недавним размером.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "Из них %@ — проекты, к которым никто не прикасался %lld+ дней.";
 "%@ purgeable" = "%@ очищаемое";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "%@ можно безопасно освободить сейчас · %@ свободно на диске · %@ вытесняемых данных";
 "%@ safe · %@ to review · %@ manual" = "безопасно: %@ · проверить: %@ · вручную: %@";
+"%@ this week" = "%@ за неделю";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@: симулятор всё ещё запущен. Закройте Simulator и Xcode и повторите попытку.";
 "%lld days idle" = "%lld дн. без использования";
 "%lld hidden" = "%lld скрыто";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "Автоматически освобождать безопасные элементы";
 "Back to the list" = "Назад к списку";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Запущенные симуляторы игнорируют запрос на завершение и задерживают выключение на 33 секунды. Сначала это выключит их.";
+"Built this week: archiving frees this only until the next build." = "Собирался на этой неделе: архивация освободит место только до следующей сборки.";
 "By category" = "По категориям";
 "By project" = "По проектам";
 "Came back" = "Появилось снова";
 "Cancel" = "Отмена";
 "Cancelled. %d already deleted, the rest left alone." = "Отменено. %d уже удалено, остальное не тронуто.";
 "Cancelled. Nothing was deleted." = "Отменено. Ничего не удалено.";
+"Card copied. Paste it into a post." = "Карточка скопирована. Вставьте её в пост.";
 "Check for updates" = "Проверить наличие обновлений";
 "Clear" = "Очистить";
 "Cleared %lld safe items that had built back up." = "Очищено %lld безопасных элементов, которые снова накопились.";
@@ -44,6 +48,8 @@
 "Collapse all" = "Свернуть все";
 "Copied" = "Скопировано";
 "Copy" = "Копировать";
+"Copy an image of these totals to paste into a post. It names no project." = "Скопировать изображение с этими итогами, чтобы вставить в пост. Названия проектов не указываются.";
+"Copy card" = "Копировать карточку";
 "Copy the plan" = "Скопировать план";
 "Delete" = "Удалить";
 "Delete %@" = "Удалить %@";
@@ -74,6 +80,7 @@
 "Forget everything" = "Забыть всё";
 "Free" = "Свободно";
 "Free %@" = "Освободить %@";
+"Free and open source" = "Бесплатно и с открытым кодом";
 "Free space" = "Свободное место";
 "Free space on the startup disk." = "Свободное место на загрузочном диске.";
 "Freed %@ automatically" = "Автоматически освобождено %@";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "Главным образом %@, рост на %@.";
 "Move safe items to the Trash" = "Перемещать безопасные элементы в Корзину";
 "Moved to the Trash. Empty the Trash to free the space." = "Перемещено в Корзину. Чтобы освободить место, очистите Корзину.";
+"My Mac keeps" = "Мой Mac хранит";
 "No item matches" = "Нет совпадений";
 "No project build output found" = "Результаты сборки проектов не найдены";
 "Nobody has changed this project's own files in %lld days." = "Файлы этого проекта никто не менял %lld дн.";
@@ -124,6 +132,7 @@
 "Open in a window" = "Открыть в окне";
 "Open x.com/yigitech" = "Открыть x.com/yigitech";
 "Order rows by size, or by how long they have sat untouched" = "Упорядочить строки по размеру или по времени без использования";
+"Other" = "Другое";
 "Other files" = "Другие файлы";
 "Other large folders" = "Другие крупные папки";
 "Package managers" = "Менеджеры пакетов";
@@ -197,4 +206,6 @@
 "different developer" = "другой разработчик";
 "iOS device backups" = "Резервные копии устройств iOS";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS не разрешает этому приложению отправлять уведомления. Включите их в разделе «Системные настройки» > «Уведомления».";
+"of build output for %lld projects" = "результатов сборки для проектов: %lld";
+"of build output for 1 project" = "результатов сборки для 1 проекта";
 "safe to free now" = "можно освободить сейчас";

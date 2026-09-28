@@ -27,6 +27,19 @@ struct ProjectRow: View {
                     .foregroundStyle(.secondary)
                     .monospacedDigit()
                     .lineLimit(2)
+                if let growth = project.weeklyGrowth, abs(growth) >= Self.noticeableGrowth {
+                    Text(L("%@ this week", (growth > 0 ? "+" : "−") + abs(growth).byteString))
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(growth > 0 ? Color.orange : Color.secondary)
+                        .monospacedDigit()
+                }
+                if project.builtRecently {
+                    Label(L("Built this week: archiving frees this only until the next build."),
+                          systemImage: "hammer")
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             Spacer(minLength: 8)
             VStack(alignment: .trailing, spacing: 6) {
@@ -51,6 +64,9 @@ struct ProjectRow: View {
         }
         .accessibilityElement(children: .contain)
     }
+
+    /// Below this a week's change is a rounding error, not news.
+    private static let noticeableGrowth: Int64 = 50_000_000
 
     /// "node_modules 4.1 GB · DerivedData 2.3 GB"
     private var breakdown: String {

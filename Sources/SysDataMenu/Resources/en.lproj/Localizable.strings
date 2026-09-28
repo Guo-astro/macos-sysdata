@@ -3,9 +3,11 @@
 "%@ free on disk" = "%@ free on disk";
 "%@ free · %@ of safe items can go now" = "%@ free · %@ of safe items can go now";
 "%@ grew %@ beyond its recent size." = "%@ grew %@ beyond its recent size.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "%@ of it belongs to projects nobody has touched in %lld+ days.";
 "%@ purgeable" = "%@ purgeable";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "%@ safe to free now · %@ free on disk · %@ purgeable";
 "%@ safe · %@ to review · %@ manual" = "%@ safe · %@ to review · %@ manual";
+"%@ this week" = "%@ this week";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@: the simulator is still running. Quit Simulator and Xcode, then try again.";
 "%lld days idle" = "%lld days idle";
 "%lld hidden" = "%lld hidden";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "Automatically free safe items";
 "Back to the list" = "Back to the list";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first.";
+"Built this week: archiving frees this only until the next build." = "Built this week: archiving frees this only until the next build.";
 "By category" = "By category";
 "By project" = "By project";
 "Came back" = "Came back";
 "Cancel" = "Cancel";
 "Cancelled. %d already deleted, the rest left alone." = "Cancelled. %d already deleted, the rest left alone.";
 "Cancelled. Nothing was deleted." = "Cancelled. Nothing was deleted.";
+"Card copied. Paste it into a post." = "Card copied. Paste it into a post.";
 "Check for updates" = "Check for updates";
 "Clear" = "Clear";
 "Cleared %lld safe items that had built back up." = "Cleared %lld safe items that had built back up.";
@@ -44,6 +48,8 @@
 "Collapse all" = "Collapse all";
 "Copied" = "Copied";
 "Copy" = "Copy";
+"Copy an image of these totals to paste into a post. It names no project." = "Copy an image of these totals to paste into a post. It names no project.";
+"Copy card" = "Copy card";
 "Copy the plan" = "Copy the plan";
 "Delete" = "Delete";
 "Delete %@" = "Delete %@";
@@ -74,6 +80,7 @@
 "Forget everything" = "Forget everything";
 "Free" = "Free";
 "Free %@" = "Free %@";
+"Free and open source" = "Free and open source";
 "Free space" = "Free space";
 "Free space on the startup disk." = "Free space on the startup disk.";
 "Freed %@ automatically" = "Freed %@ automatically";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "Mostly %@, up %@.";
 "Move safe items to the Trash" = "Move safe items to the Trash";
 "Moved to the Trash. Empty the Trash to free the space." = "Moved to the Trash. Empty the Trash to free the space.";
+"My Mac keeps" = "My Mac keeps";
 "No item matches" = "No item matches";
 "No project build output found" = "No project build output found";
 "Nobody has changed this project's own files in %lld days." = "Nobody has changed this project's own files in %lld days.";
@@ -124,6 +132,7 @@
 "Open in a window" = "Open in a window";
 "Open x.com/yigitech" = "Open x.com/yigitech";
 "Order rows by size, or by how long they have sat untouched" = "Order rows by size, or by how long they have sat untouched";
+"Other" = "Other";
 "Other files" = "Other files";
 "Other large folders" = "Other large folders";
 "Package managers" = "Package managers";
@@ -197,4 +206,6 @@
 "different developer" = "different developer";
 "iOS device backups" = "iOS device backups";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications.";
+"of build output for %lld projects" = "of build output for %lld projects";
+"of build output for 1 project" = "of build output for 1 project";
 "safe to free now" = "safe to free now";

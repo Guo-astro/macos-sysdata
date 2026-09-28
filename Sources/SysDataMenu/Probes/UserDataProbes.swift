@@ -334,7 +334,7 @@ struct ProjectProbe: StorageProbe {
                     detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
                     action: measured.action, revealURL: measured.revealURL,
                     lastModified: Self.lastActivity(in: root) ?? measured.lastModified,
-                    project: root
+                    project: root, builtAt: measured.lastModified
                 ))
             }
         }

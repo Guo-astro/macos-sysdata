@@ -178,6 +178,10 @@ struct StorageItem: Identifiable, Sendable {
     /// node_modules or .build, or its folder in DerivedData. The Projects view
     /// groups by it.
     let project: URL?
+    /// For a project's build output, when anything inside it was last
+    /// written: the last build. `lastModified` is the project's own activity
+    /// instead, so the two answer different questions.
+    let builtAt: Date?
 
     init(
         id: String,
@@ -190,7 +194,8 @@ struct StorageItem: Identifiable, Sendable {
         revealURL: URL? = nil,
         lastModified: Date? = nil,
         alsoClaims: [URL] = [],
-        project: URL? = nil
+        project: URL? = nil,
+        builtAt: Date? = nil
     ) {
         self.id = id
         self.category = category
@@ -203,6 +208,7 @@ struct StorageItem: Identifiable, Sendable {
         self.lastModified = lastModified
         self.alsoClaims = alsoClaims
         self.project = project
+        self.builtAt = builtAt
     }
 
     /// Whole days since anything inside changed.

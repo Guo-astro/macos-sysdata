@@ -12,10 +12,47 @@ import Testing
     }
 
     private func item(_ id: String, _ bytes: Int64, project: URL?, category: StorageCategory = .projects,
-                      modified: Date? = nil) -> StorageItem {
+                      modified: Date? = nil, builtAt: Date? = nil) -> StorageItem {
         StorageItem(id: id, category: category, name: id, detail: "", sizeBytes: bytes, safety: .review,
                     action: .removePaths([URL(fileURLWithPath: "/tmp/\(id)")]),
-                    revealURL: URL(fileURLWithPath: "/tmp/\(id)"), lastModified: modified, project: project)
+                    revealURL: URL(fileURLWithPath: "/tmp/\(id)"), lastModified: modified, project: project,
+                    builtAt: builtAt)
+    }
+
+    /// A project last built three days ago is being worked on: an archive
+    /// would last until its next build, and the row says so. One whose build
+    /// output is months old is not.
+    @Test func aRecentBuildAndAWeeksGrowthAreShown() {
+        let now = Date()
+        let active = URL(fileURLWithPath: "/tmp/sysdata-active")
+        let dormant = URL(fileURLWithPath: "/tmp/sysdata-dormant")
+        let footprints = ProjectFootprint.group([
+            item("active-next", 500, project: active, builtAt: now.addingTimeInterval(-3 * 86_400)),
+            item("active-modules", 400, project: active, builtAt: now.addingTimeInterval(-200 * 86_400)),
+            item("dormant-build", 300, project: dormant, builtAt: now.addingTimeInterval(-40 * 86_400)),
+        ], changes: ["active-next": 120, "active-modules": -20], now: now)
+
+        let byName = Dictionary(uniqueKeysWithValues: footprints.map { ($0.name, $0) })
+        #expect(byName["sysdata-active"]?.builtRecently == true)
+        #expect(byName["sysdata-active"]?.weeklyGrowth == 100)
+        #expect(byName["sysdata-dormant"]?.builtRecently == false)
+        // No history for it: nothing is claimed rather than zero.
+        #expect(byName["sysdata-dormant"]?.weeklyGrowth == nil)
+    }
+
+    /// Only items both scans measured are compared. DerivedData became one
+    /// row per project, and those rows must not read as a week's growth the
+    /// first time they appear.
+    @Test func aWeeksChangeLeavesOutWhatTheOldScanDidNotKnow() {
+        let now = Date()
+        var log = ScanHistory.Log()
+        log.scans = [
+            .init(date: now.addingTimeInterval(-8 * 86_400), totalBytes: 0, freeBytes: 0,
+                  sizes: ["node_modules": 1_000], names: [:]),
+            .init(date: now, totalBytes: 0, freeBytes: 0,
+                  sizes: ["node_modules": 1_500, "xcode-deriveddata-new": 9_000], names: [:]),
+        ]
+        #expect(ScanHistory.itemChanges(overPastDays: 7, in: log) == ["node_modules": 500])
     }
 
     @Test func itemsAreGroupedPerProjectLargestFirst() {

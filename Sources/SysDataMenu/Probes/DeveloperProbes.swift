@@ -263,7 +263,8 @@ struct XcodeProbe: StorageProbe {
                     id: measured.id, category: measured.category, name: measured.name,
                     detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
                     action: measured.action, revealURL: measured.revealURL,
-                    lastModified: activity ?? measured.lastModified, project: project
+                    lastModified: activity ?? measured.lastModified, project: project,
+                    builtAt: measured.lastModified
                 ))
             }
         }

@@ -3,9 +3,11 @@
 "%@ free on disk" = "디스크에 %@ 여유 공간";
 "%@ free · %@ of safe items can go now" = "%@ 여유 공간 · 안전 항목 %@ 삭제 가능";
 "%@ grew %@ beyond its recent size." = "%@이(가) 최근 크기보다 %@ 늘었습니다.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "그중 %1$@는 %2$lld일 넘게 아무도 건드리지 않은 프로젝트입니다.";
 "%@ purgeable" = "%@ 제거 가능";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "지금 안전하게 확보할 수 있는 %@ · 디스크 여유 공간 %@ · 제거 가능한 공간 %@";
 "%@ safe · %@ to review · %@ manual" = "안전 %@ · 검토 필요 %@ · 수동 %@";
+"%@ this week" = "이번 주 %@";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@: 시뮬레이터가 아직 실행 중입니다. Simulator와 Xcode를 종료한 후 다시 시도하세요.";
 "%lld days idle" = "%lld일간 미사용";
 "%lld hidden" = "%lld개 숨김";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "안전 항목 자동으로 비우기";
 "Back to the list" = "목록으로 돌아가기";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "부팅된 시뮬레이터는 종료 요청을 무시하고 33초 동안 종료를 지연시킵니다. 이 기능은 먼저 시뮬레이터를 종료합니다.";
+"Built this week: archiving frees this only until the next build." = "이번 주에 빌드됨: 보관해도 다음 빌드 전까지만 공간이 확보됩니다.";
 "By category" = "카테고리별";
 "By project" = "프로젝트별";
 "Came back" = "다시 생김";
 "Cancel" = "취소";
 "Cancelled. %d already deleted, the rest left alone." = "취소됨. 이미 %d개가 삭제되었고, 나머지는 그대로 유지됩니다.";
 "Cancelled. Nothing was deleted." = "취소됨. 삭제된 항목이 없습니다.";
+"Card copied. Paste it into a post." = "카드를 복사했습니다. 게시물에 붙여 넣으세요.";
 "Check for updates" = "업데이트 확인";
 "Clear" = "지우기";
 "Cleared %lld safe items that had built back up." = "다시 쌓인 안전 항목 %lld개를 삭제했습니다.";
@@ -44,6 +48,8 @@
 "Collapse all" = "모두 접기";
 "Copied" = "복사됨";
 "Copy" = "복사";
+"Copy an image of these totals to paste into a post. It names no project." = "이 합계를 이미지로 복사해 게시물에 붙여 넣을 수 있습니다. 프로젝트 이름은 포함되지 않습니다.";
+"Copy card" = "카드 복사";
 "Copy the plan" = "계획 복사";
 "Delete" = "삭제";
 "Delete %@" = "%@ 삭제";
@@ -74,6 +80,7 @@
 "Forget everything" = "모든 기록 지우기";
 "Free" = "여유 공간";
 "Free %@" = "%@ 비우기";
+"Free and open source" = "무료 오픈 소스";
 "Free space" = "여유 공간";
 "Free space on the startup disk." = "시동 디스크의 여유 공간입니다.";
 "Freed %@ automatically" = "%@ 자동으로 확보했습니다";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "대부분 %@, %@ 증가.";
 "Move safe items to the Trash" = "안전 항목을 휴지통으로 이동";
 "Moved to the Trash. Empty the Trash to free the space." = "휴지통으로 이동했습니다. 공간을 확보하려면 휴지통을 비우세요.";
+"My Mac keeps" = "내 Mac이 쌓아 둔";
 "No item matches" = "일치하는 항목 없음";
 "No project build output found" = "프로젝트 빌드 결과물이 없습니다";
 "Nobody has changed this project's own files in %lld days." = "%lld일 동안 아무도 이 프로젝트의 파일을 변경하지 않았습니다.";
@@ -124,6 +132,7 @@
 "Open in a window" = "창에서 열기";
 "Open x.com/yigitech" = "x.com/yigitech 열기";
 "Order rows by size, or by how long they have sat untouched" = "행을 크기순 또는 방치된 기간순으로 정렬";
+"Other" = "기타";
 "Other files" = "기타 파일";
 "Other large folders" = "기타 큰 폴더";
 "Package managers" = "패키지 관리자";
@@ -197,4 +206,6 @@
 "different developer" = "다른 개발자";
 "iOS device backups" = "iOS 기기 백업";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS에서 이 앱의 알림을 허용하지 않고 있습니다. 시스템 설정 > 알림에서 켜세요.";
+"of build output for %lld projects" = "%lld개 프로젝트의 빌드 결과물";
+"of build output for 1 project" = "1개 프로젝트의 빌드 결과물";
 "safe to free now" = "지금 안전하게 확보 가능";

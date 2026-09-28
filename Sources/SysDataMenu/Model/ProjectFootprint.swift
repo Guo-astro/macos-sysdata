@@ -14,6 +14,13 @@ struct ProjectFootprint: Identifiable, Sendable {
     /// projects it was built for, and one whose project is gone is pure
     /// waste. Read once when grouping, not on every redraw.
     let exists: Bool
+    /// How much its build output grew since a scan about a week old, from the
+    /// items both scans measured; nil when the history does not reach back.
+    var weeklyGrowth: Int64? = nil
+    /// Whether any of its build output was written in the past week: it is
+    /// being built, and an archive holds only until the next build. Read from
+    /// the newest file the scan already found inside each build folder.
+    var builtRecently = false
 
     var id: String { folder.path }
     var name: String { folder.lastPathComponent }
@@ -33,14 +40,22 @@ struct ProjectFootprint: Identifiable, Sendable {
 
     /// Largest first; a project with a single tiny build folder is still a
     /// project, and dropping it would hide a place the person may look for.
-    static func group(_ items: [StorageItem]) -> [ProjectFootprint] {
-        Dictionary(grouping: items.filter { $0.project != nil }) { $0.project!.standardizedFileURL.path }
+    static let recentBuildDays = 7
+
+    static func group(
+        _ items: [StorageItem], changes: [String: Int64] = [:], now: Date = .now
+    ) -> [ProjectFootprint] {
+        let recent = now.addingTimeInterval(-Double(recentBuildDays) * 86_400)
+        return Dictionary(grouping: items.filter { $0.project != nil }) { $0.project!.standardizedFileURL.path }
             .map { path, items in
                 let folder = URL(fileURLWithPath: path)
+                let known = items.compactMap { changes[$0.id] }
                 return ProjectFootprint(
                     folder: folder,
                     items: items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) },
-                    exists: folder.exists
+                    exists: folder.exists,
+                    weeklyGrowth: known.isEmpty ? nil : known.reduce(0, +),
+                    builtRecently: items.contains { ($0.builtAt ?? .distantPast) > recent }
                 )
             }
             .sorted { $0.totalBytes > $1.totalBytes }

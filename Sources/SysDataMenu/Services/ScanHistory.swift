@@ -176,6 +176,21 @@ enum ScanHistory {
         return (current.totalBytes - baseline.totalBytes, baseline.date)
     }
 
+    /// Each item's change since the last scan at least `days` old, for the
+    /// items both scans measured. An item the older scan did not know is left
+    /// out rather than counted whole: DerivedData split into one row per
+    /// project, and every one of those rows would otherwise read as new.
+    static func itemChanges(overPastDays days: Int, in log: Log) -> [String: Int64] {
+        guard let current = log.scans.last else { return [:] }
+        let cutoff = current.date.addingTimeInterval(-Double(days) * 24 * 60 * 60)
+        guard let baseline = log.scans.last(where: { $0.date <= cutoff }) else { return [:] }
+        var changes: [String: Int64] = [:]
+        for (id, now) in current.sizes {
+            if let before = baseline.sizes[id] { changes[id] = now - before }
+        }
+        return changes
+    }
+
     /// Items that have grown most since the earliest scan still on file that
     /// also knew them, largest growth first.
     static func fastestGrowing(in log: Log, limit: Int = 5) -> [(name: String, bytes: Int64, since: Date)] {

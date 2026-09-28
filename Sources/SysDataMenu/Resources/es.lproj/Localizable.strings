@@ -3,9 +3,11 @@
 "%@ free on disk" = "%@ libres en el disco";
 "%@ free · %@ of safe items can go now" = "%@ libres · %@ de elementos seguros se pueden liberar ahora";
 "%@ grew %@ beyond its recent size." = "%@ creció %@ por encima de su tamaño reciente.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "%@ pertenecen a proyectos que nadie ha tocado en %lld+ días.";
 "%@ purgeable" = "%@ purgable";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "%@ seguro para liberar ahora · %@ libres en el disco · %@ purgable";
 "%@ safe · %@ to review · %@ manual" = "%@ seguro · %@ por revisar · %@ manual";
+"%@ this week" = "%@ esta semana";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@: el simulador sigue en ejecución. Cierra Simulator y Xcode e inténtalo de nuevo.";
 "%lld days idle" = "%lld días inactivo";
 "%lld hidden" = "%lld ocultos";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "Liberar automáticamente los elementos seguros";
 "Back to the list" = "Volver a la lista";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Los simuladores iniciados ignoran la solicitud de cierre y retrasan el apagado 33 segundos. Esto los apaga primero.";
+"Built this week: archiving frees this only until the next build." = "Compilado esta semana: archivarlo solo libera este espacio hasta la próxima compilación.";
 "By category" = "Por categoría";
 "By project" = "Por proyecto";
 "Came back" = "Volvió a aparecer";
 "Cancel" = "Cancelar";
 "Cancelled. %d already deleted, the rest left alone." = "Cancelado. %d ya se eliminaron, el resto se dejó intacto.";
 "Cancelled. Nothing was deleted." = "Cancelado. No se eliminó nada.";
+"Card copied. Paste it into a post." = "Tarjeta copiada. Pégala en una publicación.";
 "Check for updates" = "Buscar actualizaciones";
 "Clear" = "Borrar";
 "Cleared %lld safe items that had built back up." = "Se eliminaron %lld elementos seguros que se habían vuelto a acumular.";
@@ -44,6 +48,8 @@
 "Collapse all" = "Contraer todo";
 "Copied" = "Copiado";
 "Copy" = "Copiar";
+"Copy an image of these totals to paste into a post. It names no project." = "Copia una imagen de estos totales para pegarla en una publicación. No nombra ningún proyecto.";
+"Copy card" = "Copiar tarjeta";
 "Copy the plan" = "Copiar el plan";
 "Delete" = "Eliminar";
 "Delete %@" = "Eliminar %@";
@@ -74,6 +80,7 @@
 "Forget everything" = "Olvidar todo";
 "Free" = "Libre";
 "Free %@" = "Liberar %@";
+"Free and open source" = "Gratis y de código abierto";
 "Free space" = "Espacio libre";
 "Free space on the startup disk." = "Espacio libre en el disco de inicio.";
 "Freed %@ automatically" = "Se liberaron %@ automáticamente";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "Principalmente %@, un aumento de %@.";
 "Move safe items to the Trash" = "Mover los elementos seguros a la Papelera";
 "Moved to the Trash. Empty the Trash to free the space." = "Se movió a la Papelera. Vacía la Papelera para liberar el espacio.";
+"My Mac keeps" = "Mi Mac guarda";
 "No item matches" = "Ningún elemento coincide";
 "No project build output found" = "No se encontró salida de compilación de proyectos";
 "Nobody has changed this project's own files in %lld days." = "Nadie ha cambiado los archivos de este proyecto en %lld días.";
@@ -124,6 +132,7 @@
 "Open in a window" = "Abrir en una ventana";
 "Open x.com/yigitech" = "Abrir x.com/yigitech";
 "Order rows by size, or by how long they have sat untouched" = "Ordenar las filas por tamaño o por cuánto tiempo llevan sin tocarse";
+"Other" = "Otros";
 "Other files" = "Otros archivos";
 "Other large folders" = "Otras carpetas grandes";
 "Package managers" = "Gestores de paquetes";
@@ -197,4 +206,6 @@
 "different developer" = "otro desarrollador";
 "iOS device backups" = "Copias de seguridad de dispositivos iOS";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS no permite notificaciones de esta app. Actívalas en Ajustes del Sistema > Notificaciones.";
+"of build output for %lld projects" = "de archivos de compilación de %lld proyectos";
+"of build output for 1 project" = "de archivos de compilación de 1 proyecto";
 "safe to free now" = "se puede liberar ya";

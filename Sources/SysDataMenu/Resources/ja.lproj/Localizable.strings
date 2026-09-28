@@ -3,9 +3,11 @@
 "%@ free on disk" = "ディスクの空き容量：%@";
 "%@ free · %@ of safe items can go now" = "%@ の空き · 安全な項目 %@ を今すぐ削除できます";
 "%@ grew %@ beyond its recent size." = "%@ は最近のサイズより %@ 増えました。";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "そのうち %1$@ は %2$lld 日以上誰も触っていないプロジェクトのものです。";
 "%@ purgeable" = "%@ パージ可能";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "今すぐ安全に解放：%@ · ディスクの空き：%@ · パージ可能：%@";
 "%@ safe · %@ to review · %@ manual" = "安全 %@ · 要確認 %@ · 手動 %@";
+"%@ this week" = "今週 %@";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@：シミュレータがまだ実行中です。Simulator と Xcode を終了してから、もう一度お試しください。";
 "%lld days idle" = "%lld 日未使用";
 "%lld hidden" = "%lld 件非表示";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "安全な項目を自動的に削除";
 "Back to the list" = "リストに戻る";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "起動中のシミュレータは終了要求を無視し、シャットダウンを 33 秒間止めます。これは先にシミュレータを終了させます。";
+"Built this week: archiving frees this only until the next build." = "今週ビルドされました。アーカイブしても次のビルドまでしか空きません。";
 "By category" = "カテゴリ別";
 "By project" = "プロジェクト別";
 "Came back" = "戻ってきた";
 "Cancel" = "キャンセル";
 "Cancelled. %d already deleted, the rest left alone." = "キャンセルしました。%d 件は削除済み、残りはそのままです。";
 "Cancelled. Nothing was deleted." = "キャンセルしました。何も削除されていません。";
+"Card copied. Paste it into a post." = "カードをコピーしました。投稿に貼り付けてください。";
 "Check for updates" = "アップデートを確認";
 "Clear" = "クリア";
 "Cleared %lld safe items that had built back up." = "再び蓄積した安全な項目を %lld 件削除しました。";
@@ -44,6 +48,8 @@
 "Collapse all" = "すべて折りたたむ";
 "Copied" = "コピーしました";
 "Copy" = "コピー";
+"Copy an image of these totals to paste into a post. It names no project." = "これらの合計を画像としてコピーし、投稿に貼り付けられます。プロジェクト名は含まれません。";
+"Copy card" = "カードをコピー";
 "Copy the plan" = "実行内容をコピー";
 "Delete" = "削除";
 "Delete %@" = "%@ を削除";
@@ -74,6 +80,7 @@
 "Forget everything" = "すべて消去";
 "Free" = "空き";
 "Free %@" = "%@ を解放";
+"Free and open source" = "無料・オープンソース";
 "Free space" = "空き容量";
 "Free space on the startup disk." = "起動ディスクの空き容量。";
 "Freed %@ automatically" = "%@ を自動的に解放しました";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "主に %1$@、%2$@ 増加しました。";
 "Move safe items to the Trash" = "安全な項目をゴミ箱に入れる";
 "Moved to the Trash. Empty the Trash to free the space." = "ゴミ箱に移動しました。容量を解放するにはゴミ箱を空にしてください。";
+"My Mac keeps" = "私の Mac が抱えている";
 "No item matches" = "一致する項目がありません";
 "No project build output found" = "プロジェクトのビルド出力は見つかりません";
 "Nobody has changed this project's own files in %lld days." = "このプロジェクト自体のファイルは %lld 日間誰も変更していません。";
@@ -124,6 +132,7 @@
 "Open in a window" = "ウインドウで開く";
 "Open x.com/yigitech" = "x.com/yigitech を開く";
 "Order rows by size, or by how long they have sat untouched" = "項目をサイズ順、または未使用期間順に並べ替えます";
+"Other" = "その他";
 "Other files" = "その他のファイル";
 "Other large folders" = "その他の大きいフォルダ";
 "Package managers" = "パッケージマネージャ";
@@ -197,4 +206,6 @@
 "different developer" = "別の開発元";
 "iOS device backups" = "iOSデバイスのバックアップ";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS がこのAppの通知を許可していません。システム設定 > 通知 で有効にしてください。";
+"of build output for %lld projects" = "%lld 件のプロジェクトのビルド出力";
+"of build output for 1 project" = "1 件のプロジェクトのビルド出力";
 "safe to free now" = "今すぐ安全に解放可能";

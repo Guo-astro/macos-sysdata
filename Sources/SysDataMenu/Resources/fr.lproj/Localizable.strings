@@ -3,9 +3,11 @@
 "%@ free on disk" = "%@ disponible sur le disque";
 "%@ free · %@ of safe items can go now" = "%@ de libre · %@ d'éléments sûrs peuvent être supprimés maintenant";
 "%@ grew %@ beyond its recent size." = "%@ a augmenté de %@ au-delà de sa taille récente.";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "%@ appartiennent à des projets que personne n’a touchés depuis %lld+ jours.";
 "%@ purgeable" = "%@ purgeable";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "%@ à libérer sans risque · %@ disponible sur le disque · %@ purgeable";
 "%@ safe · %@ to review · %@ manual" = "%@ sûr · %@ à vérifier · %@ manuel";
+"%@ this week" = "%@ cette semaine";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@ : le simulateur est toujours en cours d’exécution. Quittez Simulator et Xcode, puis réessayez.";
 "%lld days idle" = "%lld jours d'inactivité";
 "%lld hidden" = "%lld masqués";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "Libérer automatiquement les éléments sûrs";
 "Back to the list" = "Retour à la liste";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Les simulateurs démarrés ignorent la demande de fermeture et retardent l'extinction de 33 secondes. Ceci les éteint d'abord.";
+"Built this week: archiving frees this only until the next build." = "Compilé cette semaine : l’archiver ne libère cet espace que jusqu’à la prochaine compilation.";
 "By category" = "Par catégorie";
 "By project" = "Par projet";
 "Came back" = "Revenu";
 "Cancel" = "Annuler";
 "Cancelled. %d already deleted, the rest left alone." = "Annulé. %d déjà supprimés, le reste conservé.";
 "Cancelled. Nothing was deleted." = "Annulé. Rien n'a été supprimé.";
+"Card copied. Paste it into a post." = "Carte copiée. Collez-la dans une publication.";
 "Check for updates" = "Rechercher des mises à jour";
 "Clear" = "Effacer";
 "Cleared %lld safe items that had built back up." = "%lld éléments sûrs qui s'étaient reconstitués ont été supprimés.";
@@ -44,6 +48,8 @@
 "Collapse all" = "Tout réduire";
 "Copied" = "Copié";
 "Copy" = "Copier";
+"Copy an image of these totals to paste into a post. It names no project." = "Copier une image de ces totaux à coller dans une publication. Aucun projet n’y est nommé.";
+"Copy card" = "Copier la carte";
 "Copy the plan" = "Copier le plan";
 "Delete" = "Supprimer";
 "Delete %@" = "Supprimer %@";
@@ -74,6 +80,7 @@
 "Forget everything" = "Tout oublier";
 "Free" = "Libre";
 "Free %@" = "Libérer %@";
+"Free and open source" = "Gratuit et open source";
 "Free space" = "Espace libre";
 "Free space on the startup disk." = "Espace disponible sur le disque de démarrage.";
 "Freed %@ automatically" = "%@ libérés automatiquement";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "Principalement %@, en hausse de %@.";
 "Move safe items to the Trash" = "Déplacer les éléments sûrs vers la Corbeille";
 "Moved to the Trash. Empty the Trash to free the space." = "Déplacé vers la Corbeille. Videz la Corbeille pour libérer l'espace.";
+"My Mac keeps" = "Mon Mac garde";
 "No item matches" = "Aucun élément ne correspond";
 "No project build output found" = "Aucune sortie de build de projet trouvée";
 "Nobody has changed this project's own files in %lld days." = "Personne n'a modifié les fichiers de ce projet depuis %lld jours.";
@@ -124,6 +132,7 @@
 "Open in a window" = "Ouvrir dans une fenêtre";
 "Open x.com/yigitech" = "Ouvrir x.com/yigitech";
 "Order rows by size, or by how long they have sat untouched" = "Trier les lignes par taille, ou par durée d'inactivité";
+"Other" = "Autres";
 "Other files" = "Autres fichiers";
 "Other large folders" = "Autres dossiers volumineux";
 "Package managers" = "Gestionnaires de paquets";
@@ -197,4 +206,6 @@
 "different developer" = "développeur différent";
 "iOS device backups" = "Sauvegardes d'appareils iOS";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS n'autorise pas les notifications de cette app. Activez-les dans Réglages Système > Notifications.";
+"of build output for %lld projects" = "de fichiers de compilation pour %lld projets";
+"of build output for 1 project" = "de fichiers de compilation pour 1 projet";
 "safe to free now" = "à libérer sans risque";

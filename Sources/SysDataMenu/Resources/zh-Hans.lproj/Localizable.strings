@@ -3,9 +3,11 @@
 "%@ free on disk" = "磁盘可用空间：%@";
 "%@ free · %@ of safe items can go now" = "%@ 可用 · 现在可清理 %@ 可安全清理的项目";
 "%@ grew %@ beyond its recent size." = "%@ 比近期大小增加了 %@。";
+"%@ of it belongs to projects nobody has touched in %lld+ days." = "其中 %1$@ 属于 %2$lld 天以上无人改动的项目。";
 "%@ purgeable" = "%@ 可清除";
 "%@ safe to free now · %@ free on disk · %@ purgeable" = "当前可安全释放 %@ · 磁盘可用空间 %@ · 可清除空间 %@";
 "%@ safe · %@ to review · %@ manual" = "%@ 可安全清理 · %@ 需检查 · %@ 需手动处理";
+"%@ this week" = "本周 %@";
 "%@: the simulator is still running. Quit Simulator and Xcode, then try again." = "%@：模拟器仍在运行。请退出 Simulator 和 Xcode 后重试。";
 "%lld days idle" = "%lld 天未变动";
 "%lld hidden" = "已隐藏 %lld 项";
@@ -31,12 +33,14 @@
 "Automatically free safe items" = "自动清理可安全清理的项目";
 "Back to the list" = "返回列表";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "已启动的模拟器会忽略退出请求，导致关机延迟 33 秒。此选项会先关闭模拟器。";
+"Built this week: archiving frees this only until the next build." = "本周有过构建：归档只能在下次构建前释放这些空间。";
 "By category" = "按类别";
 "By project" = "按项目";
 "Came back" = "重新出现";
 "Cancel" = "取消";
 "Cancelled. %d already deleted, the rest left alone." = "已取消。已删除 %d 项，其余项目未作更改。";
 "Cancelled. Nothing was deleted." = "已取消。未删除任何内容。";
+"Card copied. Paste it into a post." = "卡片已复制。粘贴到帖子中即可。";
 "Check for updates" = "检查更新";
 "Clear" = "清除";
 "Cleared %lld safe items that had built back up." = "已清理 %lld 个重新积累的可安全清理项目。";
@@ -44,6 +48,8 @@
 "Collapse all" = "全部折叠";
 "Copied" = "已复制";
 "Copy" = "复制";
+"Copy an image of these totals to paste into a post. It names no project." = "复制这些总计的图片，可粘贴到帖子中。不含任何项目名称。";
+"Copy card" = "复制卡片";
 "Copy the plan" = "复制操作计划";
 "Delete" = "删除";
 "Delete %@" = "删除%@";
@@ -74,6 +80,7 @@
 "Forget everything" = "清除所有记录";
 "Free" = "可用";
 "Free %@" = "清理 %@";
+"Free and open source" = "免费且开源";
 "Free space" = "可用空间";
 "Free space on the startup disk." = "启动磁盘上的可用空间。";
 "Freed %@ automatically" = "已自动清理 %@";
@@ -108,6 +115,7 @@
 "Mostly %@, up %@." = "主要是 %1$@，增加了 %2$@。";
 "Move safe items to the Trash" = "将可安全清理的项目移到废纸篓";
 "Moved to the Trash. Empty the Trash to free the space." = "已移到废纸篓。清倒废纸篓以释放空间。";
+"My Mac keeps" = "我的 Mac 存着";
 "No item matches" = "没有匹配的项目";
 "No project build output found" = "未找到项目构建输出";
 "Nobody has changed this project's own files in %lld days." = "%lld 天内没有人修改过这个项目自己的文件。";
@@ -124,6 +132,7 @@
 "Open in a window" = "在窗口中打开";
 "Open x.com/yigitech" = "打开 x.com/yigitech";
 "Order rows by size, or by how long they have sat untouched" = "按大小或未变动的时长排列项目";
+"Other" = "其他";
 "Other files" = "其他文件";
 "Other large folders" = "其他大型文件夹";
 "Package managers" = "软件包管理器";
@@ -197,4 +206,6 @@
 "different developer" = "签名开发者不一致";
 "iOS device backups" = "iOS 设备备份";
 "macOS is not allowing notifications from this app. Turn them on in System Settings > Notifications." = "macOS 当前不允许此应用发送通知。请在“系统设置”>“通知”中开启通知。";
+"of build output for %lld projects" = "%lld 个项目的构建产物";
+"of build output for 1 project" = "1 个项目的构建产物";
 "safe to free now" = "现在可安全释放";
