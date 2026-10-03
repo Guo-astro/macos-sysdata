@@ -320,6 +320,35 @@ Two things can prompt, and both can be settled one time:
   prompt. Avoiding the prompt entirely would require a privileged helper
   daemon, which is deliberately out of scope for a small tool.
 
+### What Full Disk Access is for
+
+Full Disk Access is a broad grant, and macOS says so. The app asks for it
+for one reason: most of System Data lives in places macOS protects — app
+containers, the caches inside them, Mail and Safari data — and without the
+grant they cannot even be measured. This is what it does with the access,
+and what it does not:
+
+- **It measures.** For almost everything it reads sizes and modification
+  dates by walking directories. It does not open the files.
+- **The only file contents it opens** are its own history file, a few small
+  property lists that name things (the `Info.plist` of a simulator runtime,
+  of an iOS device backup, of the app that owns a folder), and the default
+  alias file of `nvm`.
+- **It never reads your mail, messages, documents, photos or browsing
+  history.** Mail, Messages, Pictures, Music, Movies, Desktop, Documents and
+  Downloads are kept out of the System Data list. Where a probe does look
+  inside Desktop, Documents or Movies, it reports build folders, virtual
+  machines and Final Cut render files, by name and size.
+- **Nothing leaves the Mac.** The one network request is the optional daily
+  update check described under Updates.
+
+The source is public, so each of these statements can be checked: the
+probes are in [`Sources/SysDataMenu/Probes`](https://github.com/Jarvis322/macos-sysdata/blob/main/Sources/SysDataMenu/Probes). The
+grant can be withdrawn at any time with the **−** button in System Settings >
+Privacy & Security; the app then goes back to the reduced scan described
+above. Apple has said it will add further controls around Full Disk Access.
+If that changes how the grant is made, this section and the app will follow.
+
 ## Scripting
 
 ```bash
