@@ -5,6 +5,41 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.7.0 — 2026-10-04
+
+- **AI models and tools, as a group.** Ollama, Hugging Face, LM Studio and
+  PyTorch downloads, the AI coding tools' folders, Claude's local VM bundles
+  and Chrome's on-device model used to be spread over Developer tool data
+  and App data. They now sit together. Ollama and Hugging Face are listed
+  model by model. An Ollama model is sized from its manifest, with layers
+  shared between models counted once, and is removed with `ollama rm`:
+  deleting its blobs by hand would damage the models that share them.
+- **Why a category grew.** Opening the unusual-growth notification now goes
+  to History, which starts with the items behind the growth: each one's
+  usual size against its size now, or marked new when no earlier scan knew
+  it.
+- **Touch ID before a delete.** An optional switch in the settings menu
+  asks for Touch ID, an Apple Watch or the Mac's password after you press
+  Delete. Cancelling leaves the confirmation open and deletes nothing. It
+  guards deletes confirmed in the window; the weekly automatic clean and
+  Shortcuts run without anyone present and never ask.
+- **`SysDataMenu --clean`.** The weekly clean from a terminal. On its own it
+  prints every Safe item with the command that would run and deletes
+  nothing; `--apply` deletes them. It covers what the automatic clean covers
+  and never anything under Review or Manual.
+- **Projects on external drives.** Off until switched on in the settings
+  menu. The Projects view then also looks in `Developer`, `Projects`,
+  `Projeler`, `Code` and `dev` at the top of plugged-in drives. Time Machine
+  disks, network shares and read-only volumes are never walked.
+- **A livelier window.** The overview card has a wash of green behind the
+  headline and a taller bar. Pointing at a part of the bar or its legend
+  entry brings it forward. A delete that frees space shows a short
+  "Freed" note over the headline. Category rows lift on hover. Motion is
+  skipped under Reduce Motion.
+- **What Full Disk Access is for.** The README now says what the grant is
+  used for, which file contents the app opens and what it never reads, in
+  answer to Apple's note that it will add controls around the grant.
+
 ## v1.6.0 — 2026-09-28
 
 - **Projects.** A new view, one row per project, with everything that
