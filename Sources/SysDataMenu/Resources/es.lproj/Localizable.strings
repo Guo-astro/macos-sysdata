@@ -108,6 +108,7 @@
 "Launch at login" = "Abrir al iniciar sesión";
 "Launch at login: %@" = "Abrir al iniciar sesión: %@";
 "Logs & diagnostics" = "Registros y diagnósticos";
+"Look for projects on external drives" = "Buscar proyectos en discos externos";
 "Looking for anything else over 500 MB…" = "Buscando cualquier otra cosa de más de 500 MB…";
 "Low on disk space" = "Poco espacio en el disco";
 "Manual" = "Manual";
@@ -156,6 +157,7 @@
 "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space." = "Los elementos seguros se eliminan directamente porque se regeneran. Activa esta opción para enviarlos a la Papelera en su lugar, de forma que la eliminación se pueda deshacer; hasta que la vacíes, no se libera espacio.";
 "Safety: %@" = "Seguridad: %@";
 "Scanning" = "Analizando";
+"Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched." = "Busca en las carpetas Developer, Projects, Projeler, Code y dev de los discos conectados. Los discos de Time Machine y los recursos de red nunca se recorren.";
 "Select %@" = "Seleccionar %@";
 "Select every item that is regenerated automatically" = "Seleccionar todos los elementos que se regeneran automáticamente";
 "Select safe" = "Seleccionar seguros";

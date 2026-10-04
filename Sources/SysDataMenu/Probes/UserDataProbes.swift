@@ -290,7 +290,13 @@ struct ProjectProbe: StorageProbe {
     private static let maxDepth = 4
     private static let threshold = 30 * ProbeSupport.megabyte
 
+    /// The code folders of plugged-in drives. Nil asks the system, and only
+    /// when the person has switched drive search on; tests pass their own.
+    var externalRoots: [URL]?
+
     func probe() async -> [StorageItem] {
+        let external = externalRoots
+            ?? (UserDefaults.standard.bool(forKey: ExternalVolumes.preferenceKey) ? ExternalVolumes.projectRoots() : [])
         var found: [URL] = []
         // Desktop and Documents are behind TCC; walking them before Full Disk
         // Access exists asks for each one by name. The build folders under
@@ -301,7 +307,7 @@ struct ProjectProbe: StorageProbe {
             : Self.roots.filter { root in
                 !ProbeSupport.protectedLocations.contains { $0.path == root.path }
             }
-        for root in readable where root.exists {
+        for root in readable + external where root.exists {
             collect(root, depth: 0, into: &found)
         }
 
@@ -328,7 +334,7 @@ struct ProjectProbe: StorageProbe {
                 // Dated by the project, not by the folder: node_modules is as
                 // old as the last install, which says nothing about whether
                 // anyone still works on the code next to it.
-                let root = Self.projectRoot(of: project)
+                let root = Self.projectRoot(of: project, stoppingAt: Self.roots + external)
                 items.append(StorageItem(
                     id: measured.id, category: measured.category, name: measured.name,
                     detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,

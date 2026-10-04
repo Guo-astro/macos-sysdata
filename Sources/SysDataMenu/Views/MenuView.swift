@@ -831,6 +831,14 @@ struct MenuView: View {
                 set: { model.movesSafeToTrash = $0 }
             ))
             .help(L("Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space."))
+            Toggle(L("Look for projects on external drives"), isOn: Binding(
+                get: { model.scansExternalDrives },
+                set: { wanted in
+                    model.scansExternalDrives = wanted
+                    Task { await model.scan() }
+                }
+            ))
+            .help(L("Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched."))
             if DeleteAuthentication.isAvailable {
                 Toggle(L("Ask for Touch ID before deleting"), isOn: Binding(
                     get: { model.requiresAuthenticationToDelete },

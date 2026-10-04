@@ -108,6 +108,7 @@
 "Launch at login" = "ログイン時に起動";
 "Launch at login: %@" = "ログイン時に起動：%@";
 "Logs & diagnostics" = "ログと診断";
+"Look for projects on external drives" = "外付けドライブのプロジェクトを探す";
 "Looking for anything else over 500 MB…" = "500 MB を超えるその他の項目を検索中…";
 "Low on disk space" = "ディスクの空き容量が少なくなっています";
 "Manual" = "手動";
@@ -156,6 +157,7 @@
 "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space." = "安全な項目は再生成されるため、そのまま削除されます。これをオンにするとゴミ箱に入れられ、削除を取り消せます — ただしゴミ箱を空にするまで容量は解放されません。";
 "Safety: %@" = "安全度：%@";
 "Scanning" = "スキャン中";
+"Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched." = "接続中のドライブの Developer、Projects、Projeler、Code、dev フォルダを検索します。Time Machine ディスクとネットワーク共有は検索されません。";
 "Select %@" = "%@ を選択";
 "Select every item that is regenerated automatically" = "自動的に再生成される項目をすべて選択";
 "Select safe" = "安全な項目を選択";

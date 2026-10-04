@@ -102,6 +102,10 @@ final class ScanModel {
     /// The category a growth notification was about, set when it is opened.
     /// The history view reads it to say which items made that category grow.
     var growthFocus: StorageCategory?
+    /// Also look for projects on plugged-in drives. Off by default.
+    var scansExternalDrives: Bool = UserDefaults.standard.bool(forKey: ExternalVolumes.preferenceKey) {
+        didSet { UserDefaults.standard.set(scansExternalDrives, forKey: ExternalVolumes.preferenceKey) }
+    }
     var errorMessage: String?
     /// Set when a delete gave back less than it removed and local snapshots
     /// are why. The notice explains it; this puts the way out next to it

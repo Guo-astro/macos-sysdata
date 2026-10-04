@@ -108,6 +108,7 @@
 "Launch at login" = "Girişte başlat";
 "Launch at login: %@" = "Girişte başlat: %@";
 "Logs & diagnostics" = "Günlükler ve tanılama";
+"Look for projects on external drives" = "Harici disklerde proje ara";
 "Looking for anything else over 500 MB…" = "500 MB üstü başka ne varsa aranıyor…";
 "Low on disk space" = "Disk alanı azaldı";
 "Manual" = "Elle";
@@ -156,6 +157,7 @@
 "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space." = "Güvenli öğeler yeniden oluştuğu için doğrudan silinir. Bunu açarsan onun yerine Çöp Sepeti'ne gönderilir ve silme geri alınabilir — ama Çöp Sepeti boşaltılana kadar yer açılmaz.";
 "Safety: %@" = "Güvenlik: %@";
 "Scanning" = "Taranıyor";
+"Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched." = "Takılı disklerdeki Developer, Projects, Projeler, Code ve dev klasörlerinde arar. Time Machine diskleri ve ağ paylaşımları hiçbir zaman taranmaz.";
 "Select %@" = "%@ öğesini seç";
 "Select every item that is regenerated automatically" = "Kendiliğinden yeniden oluşan her kalemi seç";
 "Select safe" = "Güvenlileri seç";

@@ -108,6 +108,7 @@
 "Launch at login" = "登录时启动";
 "Launch at login: %@" = "登录时启动：%@";
 "Logs & diagnostics" = "日志与诊断";
+"Look for projects on external drives" = "在外置驱动器上查找项目";
 "Looking for anything else over 500 MB…" = "正在查找其他超过 500 MB 的项目…";
 "Low on disk space" = "磁盘空间不足";
 "Manual" = "手动处理";
@@ -156,6 +157,7 @@
 "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space." = "可安全清理的项目会自动重建，因此会被直接删除。开启此项可改为移到废纸篓，从而能撤销删除——但在你清空废纸篓之前不会释放空间。";
 "Safety: %@" = "安全性：%@";
 "Scanning" = "正在扫描";
+"Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched." = "搜索已连接驱动器上的 Developer、Projects、Projeler、Code 和 dev 文件夹。不会搜索 Time Machine 磁盘和网络共享。";
 "Select %@" = "选择%@";
 "Select every item that is regenerated automatically" = "选择所有会自动重新生成的项目";
 "Select safe" = "选择可安全清理的项目";

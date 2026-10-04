@@ -108,6 +108,7 @@
 "Launch at login" = "Launch at login";
 "Launch at login: %@" = "Launch at login: %@";
 "Logs & diagnostics" = "Logs & diagnostics";
+"Look for projects on external drives" = "Look for projects on external drives";
 "Looking for anything else over 500 MB…" = "Looking for anything else over 500 MB…";
 "Low on disk space" = "Low on disk space";
 "Manual" = "Manual";
@@ -156,6 +157,7 @@
 "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space." = "Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space.";
 "Safety: %@" = "Safety: %@";
 "Scanning" = "Scanning";
+"Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched." = "Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched.";
 "Select %@" = "Select %@";
 "Select every item that is regenerated automatically" = "Select every item that is regenerated automatically";
 "Select safe" = "Select safe";

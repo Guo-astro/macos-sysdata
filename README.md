@@ -177,6 +177,11 @@ prompt, which is why it asks each time and shows you the command first.
   under the line, the window offers to free the safe items in one press.
 - **Weekly summary.** Optional. Once a week, if System Data has grown by more
   than 2 GB, a notification says by how much and what grew most.
+- **Projects on external drives.** Off until switched on in the settings
+  menu. The Projects view then also looks in the `Developer`, `Projects`,
+  `Projeler`, `Code` and `dev` folders at the top of plugged-in drives.
+  Time Machine disks, network shares, read-only volumes and the Mac's own
+  disks are never walked, and nothing else on the drive is.
 - **Unusual growth.** Optional. After the daily scan, a notification when a
   category is at least 50% and 2 GB above its median over its last 14 scans.
   It waits for another 2 GB before the same category speaks again. Opening

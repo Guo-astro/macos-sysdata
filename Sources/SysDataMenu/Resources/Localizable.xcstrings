@@ -11403,6 +11403,110 @@
           }
         }
       }
+    },
+    "Look for projects on external drives": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harici disklerde proje ara"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projekte auf externen Laufwerken suchen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chercher les projets sur les disques externes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar proyectos en discos externos"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外付けドライブのプロジェクトを探す"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "외장 드라이브에서 프로젝트 찾기"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Искать проекты на внешних дисках"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在外置驱动器上查找项目"
+          }
+        }
+      }
+    },
+    "Searches the Developer, Projects, Projeler, Code and dev folders of drives that are plugged in. Time Machine disks and network shares are never searched.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takılı disklerdeki Developer, Projects, Projeler, Code ve dev klasörlerinde arar. Time Machine diskleri ve ağ paylaşımları hiçbir zaman taranmaz."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Durchsucht die Ordner Developer, Projects, Projeler, Code und dev angeschlossener Laufwerke. Time-Machine-Volumes und Netzwerkfreigaben werden nie durchsucht."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cherche dans les dossiers Developer, Projects, Projeler, Code et dev des disques branchés. Les disques Time Machine et les partages réseau ne sont jamais explorés."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Busca en las carpetas Developer, Projects, Projeler, Code y dev de los discos conectados. Los discos de Time Machine y los recursos de red nunca se recorren."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "接続中のドライブの Developer、Projects、Projeler、Code、dev フォルダを検索します。Time Machine ディスクとネットワーク共有は検索されません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "연결된 드라이브의 Developer, Projects, Projeler, Code, dev 폴더를 검색합니다. Time Machine 디스크와 네트워크 공유는 검색하지 않습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ищет в папках Developer, Projects, Projeler, Code и dev подключённых дисков. Диски Time Machine и сетевые папки не просматриваются."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索已连接驱动器上的 Developer、Projects、Projeler、Code 和 dev 文件夹。不会搜索 Time Machine 磁盘和网络共享。"
+          }
+        }
+      }
     }
   }
 }
