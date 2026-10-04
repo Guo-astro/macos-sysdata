@@ -29,7 +29,9 @@
 "Archive" = "归档";
 "Archive %@?" = "要归档 %@ 吗？";
 "As administrator: %@" = "以管理员身份执行：%@";
+"Ask for Touch ID before deleting" = "删除前要求 Touch ID";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "每天向 GitHub 检查一次是否有新版本。这是此应用唯一的网络请求；保持关闭时，不会从你的 Mac 向外发送任何数据。";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "在此处确认的删除操作之前，会要求 Touch ID、Apple Watch 或 Mac 密码。每周自动清理和快捷指令无人值守运行，不会询问。";
 "Automatically free safe items" = "自动清理可安全清理的项目";
 "Back to the list" = "返回列表";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "已启动的模拟器会忽略退出请求，导致关机延迟 33 秒。此选项会先关闭模拟器。";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "已清理 %lld 个重新积累的可安全清理项目。";
 "Collapse %@" = "折叠%@";
 "Collapse all" = "全部折叠";
+"Confirm the delete." = "确认删除。";
 "Copied" = "已复制";
 "Copy" = "复制";
 "Copy an image of these totals to paste into a post. It names no project." = "复制这些总计的图片，可粘贴到帖子中。不含任何项目名称。";

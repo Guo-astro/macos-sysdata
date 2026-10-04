@@ -29,7 +29,9 @@
 "Archive" = "アーカイブ";
 "Archive %@?" = "%@ をアーカイブしますか？";
 "As administrator: %@" = "管理者として実行：%@";
+"Ask for Touch ID before deleting" = "削除前に Touch ID を要求";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "新しいバージョンがあるか、1 日に一度 GitHub に問い合わせます。このAppが行う唯一の通信です。オフにすれば、Macから何も送信されません。";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "ここで確認した削除の前に、Touch ID、Apple Watch、または Mac のパスワードを求めます。毎週の自動クリーンとショートカットは無人で実行され、確認は行いません。";
 "Automatically free safe items" = "安全な項目を自動的に削除";
 "Back to the list" = "リストに戻る";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "起動中のシミュレータは終了要求を無視し、シャットダウンを 33 秒間止めます。これは先にシミュレータを終了させます。";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "再び蓄積した安全な項目を %lld 件削除しました。";
 "Collapse %@" = "%@ を折りたたむ";
 "Collapse all" = "すべて折りたたむ";
+"Confirm the delete." = "削除を確認します。";
 "Copied" = "コピーしました";
 "Copy" = "コピー";
 "Copy an image of these totals to paste into a post. It names no project." = "これらの合計を画像としてコピーし、投稿に貼り付けられます。プロジェクト名は含まれません。";

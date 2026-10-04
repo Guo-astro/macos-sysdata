@@ -29,7 +29,9 @@
 "Archive" = "Archivieren";
 "Archive %@?" = "%@ archivieren?";
 "As administrator: %@" = "Als Administrator: %@";
+"Ask for Touch ID before deleting" = "Vor dem Löschen Touch ID verlangen";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Fragt einmal täglich bei GitHub nach, ob eine neuere Version verfügbar ist. Das ist die einzige Anfrage, die diese App stellt; lässt du das deaktiviert, verlässt nichts deinen Mac.";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Fragt vor einem hier bestätigten Löschen nach Touch ID, Ihrer Apple Watch oder dem Mac-Passwort. Die automatische Wochenreinigung und Kurzbefehle laufen ohne Anwesenheit und fragen nie.";
 "Automatically free safe items" = "Sichere Elemente automatisch freigeben";
 "Back to the list" = "Zurück zur Liste";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Gestartete Simulatoren ignorieren die Beenden-Anfrage und verzögern das Herunterfahren um 33 Sekunden. Dies fährt sie zuerst herunter.";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "%lld sichere Elemente entfernt, die sich wieder angesammelt hatten.";
 "Collapse %@" = "%@ einklappen";
 "Collapse all" = "Alle einklappen";
+"Confirm the delete." = "Löschen bestätigen.";
 "Copied" = "Kopiert";
 "Copy" = "Kopieren";
 "Copy an image of these totals to paste into a post. It names no project." = "Ein Bild dieser Summen kopieren, um es in einen Beitrag einzufügen. Es nennt kein Projekt.";

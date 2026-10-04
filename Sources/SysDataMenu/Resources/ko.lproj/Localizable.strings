@@ -29,7 +29,9 @@
 "Archive" = "보관";
 "Archive %@?" = "%@을(를) 보관할까요?";
 "As administrator: %@" = "관리자 권한으로: %@";
+"Ask for Touch ID before deleting" = "삭제 전에 Touch ID 요구";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "하루에 한 번 GitHub에 새 버전이 있는지 확인합니다. 이것이 이 앱이 보내는 유일한 요청이며, 꺼두면 Mac에서 아무것도 전송되지 않습니다.";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "여기서 확인한 삭제 전에 Touch ID, Apple Watch 또는 Mac 암호를 요구합니다. 주간 자동 정리와 단축어는 자리에 없어도 실행되며 묻지 않습니다.";
 "Automatically free safe items" = "안전 항목 자동으로 비우기";
 "Back to the list" = "목록으로 돌아가기";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "부팅된 시뮬레이터는 종료 요청을 무시하고 33초 동안 종료를 지연시킵니다. 이 기능은 먼저 시뮬레이터를 종료합니다.";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "다시 쌓인 안전 항목 %lld개를 삭제했습니다.";
 "Collapse %@" = "%@ 접기";
 "Collapse all" = "모두 접기";
+"Confirm the delete." = "삭제를 확인합니다.";
 "Copied" = "복사됨";
 "Copy" = "복사";
 "Copy an image of these totals to paste into a post. It names no project." = "이 합계를 이미지로 복사해 게시물에 붙여 넣을 수 있습니다. 프로젝트 이름은 포함되지 않습니다.";

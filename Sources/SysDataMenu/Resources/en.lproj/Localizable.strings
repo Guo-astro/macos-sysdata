@@ -29,7 +29,9 @@
 "Archive" = "Archive";
 "Archive %@?" = "Archive %@?";
 "As administrator: %@" = "As administrator: %@";
+"Ask for Touch ID before deleting" = "Ask for Touch ID before deleting";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac.";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask.";
 "Automatically free safe items" = "Automatically free safe items";
 "Back to the list" = "Back to the list";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first.";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "Cleared %lld safe items that had built back up.";
 "Collapse %@" = "Collapse %@";
 "Collapse all" = "Collapse all";
+"Confirm the delete." = "Confirm the delete.";
 "Copied" = "Copied";
 "Copy" = "Copy";
 "Copy an image of these totals to paste into a post. It names no project." = "Copy an image of these totals to paste into a post. It names no project.";

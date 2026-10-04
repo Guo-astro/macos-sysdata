@@ -10987,6 +10987,162 @@
           }
         }
       }
+    },
+    "Ask for Touch ID before deleting": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silmeden önce Touch ID iste"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor dem Löschen Touch ID verlangen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demander Touch ID avant de supprimer"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pedir Touch ID antes de eliminar"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除前に Touch ID を要求"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "삭제 전에 Touch ID 요구"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрашивать Touch ID перед удалением"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除前要求 Touch ID"
+          }
+        }
+      }
+    },
+    "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Burada onayladığın bir silme işleminden önce Touch ID, Apple Watch'un veya Mac parolan istenir. Haftalık otomatik temizlik ve Kısayollar sen yokken çalışır, hiç sormaz."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fragt vor einem hier bestätigten Löschen nach Touch ID, Ihrer Apple Watch oder dem Mac-Passwort. Die automatische Wochenreinigung und Kurzbefehle laufen ohne Anwesenheit und fragen nie."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demande Touch ID, votre Apple Watch ou le mot de passe du Mac avant une suppression confirmée ici. Le nettoyage hebdomadaire automatique et Raccourcis s'exécutent sans surveillance et ne demandent jamais."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pide Touch ID, tu Apple Watch o la contraseña del Mac antes de una eliminación confirmada aquí. La limpieza semanal automática y Atajos se ejecutan sin supervisión y nunca preguntan."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ここで確認した削除の前に、Touch ID、Apple Watch、または Mac のパスワードを求めます。毎週の自動クリーンとショートカットは無人で実行され、確認は行いません。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여기서 확인한 삭제 전에 Touch ID, Apple Watch 또는 Mac 암호를 요구합니다. 주간 자동 정리와 단축어는 자리에 없어도 실행되며 묻지 않습니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перед удалением, подтверждённым здесь, запрашивает Touch ID, Apple Watch или пароль Mac. Автоматическая еженедельная очистка и Быстрые команды работают без вас и ничего не спрашивают."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在此处确认的删除操作之前，会要求 Touch ID、Apple Watch 或 Mac 密码。每周自动清理和快捷指令无人值守运行，不会询问。"
+          }
+        }
+      }
+    },
+    "Confirm the delete.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silmeyi onayla."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Löschen bestätigen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmer la suppression."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmar la eliminación."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除を確認します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "삭제를 확인합니다."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подтвердите удаление."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认删除。"
+          }
+        }
+      }
     }
   }
 }

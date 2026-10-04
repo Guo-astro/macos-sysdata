@@ -29,7 +29,9 @@
 "Archive" = "Архивировать";
 "Archive %@?" = "Архивировать %@?";
 "As administrator: %@" = "От имени администратора: %@";
+"Ask for Touch ID before deleting" = "Запрашивать Touch ID перед удалением";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Раз в день проверяет на GitHub наличие новой версии. Это единственный запрос, который делает приложение; отключите эту функцию — и ничего не будет отправляться с вашего Mac.";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Перед удалением, подтверждённым здесь, запрашивает Touch ID, Apple Watch или пароль Mac. Автоматическая еженедельная очистка и Быстрые команды работают без вас и ничего не спрашивают.";
 "Automatically free safe items" = "Автоматически освобождать безопасные элементы";
 "Back to the list" = "Назад к списку";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Запущенные симуляторы игнорируют запрос на завершение и задерживают выключение на 33 секунды. Сначала это выключит их.";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "Очищено %lld безопасных элементов, которые снова накопились.";
 "Collapse %@" = "Свернуть %@";
 "Collapse all" = "Свернуть все";
+"Confirm the delete." = "Подтвердите удаление.";
 "Copied" = "Скопировано";
 "Copy" = "Копировать";
 "Copy an image of these totals to paste into a post. It names no project." = "Скопировать изображение с этими итогами, чтобы вставить в пост. Названия проектов не указываются.";

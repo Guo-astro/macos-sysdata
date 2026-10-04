@@ -29,7 +29,9 @@
 "Archive" = "Arşivle";
 "Archive %@?" = "%@ arşivlensin mi?";
 "As administrator: %@" = "Yönetici olarak: %@";
+"Ask for Touch ID before deleting" = "Silmeden önce Touch ID iste";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Günde bir kez GitHub'a yeni sürüm olup olmadığını sorar. Uygulamanın yaptığı tek istek budur; kapalı bırakırsanız Mac'inizden hiçbir şey çıkmaz.";
+"Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Burada onayladığın bir silme işleminden önce Touch ID, Apple Watch'un veya Mac parolan istenir. Haftalık otomatik temizlik ve Kısayollar sen yokken çalışır, hiç sormaz.";
 "Automatically free safe items" = "Güvenli öğeleri otomatik boşalt";
 "Back to the list" = "Listeye dön";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Açık simülatörler çıkış isteğini yok sayar ve kapanışı 33 saniye bekletir. Bu seçenek önce onları kapatır.";
@@ -46,6 +48,7 @@
 "Cleared %lld safe items that had built back up." = "Yeniden birikmiş %lld güvenli öğe temizlendi.";
 "Collapse %@" = "%@ kategorisini daralt";
 "Collapse all" = "Tümünü daralt";
+"Confirm the delete." = "Silmeyi onayla.";
 "Copied" = "Kopyalandı";
 "Copy" = "Kopyala";
 "Copy an image of these totals to paste into a post. It names no project." = "Bu toplamların bir görselini paylaşımına yapıştırmak için kopyala. Hiçbir projenin adı geçmez.";

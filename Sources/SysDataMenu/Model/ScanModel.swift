@@ -94,6 +94,11 @@ final class ScanModel {
     var movesSafeToTrash: Bool = UserDefaults.standard.bool(forKey: ScanModel.safeToTrashKey) {
         didSet { UserDefaults.standard.set(movesSafeToTrash, forKey: Self.safeToTrashKey) }
     }
+    /// Ask for Touch ID, an Apple Watch or the Mac's password before a delete
+    /// confirmed in the window runs. Off by default.
+    var requiresAuthenticationToDelete: Bool = UserDefaults.standard.bool(forKey: ScanModel.authenticationKey) {
+        didSet { UserDefaults.standard.set(requiresAuthenticationToDelete, forKey: Self.authenticationKey) }
+    }
     var errorMessage: String?
     /// Set when a delete gave back less than it removed and local snapshots
     /// are why. The notice explains it; this puts the way out next to it
@@ -121,6 +126,7 @@ final class ScanModel {
     /// change: an app scene does not track this model the way a view does.
     static let menuBarIconKey = "showsMenuBarIcon"
     private static let safeToTrashKey = "movesSafeToTrash"
+    private static let authenticationKey = "requiresAuthenticationToDelete"
     private static let rescanInterval: Duration = .seconds(24 * 60 * 60)
 
     /// `scansAutomatically` is off for the headless modes, which drive the

@@ -16,6 +16,7 @@ struct MenuView: View {
     @FocusState private var filterIsFocused: Bool
     @State private var pendingDeletion: StorageItem?
     @State private var confirmsBatch = false
+    @State private var isAuthenticating = false
     @State private var showsHistory = false
     @State private var warnsAboutLowSpace = LowSpaceAlert.isEnabled
     @State private var lowSpaceThreshold = LowSpaceAlert.threshold
@@ -167,6 +168,32 @@ struct MenuView: View {
 
     // MARK: Confirmation
 
+    /// Runs what the bar is asking about, after the Mac's own check when the
+    /// person has asked for one. A cancelled check leaves the bar open, so
+    /// nothing is lost by trying again or pressing Cancel.
+    private func confirmDeletion() {
+        guard !isAuthenticating else { return }
+        isAuthenticating = true
+        Task {
+            defer { isAuthenticating = false }
+            guard await DeleteAuthentication.authorize(
+                isRequired: model.requiresAuthenticationToDelete,
+                reason: L("Confirm the delete.")
+            ) else { return }
+            let item = pendingDeletion
+            pendingDeletion = nil
+            confirmsBatch = false
+            archivingProject = nil
+            showsPlan = false
+            copiedPlan = false
+            if let item {
+                await model.reclaim(item)
+            } else {
+                await model.reclaimSelected()
+            }
+        }
+    }
+
     /// Inline rather than a sheet: the menu bar panel is not a regular window,
     /// so sheets and confirmation dialogs never appear on it.
     private var confirmationBar: some View {
@@ -237,16 +264,7 @@ struct MenuView: View {
                 }
                 .keyboardShortcut(.cancelAction)
                 Button(role: .destructive) {
-                    if let item = pendingDeletion {
-                        Task { await model.reclaim(item) }
-                    } else {
-                        Task { await model.reclaimSelected() }
-                    }
-                    pendingDeletion = nil
-                    confirmsBatch = false
-                    archivingProject = nil
-                    showsPlan = false
-                    copiedPlan = false
+                    confirmDeletion()
                 } label: {
                     Text(pendingDeletion != nil ? L("Delete")
                          : archivingProject != nil ? L("Archive")
@@ -254,6 +272,7 @@ struct MenuView: View {
                 }
                 .keyboardShortcut(.defaultAction)
                 .tint(.red)
+                .disabled(isAuthenticating)
             }
             .controlSize(.small)
         }
@@ -805,6 +824,13 @@ struct MenuView: View {
                 set: { model.movesSafeToTrash = $0 }
             ))
             .help(L("Safe items are deleted outright because they regenerate. Turn this on to send them to the Trash instead, so a delete can be undone — until you empty it, it frees no space."))
+            if DeleteAuthentication.isAvailable {
+                Toggle(L("Ask for Touch ID before deleting"), isOn: Binding(
+                    get: { model.requiresAuthenticationToDelete },
+                    set: { model.requiresAuthenticationToDelete = $0 }
+                ))
+                .help(L("Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask."))
+            }
             Toggle(L("Warn when free space runs low"), isOn: Binding(
                 get: { warnsAboutLowSpace },
                 set: { wanted in
