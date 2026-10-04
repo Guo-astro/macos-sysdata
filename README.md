@@ -366,6 +366,18 @@ If that changes how the grant is made, this section and the app will follow.
 jq '.items[] | select(.safety == "safe") | [.name, .sizeBytes]' inventory.json
 ```
 
+`--clean` does the weekly clean from a terminal. On its own it prints every
+Safe item with the command that would run for it and deletes nothing; add
+`--apply` to delete them. It covers exactly what the automatic clean and the
+Shortcuts action cover — Safe items that need no administrator password — and
+never anything under Review or Manual. It exits 0 when it finished, 1 when
+the scan did not complete or a delete failed, and 2 for a bad option.
+
+```bash
+"/Applications/System Data Unpacked.app/Contents/MacOS/SysDataMenu" --clean
+"/Applications/System Data Unpacked.app/Contents/MacOS/SysDataMenu" --clean --apply
+```
+
 The output has `freeBytes`, `purgeableBytes`, `totalBytes` and one record per
 item with `id`, `category`, `name`, `detail`, `sizeBytes`, `safety`,
 `manual`, `path`, `lastModified` and `idleDays`. The last two are absent when

@@ -11,6 +11,17 @@ enum Entry {
             await JSONInventory.write(to: FileHandle.standardOutput)
             return
         }
+        switch CleanCommand.parse(arguments) {
+        case .notRequested:
+            break
+        case .invalid(let message):
+            FileHandle.standardError.write(Data((message + "\n").utf8))
+            exit(2)
+        case .plan:
+            exit(await CleanCommand.run(apply: false))
+        case .apply:
+            exit(await CleanCommand.run(apply: true))
+        }
         if let index = arguments.firstIndex(of: "--screenshot"), arguments.indices.contains(index + 1) {
             await WindowSnapshot.write(to: arguments[index + 1])
             return
