@@ -87,6 +87,7 @@
 "Free and open source" = "Ücretsiz ve açık kaynak";
 "Free space" = "Boş alan";
 "Free space on the startup disk." = "Başlangıç diskindeki boş alan.";
+"Freed %@" = "%@ boşaltıldı";
 "Freed %@ automatically" = "%@ otomatik boşaltıldı";
 "Frees about %@. " = "Yaklaşık %@ boşaltır. ";
 "Grant Full Disk Access once" = "Tam Disk Erişimi'ni bir kez verin";

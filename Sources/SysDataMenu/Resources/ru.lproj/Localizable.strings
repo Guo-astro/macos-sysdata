@@ -87,6 +87,7 @@
 "Free and open source" = "Бесплатно и с открытым кодом";
 "Free space" = "Свободное место";
 "Free space on the startup disk." = "Свободное место на загрузочном диске.";
+"Freed %@" = "Освобождено %@";
 "Freed %@ automatically" = "Автоматически освобождено %@";
 "Frees about %@. " = "Освобождает около %@. ";
 "Grant Full Disk Access once" = "Предоставьте полный доступ к диску один раз";

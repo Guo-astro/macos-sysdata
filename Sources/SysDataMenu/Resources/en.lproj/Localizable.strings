@@ -87,6 +87,7 @@
 "Free and open source" = "Free and open source";
 "Free space" = "Free space";
 "Free space on the startup disk." = "Free space on the startup disk.";
+"Freed %@" = "Freed %@";
 "Freed %@ automatically" = "Freed %@ automatically";
 "Frees about %@. " = "Frees about %@. ";
 "Grant Full Disk Access once" = "Grant Full Disk Access once";

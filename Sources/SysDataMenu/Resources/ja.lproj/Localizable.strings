@@ -87,6 +87,7 @@
 "Free and open source" = "無料・オープンソース";
 "Free space" = "空き容量";
 "Free space on the startup disk." = "起動ディスクの空き容量。";
+"Freed %@" = "%@ を解放";
 "Freed %@ automatically" = "%@ を自動的に解放しました";
 "Frees about %@. " = "約 %@ を解放します。 ";
 "Grant Full Disk Access once" = "フルディスクアクセスを一度許可";

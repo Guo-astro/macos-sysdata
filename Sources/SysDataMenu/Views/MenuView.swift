@@ -17,6 +17,9 @@ struct MenuView: View {
     @State private var pendingDeletion: StorageItem?
     @State private var confirmsBatch = false
     @State private var isAuthenticating = false
+    /// What the last delete gave back, kept on screen for a few seconds.
+    @State private var freedFlash: Int64?
+    @State private var hoveredCategory: StorageCategory?
     @State private var showsHistory = false
     @State private var warnsAboutLowSpace = LowSpaceAlert.isEnabled
     @State private var lowSpaceThreshold = LowSpaceAlert.threshold
@@ -120,6 +123,14 @@ struct MenuView: View {
             footer
         }
         .modifier(PanelSize(presentation: presentation))
+        .onChange(of: model.reclaimedBytes) { old, new in
+            if new > old { freedFlash = new - old }
+        }
+        .task(id: freedFlash) {
+            guard freedFlash != nil else { return }
+            try? await Task.sleep(for: .seconds(4))
+            freedFlash = nil
+        }
         .onChange(of: model.growthFocus) { _, focus in
             if focus != nil { showsHistory = true }
         }
@@ -542,7 +553,8 @@ struct MenuView: View {
             showsGrowthArrow: (model.weeklyChange ?? 0) >= WeeklyDigest.floor,
             allSafeSelected: model.everyListedSafeItemIsSelected,
             canSelectSafe: !model.isScanning && model.safeBytes > 0,
-            onSelectSafe: { model.selectAllSafe() }
+            onSelectSafe: { model.selectAllSafe() },
+            justFreed: freedFlash
         )
         .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.85), value: model.safeBytes)
     }
@@ -735,9 +747,8 @@ struct MenuView: View {
                     }
                 }
             } label: {
-                Image(systemName: model.collapsedCategories.contains(category)
-                      ? "chevron.right"
-                      : "chevron.down")
+                Image(systemName: "chevron.right")
+                    .rotationEffect(.degrees(model.collapsedCategories.contains(category) ? 0 : 90))
                     .frame(width: 10)
             }
             .buttonStyle(.borderless)
@@ -780,6 +791,17 @@ struct MenuView: View {
                 .monospacedDigit()
                 .foregroundStyle(isUnmeasurable ? .secondary : .primary)
         }
+        .padding(.vertical, 3)
+        .padding(.horizontal, 6)
+        .background(
+            hoveredCategory == category ? Color.primary.opacity(0.07) : .clear,
+            in: RoundedRectangle(cornerRadius: 9, style: .continuous)
+        )
+        // The highlight reaches past the row's edges without moving what is
+        // in it, so the bar below still lines up with the title and the total.
+        .padding(.horizontal, -6)
+        .onHover { hoveredCategory = $0 ? category : (hoveredCategory == category ? nil : hoveredCategory) }
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: hoveredCategory)
     }
 
     private var rangeSelectableItems: [StorageItem] {
@@ -988,11 +1010,12 @@ struct MenuView: View {
             HStack {
                 if model.selectedItems.isEmpty {
                     Label(L("Reclaimed this session: %@", model.reclaimedBytes.byteString),
-                          systemImage: model.reclaimedBytes > 0 ? "checkmark.circle.fill" : "circle.dashed")
+                          systemImage: model.reclaimedBytes > 0 ? "sparkles" : "circle.dashed")
                         .font(.caption)
                         .foregroundStyle(model.reclaimedBytes > 0 ? AnyShapeStyle(.green) : AnyShapeStyle(.secondary))
                         .monospacedDigit()
                         .contentTransition(.numericText(value: Double(model.reclaimedBytes)))
+                        .symbolEffect(.bounce, value: model.reclaimedBytes)
                 } else {
                     Button(role: .destructive) {
                         confirmsBatch = true

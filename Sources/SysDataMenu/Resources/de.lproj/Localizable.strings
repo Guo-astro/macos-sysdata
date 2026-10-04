@@ -87,6 +87,7 @@
 "Free and open source" = "Kostenlos und Open Source";
 "Free space" = "Speicherplatz freigeben";
 "Free space on the startup disk." = "Freier Speicherplatz auf dem Startvolume.";
+"Freed %@" = "%@ freigegeben";
 "Freed %@ automatically" = "%@ automatisch freigegeben";
 "Frees about %@. " = "Gibt etwa %@ frei. ";
 "Grant Full Disk Access once" = "Einmal Vollständigen Festplattenzugriff erteilen";

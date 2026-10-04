@@ -87,6 +87,7 @@
 "Free and open source" = "免费且开源";
 "Free space" = "可用空间";
 "Free space on the startup disk." = "启动磁盘上的可用空间。";
+"Freed %@" = "已释放 %@";
 "Freed %@ automatically" = "已自动清理 %@";
 "Frees about %@. " = "可释放约 %@ 的空间。 ";
 "Grant Full Disk Access once" = "只需授予一次完全磁盘访问权限";

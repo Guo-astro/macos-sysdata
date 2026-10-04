@@ -87,6 +87,7 @@
 "Free and open source" = "무료 오픈 소스";
 "Free space" = "여유 공간";
 "Free space on the startup disk." = "시동 디스크의 여유 공간입니다.";
+"Freed %@" = "%@ 확보";
 "Freed %@ automatically" = "%@ 자동으로 확보했습니다";
 "Frees about %@. " = "약 %@ 확보됩니다. ";
 "Grant Full Disk Access once" = "전체 디스크 접근 권한을 한 번 허용";
