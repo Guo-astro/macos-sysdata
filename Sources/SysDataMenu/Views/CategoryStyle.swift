@@ -13,6 +13,7 @@ extension StorageCategory {
         case .xcode: "hammer.fill"
         case .packages: "shippingbox.fill"
         case .tools: "wrench.and.screwdriver.fill"
+        case .ai: "brain"
         case .logs: "doc.text.magnifyingglass"
         case .temp: "clock.arrow.circlepath"
         case .docker: "cube.fill"
@@ -35,6 +36,7 @@ extension StorageCategory {
         case .xcode: .indigo
         case .packages: .brown
         case .tools: .purple
+        case .ai: .pink
         case .logs: .gray
         case .temp: .mint
         case .docker: .cyan

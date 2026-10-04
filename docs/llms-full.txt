@@ -142,7 +142,7 @@ prompt, which is why it asks each time and shows you the command first.
   most useful thing this app can tell you. Switch it off and the file is
   deleted; nothing leaves the machine either way.
 - **Breakdown.** Click a row to see its five largest entries before deciding.
-- **Filter.** A scan finds around 180 items across eighteen groups, so the
+- **Filter.** A scan finds around 180 items across nineteen groups, so the
   field under the header narrows the list by name, description or group. The
   selection survives it, because ticking **Select safe** and then filtering
   to untick two of them is how the two controls are meant to be used
@@ -250,7 +250,8 @@ prompt, which is why it asks each time and shows you the command first.
 | Simulator runtimes | each installed runtime disk image | Review |
 | Xcode | DerivedData, DeviceSupport, preview devices, caches, Archives, inactive Xcode.app copies | Safe / Review |
 | Package managers | brew, npm, pnpm, yarn, pip, uv, CocoaPods, Gradle, Cargo, SwiftPM, Go, Cypress, Playwright; the whole Homebrew prefix. A pnpm store left behind by an uninstalled pnpm is found by its default path, since `pnpm store path` is exactly what is missing then | Safe / Review / Manual |
-| Developer tool data | Ollama and Hugging Face models, nvm/rustup/pyenv/rbenv/SDKMAN toolchains, conda, Maven, CocoaPods specs, Gradle distributions, Go modules, Bun, Deno, VS Code and Cursor extensions, Docker CLI, OrbStack, Lima, Colima; the AI coding tools (Claude Code, Codex, Grok, Copilot, Kilo, Gemini, Antigravity); any other hidden home folder over 100 MB | Safe / Review |
+| Developer tool data | nvm/rustup/pyenv/rbenv/SDKMAN toolchains, conda, Maven, CocoaPods specs, Gradle distributions, Go modules, Bun, Deno, VS Code and Cursor extensions, Docker CLI, OrbStack, Lima, Colima; any other hidden home folder over 100 MB | Safe / Review |
+| AI models and tools | Ollama and Hugging Face models, one row per model (an Ollama model is removed with `ollama rm`, never by deleting its blobs); LM Studio and PyTorch downloads; the AI coding tools (Claude Code, Codex, Grok, Copilot, Kilo, Gemini); Claude's local VM bundles and Chrome's on-device model | Review / Manual |
 | Logs & diagnostics | unified log store (`log erase`), crash reports, ASL, `~/Library/Logs` | Safe |
 | Temporary files | `/private/var/folders` user cache and temp, files older than 3 days | Safe |
 | Docker | `docker system prune` reclaimable space, and per Compose project the images only its containers use and its attached volumes | Review / Manual |

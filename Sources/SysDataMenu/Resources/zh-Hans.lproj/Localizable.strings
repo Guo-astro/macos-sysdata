@@ -23,6 +23,7 @@
 "1 month idle" = "1 个月未变动";
 "1 project · %@" = "1 个项目 · %@";
 "1 year idle" = "1 年未变动";
+"AI models and tools" = "AI 模型与工具";
 "After a second scan this shows what grew, and whether anything you deleted came back." = "再次扫描后，这里会显示哪些项目占用的空间增加了，以及已删除的项目是否重新出现。";
 "Android" = "Android";
 "App data & caches" = "应用数据与缓存";

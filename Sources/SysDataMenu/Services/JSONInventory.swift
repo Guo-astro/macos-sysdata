@@ -4,7 +4,7 @@ import Foundation
 enum ProbeRegistry {
     static let all: [any StorageProbe] = [
         SnapshotProbe(), SimulatorProbe(), RuntimeProbe(), XcodeProbe(), PackageProbe(),
-        DeveloperToolProbe(), LogProbe(), TempProbe(), DockerProbe(), VirtualMachineProbe(),
+        DeveloperToolProbe(), AIModelProbe(), LogProbe(), TempProbe(), DockerProbe(), VirtualMachineProbe(),
         TrashProbe(), BackupProbe(), SharedProbe(), AndroidProbe(), AppCacheProbe(), AppDataProbe(),
         ProjectProbe(), SystemProbe(),
     ]

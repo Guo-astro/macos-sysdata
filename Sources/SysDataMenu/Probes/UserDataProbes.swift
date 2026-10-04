@@ -179,7 +179,7 @@ struct AppDataProbe: StorageProbe {
 
         let claudeVM = URL.home("Library/Application Support/Claude/vm_bundles")
         if let item = await ProbeSupport.directoryItem(
-            id: "app-claude-vm", category: .apps, name: "Claude local VM bundles",
+            id: "app-claude-vm", category: .ai, name: "Claude local VM bundles",
             detail: "Virtual machine images used by Claude's local sandbox. Downloaded again when the feature is used.",
             url: claudeVM, safety: .review, action: .removePaths([claudeVM]), minimumBytes: Self.threshold
         ) {
@@ -188,7 +188,7 @@ struct AppDataProbe: StorageProbe {
 
         let chromeModel = URL.home("Library/Application Support/Google/Chrome/OptGuideOnDeviceModel")
         if let item = await ProbeSupport.directoryItem(
-            id: "app-chrome-model", category: .apps, name: "Chrome on-device AI model",
+            id: "app-chrome-model", category: .ai, name: "Chrome on-device AI model",
             detail: "Gemini Nano. Set chrome://flags/#optimization-guide-on-device-model to Disabled first, or Chrome downloads it again.",
             url: chromeModel, safety: .review, action: .removePaths([chromeModel]), minimumBytes: Self.threshold
         ) {

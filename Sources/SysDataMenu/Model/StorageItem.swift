@@ -2,7 +2,7 @@ import Foundation
 
 /// Groups in the menu, in display order.
 enum StorageCategory: String, CaseIterable, Identifiable, Sendable {
-    case snapshots, simulators, runtimes, xcode, packages, tools, logs, temp, docker
+    case snapshots, simulators, runtimes, xcode, packages, tools, ai, logs, temp, docker
     case vms, trash, backups, shared, android, apps, projects, system, other
 
     var id: String { rawValue }
@@ -15,6 +15,7 @@ enum StorageCategory: String, CaseIterable, Identifiable, Sendable {
         case .xcode: L("Xcode")
         case .packages: L("Package managers")
         case .tools: L("Developer tool data")
+        case .ai: L("AI models and tools")
         case .logs: L("Logs & diagnostics")
         case .temp: L("Temporary files")
         case .docker: L("Docker")

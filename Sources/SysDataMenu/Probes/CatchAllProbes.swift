@@ -13,22 +13,29 @@ struct DeveloperToolProbe: StorageProbe {
         let safety: Safety
         /// Tool whose own clean command should be used, if installed.
         let tool: (name: String, arguments: [String])?
+        let category: StorageCategory
+        /// False when `AIModelProbe` reports the folder model by model. The
+        /// folder is still claimed, so the catch-all does not list it again.
+        let reports: Bool
 
         init(_ path: String, _ name: String, _ detail: String, _ safety: Safety,
-             tool: (name: String, arguments: [String])? = nil) {
+             tool: (name: String, arguments: [String])? = nil,
+             category: StorageCategory = .tools, reports: Bool = true) {
             self.path = path
             self.name = name
             self.detail = detail
             self.safety = safety
             self.tool = tool
+            self.category = category
+            self.reports = reports
         }
     }
 
     private static let known: [Known] = [
-        Known(".ollama/models", "Ollama models", "Downloaded LLM weights. `ollama pull` fetches them again.", .review),
-        Known(".cache/huggingface", "Hugging Face cache", "Downloaded models and datasets.", .review),
-        Known(".cache/torch", "PyTorch cache", "Downloaded model weights.", .review),
-        Known(".lmstudio", "LM Studio models", "Downloaded LLM weights.", .review),
+        Known(".ollama/models", "Ollama models", "Downloaded LLM weights. `ollama pull` fetches them again.", .review, category: .ai, reports: false),
+        Known(".cache/huggingface", "Hugging Face cache", "Downloaded models and datasets.", .review, category: .ai, reports: false),
+        Known(".cache/torch", "PyTorch cache", "Downloaded model weights.", .review, category: .ai),
+        Known(".lmstudio", "LM Studio models", "Downloaded LLM weights.", .review, category: .ai),
         Known(".nvm/versions", "nvm Node versions", "Every Node.js installed with nvm. `nvm install` again.", .review),
         Known(".rustup/toolchains", "Rust toolchains", "`rustup toolchain install` again.", .review),
         Known(".pyenv/versions", "pyenv Python versions", "`pyenv install` again.", .review),
@@ -54,20 +61,28 @@ struct DeveloperToolProbe: StorageProbe {
         Known(".orbstack", "OrbStack data", "Virtual machines and containers.", .review),
         Known(".lima", "Lima virtual machines", "VM disks.", .review),
         Known(".colima", "Colima virtual machine", "VM disk.", .review),
-        Known(".claude", "Claude Code data", "Session transcripts, memory, plugins and caches. Deleting loses history.", .review),
-        Known(".codex", "Codex CLI data", "Sessions and caches.", .review),
+        Known(".claude", "Claude Code data", "Session transcripts, memory, plugins and caches. Deleting loses history.", .review, category: .ai),
+        Known(".codex", "Codex CLI data", "Sessions and caches.", .review, category: .ai),
         // Reported as unrecognised in issue #1. Named so the list says what
         // made the folder, but left at Review: these hold sessions and signed-in
         // state as often as they hold cache, and none of them is safe to delete
         // unseen.
-        Known(".grok", "Grok CLI data", "Sessions, settings and caches. Deleting loses history.", .review),
-        Known(".copilot", "GitHub Copilot CLI data", "Sessions, settings and caches. Deleting signs you out.", .review),
-        Known(".kilo", "Kilo Code data", "Sessions, settings and caches. Deleting loses history.", .review),
-        Known(".gemini", "Gemini CLI data", "Settings and IDE support files.", .review),
+        Known(".grok", "Grok CLI data", "Sessions, settings and caches. Deleting loses history.", .review, category: .ai),
+        Known(".copilot", "GitHub Copilot CLI data", "Sessions, settings and caches. Deleting signs you out.", .review, category: .ai),
+        Known(".kilo", "Kilo Code data", "Sessions, settings and caches. Deleting loses history.", .review, category: .ai),
+        Known(".gemini", "Gemini CLI data", "Settings and IDE support files.", .review, category: .ai),
         // Same shape as the VS Code and Cursor entries above: almost all of it
         // is installed extensions, which reinstall from the marketplace.
         Known(".antigravity-ide/extensions", "Antigravity extensions", "Installed extensions. Reinstall from the marketplace.", .review),
     ]
+
+    private static func claim(_ entry: Known, into topLevel: inout Set<String>, _ cache: inout Set<String>) {
+        let top = entry.path.split(separator: "/").first.map(String.init) ?? entry.path
+        topLevel.insert(top)
+        if top == ".cache", let sub = entry.path.split(separator: "/").dropFirst().first {
+            cache.insert(String(sub))
+        }
+    }
 
     /// Top-level dot-folders another probe already reports.
     private static let coveredTopLevel: Set<String> = [
@@ -82,6 +97,10 @@ struct DeveloperToolProbe: StorageProbe {
 
         for entry in Self.known {
             let url = URL.home(entry.path)
+            if !entry.reports {
+                Self.claim(entry, into: &claimedTopLevel, &claimedCache)
+                continue
+            }
             let action: ReclaimAction
             if let tool = entry.tool, let executable = Shell.which(tool.name) {
                 action = .command(executable: executable, arguments: tool.arguments)
@@ -89,16 +108,12 @@ struct DeveloperToolProbe: StorageProbe {
                 action = .removePaths([url])
             }
             if let item = await ProbeSupport.directoryItem(
-                id: "tool-\(entry.path)", category: .tools, name: entry.name, detail: entry.detail,
+                id: "tool-\(entry.path)", category: entry.category, name: entry.name, detail: entry.detail,
                 url: url, safety: entry.safety, action: action, minimumBytes: 10 * ProbeSupport.megabyte
             ) {
                 items.append(item)
             }
-            let top = entry.path.split(separator: "/").first.map(String.init) ?? entry.path
-            claimedTopLevel.insert(top)
-            if top == ".cache", let sub = entry.path.split(separator: "/").dropFirst().first {
-                claimedCache.insert(String(sub))
-            }
+            Self.claim(entry, into: &claimedTopLevel, &claimedCache)
         }
 
         for folder in URL.home.children(includeHidden: true)
