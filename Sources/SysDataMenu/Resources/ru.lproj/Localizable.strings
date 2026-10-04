@@ -120,8 +120,10 @@
 "Move safe items to the Trash" = "Перемещать безопасные элементы в Корзину";
 "Moved to the Trash. Empty the Trash to free the space." = "Перемещено в Корзину. Чтобы освободить место, очистите Корзину.";
 "My Mac keeps" = "Мой Mac хранит";
+"New: %@ now" = "Новое: сейчас %@";
 "No item matches" = "Нет совпадений";
 "No project build output found" = "Результаты сборки проектов не найдены";
+"No single item stands out. Many small ones grew together." = "Ничего одного выдающегося нет. Выросло много мелких элементов.";
 "Nobody has changed this project's own files in %lld days." = "Файлы этого проекта никто не менял %lld дн.";
 "Nothing to compare yet" = "Пока нечего сравнивать";
 "Nothing to reclaim" = "Нечего освобождать";
@@ -197,6 +199,7 @@
 "Unusual storage growth" = "Необычный рост хранилища";
 "Update" = "Обновить";
 "Use a window instead" = "Использовать окно";
+"Usually %@, now %@" = "Обычно %@, сейчас %@";
 "Version %@ is available." = "Доступна версия %@.";
 "Virtual machines" = "Виртуальные машины";
 "Warn below" = "Предупреждать ниже";
@@ -204,6 +207,7 @@
 "Weekly summary" = "Еженедельная сводка";
 "What grew, and what came back" = "Что выросло и что вернулось";
 "Where should it live?" = "Где ему жить?";
+"Why %@ grew" = "Почему вырос раздел «%@»";
 "With this off the app lives in its window, and opens from Applications or the Dock." = "Если выключено, приложение живёт в своём окне и открывается из «Программ» или Dock.";
 "Xcode" = "Xcode";
 "You can change this any time in Settings." = "Это можно изменить в любой момент в настройках.";

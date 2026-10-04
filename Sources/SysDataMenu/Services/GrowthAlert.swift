@@ -40,6 +40,7 @@ enum GrowthAlert {
         content.body = L("%@ grew %@ beyond its recent size.", anomaly.category.title, anomaly.growthBytes.byteString)
         content.sound = .default
         content.threadIdentifier = "storage-growth"
+        content.userInfo = [NotificationRouter.growthCategoryKey: anomaly.category.rawValue]
 
         let request = UNNotificationRequest(
             identifier: "storage-growth-\(anomaly.category.rawValue)", content: content, trigger: nil

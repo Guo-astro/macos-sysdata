@@ -6,6 +6,8 @@ import SwiftUI
 /// the menu bar panel is not a regular window, so sheets never appear on it.
 struct HistoryPanel: View {
     let log: ScanHistory.Log
+    /// The category a growth notification named, if the panel was opened from one.
+    var focus: StorageCategory?
     let onForget: () -> Void
 
     var body: some View {
@@ -13,6 +15,7 @@ struct HistoryPanel: View {
             empty
         } else {
             List {
+                if let focus { whySection(focus) }
                 if !returned.isEmpty { returnedSection }
                 if !growth.isEmpty { growthSection }
                 if !log.deletions.isEmpty { deletionsSection }
@@ -38,6 +41,33 @@ struct HistoryPanel: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
+    }
+
+    // MARK: Why it grew
+
+    /// Opened from the growth notification, so the first thing shown is its
+    /// answer: which items in that category are bigger than they usually are.
+    private func whySection(_ category: StorageCategory) -> some View {
+        let contributors = ScanHistory.growthContributors(in: category, log: log)
+        return Section {
+            if contributors.isEmpty {
+                Text(L("No single item stands out. Many small ones grew together."))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            ForEach(contributors, id: \.id) { entry in
+                row(
+                    entry.name,
+                    detail: entry.baselineBytes.map {
+                        L("Usually %@, now %@", $0.byteString, entry.currentBytes.byteString)
+                    } ?? L("New: %@ now", entry.currentBytes.byteString),
+                    trailing: "+\(entry.growthBytes.byteString)",
+                    tint: .orange
+                )
+            }
+        } header: {
+            Text(L("Why %@ grew", category.title))
+        }
     }
 
     // MARK: Came back

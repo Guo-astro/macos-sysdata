@@ -99,6 +99,9 @@ final class ScanModel {
     var requiresAuthenticationToDelete: Bool = UserDefaults.standard.bool(forKey: ScanModel.authenticationKey) {
         didSet { UserDefaults.standard.set(requiresAuthenticationToDelete, forKey: Self.authenticationKey) }
     }
+    /// The category a growth notification was about, set when it is opened.
+    /// The history view reads it to say which items made that category grow.
+    var growthFocus: StorageCategory?
     var errorMessage: String?
     /// Set when a delete gave back less than it removed and local snapshots
     /// are why. The notice explains it; this puts the way out next to it

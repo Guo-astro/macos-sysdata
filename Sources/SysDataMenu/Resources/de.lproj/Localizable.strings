@@ -120,8 +120,10 @@
 "Move safe items to the Trash" = "Sichere Elemente in den Papierkorb verschieben";
 "Moved to the Trash. Empty the Trash to free the space." = "In den Papierkorb verschoben. Leere den Papierkorb, um den Speicherplatz freizugeben.";
 "My Mac keeps" = "Mein Mac hortet";
+"New: %@ now" = "Neu: jetzt %@";
 "No item matches" = "Keine Übereinstimmung";
 "No project build output found" = "Keine Build-Ausgabe von Projekten gefunden";
+"No single item stands out. Many small ones grew together." = "Kein einzelner Eintrag fällt auf. Viele kleine sind gemeinsam gewachsen.";
 "Nobody has changed this project's own files in %lld days." = "Die eigenen Dateien dieses Projekts hat seit %lld Tagen niemand geändert.";
 "Nothing to compare yet" = "Noch nichts zum Vergleichen";
 "Nothing to reclaim" = "Nichts freizugeben";
@@ -197,6 +199,7 @@
 "Unusual storage growth" = "Ungewöhnliches Speicherwachstum";
 "Update" = "Aktualisieren";
 "Use a window instead" = "Lieber ein Fenster";
+"Usually %@, now %@" = "Üblich %@, jetzt %@";
 "Version %@ is available." = "Version %@ ist verfügbar.";
 "Virtual machines" = "Virtuelle Maschinen";
 "Warn below" = "Warnen unter";
@@ -204,6 +207,7 @@
 "Weekly summary" = "Wöchentliche Zusammenfassung";
 "What grew, and what came back" = "Was gewachsen ist und was zurückgekommen ist";
 "Where should it live?" = "Wo soll sie leben?";
+"Why %@ grew" = "Warum %@ gewachsen ist";
 "With this off the app lives in its window, and opens from Applications or the Dock." = "Ist dies aus, lebt die App in ihrem Fenster und wird über „Programme“ oder das Dock geöffnet.";
 "Xcode" = "Xcode";
 "You can change this any time in Settings." = "Du kannst das jederzeit in den Einstellungen ändern.";

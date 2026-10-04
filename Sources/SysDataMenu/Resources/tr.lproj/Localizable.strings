@@ -120,8 +120,10 @@
 "Move safe items to the Trash" = "Güvenli öğeleri Çöp Sepeti'ne taşı";
 "Moved to the Trash. Empty the Trash to free the space." = "Çöp Sepeti'ne taşındı. Alanı boşaltmak için Çöp Sepeti'ni boşaltın.";
 "My Mac keeps" = "Mac’im şunu tutuyor";
+"New: %@ now" = "Yeni: şimdi %@";
 "No item matches" = "Eşleşen öğe yok";
 "No project build output found" = "Proje derleme çıktısı bulunamadı";
+"No single item stands out. Many small ones grew together." = "Öne çıkan tek bir öğe yok. Birçok küçük öğe birlikte büyüdü.";
 "Nobody has changed this project's own files in %lld days." = "Bu projenin kendi dosyalarına %lld gündür kimse dokunmadı.";
 "Nothing to compare yet" = "Henüz karşılaştıracak bir şey yok";
 "Nothing to reclaim" = "Geri kazanılacak bir şey yok";
@@ -197,6 +199,7 @@
 "Unusual storage growth" = "Olağandışı depolama büyümesi";
 "Update" = "Güncelle";
 "Use a window instead" = "Pencere olarak kullan";
+"Usually %@, now %@" = "Normalde %@, şimdi %@";
 "Version %@ is available." = "%@ sürümü yayınlandı.";
 "Virtual machines" = "Sanal makineler";
 "Warn below" = "Şunun altında uyar";
@@ -204,6 +207,7 @@
 "Weekly summary" = "Haftalık özet";
 "What grew, and what came back" = "Ne büyüdü, ne geri geldi";
 "Where should it live?" = "Nerede dursun?";
+"Why %@ grew" = "%@ neden büyüdü";
 "With this off the app lives in its window, and opens from Applications or the Dock." = "Kapalıyken uygulama kendi penceresinde çalışır; Uygulamalar klasöründen veya Dock'tan açılır.";
 "Xcode" = "Xcode";
 "You can change this any time in Settings." = "Bunu istediğin zaman Ayarlar'dan değiştirebilirsin.";

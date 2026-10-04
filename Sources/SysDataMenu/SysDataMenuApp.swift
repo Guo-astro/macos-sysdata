@@ -43,6 +43,7 @@ struct SysDataMenuApp: App {
         NSApplication.shared.setActivationPolicy(.accessory)
         Updater.unhide(Bundle.main.bundleURL)
         MainWindow.shared.use(model)
+        NotificationRouter.install()
     }
 
     var body: some Scene {

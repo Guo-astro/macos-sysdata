@@ -206,6 +206,41 @@ enum ScanHistory {
         return growth.sorted { $0.bytes > $1.bytes }.prefix(limit).map { $0 }
     }
 
+    /// One item's part in a category's growth.
+    struct GrowthContributor: Equatable, Sendable {
+        let id: String
+        let name: String
+        let currentBytes: Int64
+        /// Its usual size, or nil when no earlier scan knew it.
+        let baselineBytes: Int64?
+
+        var growthBytes: Int64 { currentBytes - (baselineBytes ?? 0) }
+        var isNew: Bool { baselineBytes == nil }
+    }
+
+    /// Which items in a category are why it is bigger than usual: each one's
+    /// current size against its median over the same recent scans the category
+    /// alert uses, largest growth first. Items under 50 MB of growth are left
+    /// out, so one wobbling cache does not stand beside the real cause.
+    static func growthContributors(
+        in category: StorageCategory, log: Log, limit: Int = 8
+    ) -> [GrowthContributor] {
+        guard let current = log.scans.last else { return [] }
+        let earlier = Array(log.scans.dropLast().suffix(baselineScans))
+        guard !earlier.isEmpty else { return [] }
+
+        let contributors: [GrowthContributor] = current.sizes.compactMap { id, now in
+            guard current.categories[id] == category.rawValue else { return nil }
+            let prior = earlier.compactMap { $0.sizes[id] }.sorted()
+            let contributor = GrowthContributor(
+                id: id, name: current.names[id] ?? id, currentBytes: now,
+                baselineBytes: prior.isEmpty ? nil : prior[prior.count / 2]
+            )
+            return contributor.growthBytes >= 50 * 1_048_576 ? contributor : nil
+        }
+        return contributors.sorted { $0.growthBytes > $1.growthBytes }.prefix(limit).map { $0 }
+    }
+
     /// How many earlier scans the growth baseline is taken from.
     ///
     /// "Recent" has to mean recent. Against the whole 180-day history, a

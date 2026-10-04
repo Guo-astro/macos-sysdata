@@ -120,8 +120,10 @@
 "Move safe items to the Trash" = "将可安全清理的项目移到废纸篓";
 "Moved to the Trash. Empty the Trash to free the space." = "已移到废纸篓。清倒废纸篓以释放空间。";
 "My Mac keeps" = "我的 Mac 存着";
+"New: %@ now" = "新增：现在 %@";
 "No item matches" = "没有匹配的项目";
 "No project build output found" = "未找到项目构建输出";
+"No single item stands out. Many small ones grew together." = "没有特别突出的单个项目，是许多小项目一起增长。";
 "Nobody has changed this project's own files in %lld days." = "%lld 天内没有人修改过这个项目自己的文件。";
 "Nothing to compare yet" = "暂无可比较的记录";
 "Nothing to reclaim" = "没有可释放的空间";
@@ -197,6 +199,7 @@
 "Unusual storage growth" = "存储空间异常增长";
 "Update" = "更新";
 "Use a window instead" = "改用窗口";
+"Usually %@, now %@" = "通常 %@，现在 %@";
 "Version %@ is available." = "版本 %@ 现已可用。";
 "Virtual machines" = "虚拟机";
 "Warn below" = "可用空间低于此值时提醒";
@@ -204,6 +207,7 @@
 "Weekly summary" = "每周摘要";
 "What grew, and what came back" = "空间增长与重新出现的项目";
 "Where should it live?" = "它放在哪里？";
+"Why %@ grew" = "%@ 增长的原因";
 "With this off the app lives in its window, and opens from Applications or the Dock." = "关闭后，应用只在自己的窗口中运行，可从“应用程序”或程序坞打开。";
 "Xcode" = "Xcode";
 "You can change this any time in Settings." = "你可以随时在“设置”中更改。";

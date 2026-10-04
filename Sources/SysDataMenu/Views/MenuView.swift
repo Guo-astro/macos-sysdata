@@ -105,7 +105,10 @@ struct MenuView: View {
                 .padding(.top, 8)
             }
             if showsHistory {
-                HistoryPanel(log: model.history) { model.keepsHistory = false; showsHistory = false }
+                HistoryPanel(log: model.history, focus: model.growthFocus) {
+                    model.keepsHistory = false
+                    showsHistory = false
+                }
             } else {
                 content
             }
@@ -117,6 +120,9 @@ struct MenuView: View {
             footer
         }
         .modifier(PanelSize(presentation: presentation))
+        .onChange(of: model.growthFocus) { _, focus in
+            if focus != nil { showsHistory = true }
+        }
         .task {
             if !model.hasScanned, !model.isScanning { await model.scan() }
             await updates.checkIfDue()
@@ -806,6 +812,7 @@ struct MenuView: View {
             if model.keepsHistory {
                 Button(showsHistory ? L("Back to the list") : L("History")) {
                     showsHistory.toggle()
+                    if !showsHistory { model.growthFocus = nil }
                 }
                 .help(L("What grew, and what came back"))
             }

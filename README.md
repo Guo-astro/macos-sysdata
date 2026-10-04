@@ -179,7 +179,10 @@ prompt, which is why it asks each time and shows you the command first.
   than 2 GB, a notification says by how much and what grew most.
 - **Unusual growth.** Optional. After the daily scan, a notification when a
   category is at least 50% and 2 GB above its median over its last 14 scans.
-  It waits for another 2 GB before the same category speaks again.
+  It waits for another 2 GB before the same category speaks again. Opening
+  the notification goes to **History**, which starts with the items that made
+  that category grow: each one's usual size against its size now, or marked
+  new when no earlier scan knew it.
 - **Trends.** Each row carries a small line showing where its size has been
   heading over recent scans.
 - **A map of the disk.** Categories start folded and are listed largest

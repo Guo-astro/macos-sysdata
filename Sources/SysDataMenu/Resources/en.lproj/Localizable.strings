@@ -120,8 +120,10 @@
 "Move safe items to the Trash" = "Move safe items to the Trash";
 "Moved to the Trash. Empty the Trash to free the space." = "Moved to the Trash. Empty the Trash to free the space.";
 "My Mac keeps" = "My Mac keeps";
+"New: %@ now" = "New: %@ now";
 "No item matches" = "No item matches";
 "No project build output found" = "No project build output found";
+"No single item stands out. Many small ones grew together." = "No single item stands out. Many small ones grew together.";
 "Nobody has changed this project's own files in %lld days." = "Nobody has changed this project's own files in %lld days.";
 "Nothing to compare yet" = "Nothing to compare yet";
 "Nothing to reclaim" = "Nothing to reclaim";
@@ -197,6 +199,7 @@
 "Unusual storage growth" = "Unusual storage growth";
 "Update" = "Update";
 "Use a window instead" = "Use a window instead";
+"Usually %@, now %@" = "Usually %@, now %@";
 "Version %@ is available." = "Version %@ is available.";
 "Virtual machines" = "Virtual machines";
 "Warn below" = "Warn below";
@@ -204,6 +207,7 @@
 "Weekly summary" = "Weekly summary";
 "What grew, and what came back" = "What grew, and what came back";
 "Where should it live?" = "Where should it live?";
+"Why %@ grew" = "Why %@ grew";
 "With this off the app lives in its window, and opens from Applications or the Dock." = "With this off the app lives in its window, and opens from Applications or the Dock.";
 "Xcode" = "Xcode";
 "You can change this any time in Settings." = "You can change this any time in Settings.";
