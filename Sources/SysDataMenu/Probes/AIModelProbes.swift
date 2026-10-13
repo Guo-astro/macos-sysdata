@@ -114,7 +114,7 @@ struct AIModelProbe: StorageProbe {
                 sizeBytes: model.ownBytes, safety: ollama == nil ? .manual : .review,
                 action: ollama.map { .command(executable: $0, arguments: ["rm", model.name]) }
                     ?? .manual("ollama rm \(model.name)"),
-                revealURL: root, lastModified: model.modified
+                revealURL: root, lastModified: model.modified, hiddenWith: "tool-.ollama/models"
             )
         }
         if library.sharedBytes >= threshold {
@@ -123,7 +123,7 @@ struct AIModelProbe: StorageProbe {
                 detail: "Freed on their own when the last model that uses them is removed.",
                 sizeBytes: library.sharedBytes, safety: .manual,
                 action: .manual("Remove the models that use these layers with `ollama rm`."),
-                revealURL: root
+                revealURL: root, hiddenWith: "tool-.ollama/models"
             ))
         }
         return items
@@ -159,7 +159,12 @@ struct AIModelProbe: StorageProbe {
                     url: folder, safety: .review, action: .removePaths([folder]), minimumBytes: threshold
                   )
             else { continue }
-            items.append(item)
+            items.append(StorageItem(
+                id: item.id, category: item.category, name: item.name, detail: item.detail,
+                sizeBytes: item.sizeBytes, safety: item.safety, action: item.action,
+                revealURL: item.revealURL, lastModified: item.lastModified,
+                hiddenWith: "tool-.cache/huggingface"
+            ))
         }
         let xet = hub.deletingLastPathComponent().appending(path: "xet")
         if let item = await ProbeSupport.directoryItem(

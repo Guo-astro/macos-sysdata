@@ -82,3 +82,37 @@ struct AIModelProbeTests {
         #expect(AIModelProbe.huggingFaceHub(environment: [:]).path.hasSuffix(".cache/huggingface/hub"))
     }
 }
+
+/// The README tells people to hide the Ollama row to keep their models. That
+/// row is now one per model, so the choice has to carry over to them.
+@MainActor
+struct HiddenModelsTests {
+    private func item(_ id: String, hiddenWith: String? = nil) -> StorageItem {
+        StorageItem(
+            id: id, category: .ai, name: id, detail: "", sizeBytes: 500_000_000, safety: .review,
+            action: .removePaths([]), hiddenWith: hiddenWith
+        )
+    }
+
+    @Test func hidingTheRowThatWasSplitHidesWhatItWasSplitInto() {
+        let parent = item("tool-.ollama/models")
+        let model = ScanModel(scansAutomatically: false, items: [
+            parent,
+            item("ai-ollama-llama3:latest", hiddenWith: "tool-.ollama/models"),
+            item("ai-hf-models--gpt2", hiddenWith: "tool-.cache/huggingface"),
+        ])
+        model.unhideAll()
+        defer { model.unhideAll() }
+
+        model.hide(parent)
+        #expect(model.visibleItems.map(\.id) == ["ai-hf-models--gpt2"], "only the Ollama rows follow the Ollama choice")
+    }
+
+    @Test func nothingIsHiddenWithoutAChoice() {
+        let model = ScanModel(scansAutomatically: false, items: [
+            item("ai-ollama-llama3:latest", hiddenWith: "tool-.ollama/models"),
+        ])
+        model.unhideAll()
+        #expect(model.visibleItems.count == 1)
+    }
+}

@@ -183,6 +183,11 @@ struct StorageItem: Identifiable, Sendable {
     /// written: the last build. `lastModified` is the project's own activity
     /// instead, so the two answer different questions.
     let builtAt: Date?
+    /// The id of a row this one replaced. Someone who hid that row to keep
+    /// what was in it — the README suggests it for Ollama models — has hidden
+    /// the rows it was split into as well, rather than meeting every one of
+    /// them again the day the split shipped.
+    let hiddenWith: String?
 
     init(
         id: String,
@@ -196,7 +201,8 @@ struct StorageItem: Identifiable, Sendable {
         lastModified: Date? = nil,
         alsoClaims: [URL] = [],
         project: URL? = nil,
-        builtAt: Date? = nil
+        builtAt: Date? = nil,
+        hiddenWith: String? = nil
     ) {
         self.id = id
         self.category = category
@@ -210,6 +216,7 @@ struct StorageItem: Identifiable, Sendable {
         self.alsoClaims = alsoClaims
         self.project = project
         self.builtAt = builtAt
+        self.hiddenWith = hiddenWith
     }
 
     /// Whole days since anything inside changed.

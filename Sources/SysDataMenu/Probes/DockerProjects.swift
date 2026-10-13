@@ -45,6 +45,12 @@ enum DockerProjects {
             let Id: String
             let ImageID: String?
             let Labels: [String: String]?
+            /// `running`, `exited`, `paused`... Absent from older fixtures.
+            let State: String?
+
+            /// A container that is up, or about to be: it holds its image
+            /// and its data, and removing it would stop someone's work.
+            var isActive: Bool { ["running", "paused", "restarting"].contains(State ?? "") }
         }
 
         struct Volume: Decodable {
@@ -130,6 +136,7 @@ enum DockerProjects {
         struct Compose {
             var folder: URL
             var containerIDs: [String] = []
+            var activeCount = 0
         }
         var projects: [String: Compose] = [:]
         var projectsUsingImage: [String: Set<String>] = [:]
@@ -141,6 +148,7 @@ enum DockerProjects {
             }
             guard let project, let dir = labels[workingDirLabel], dir.hasPrefix("/") else { continue }
             projects[project, default: Compose(folder: URL(fileURLWithPath: dir))].containerIDs.append(container.Id)
+            if container.isActive { projects[project]?.activeCount += 1 }
         }
 
         var items: [StorageItem] = []
@@ -156,16 +164,24 @@ enum DockerProjects {
                     return tags.isEmpty ? [image.Id] : tags
                 }
                 let created = images.compactMap(\.Created).max().map { Date(timeIntervalSince1970: TimeInterval($0)) }
+                // Containers that are up are never removed from here. Their
+                // images are in use and could not go anyway, and removing a
+                // running container would stop someone's database mid-work.
+                let isRunning = compose.activeCount > 0
                 items.append(StorageItem(
                     id: "docker-project-images-\(name)", category: .docker,
                     name: "Docker images: \(name)",
-                    detail: "\(compose.folder.abbreviatedPath). Its containers and the images only they use; "
-                        + "volumes are kept. docker compose up builds or pulls them again.",
-                    sizeBytes: imageBytes, safety: .review,
-                    action: .steps([
-                        .command(executable: docker, arguments: ["container", "rm", "--force"] + compose.containerIDs),
-                        .command(executable: docker, arguments: ["image", "rm"] + references),
-                    ]),
+                    detail: isRunning
+                        ? "\(compose.folder.abbreviatedPath). \(compose.activeCount) of its containers are running, so its images are in use."
+                        : "\(compose.folder.abbreviatedPath). Its containers and the images only they use; "
+                            + "volumes are kept. docker compose up builds or pulls them again.",
+                    sizeBytes: imageBytes, safety: isRunning ? .manual : .review,
+                    action: isRunning
+                        ? .manual("Stop the project first, keeping its volumes:\ndocker compose -p \(name) down")
+                        : .steps([
+                            .command(executable: docker, arguments: ["container", "rm"] + compose.containerIDs),
+                            .command(executable: docker, arguments: ["image", "rm"] + references),
+                        ]),
                     revealURL: compose.folder, project: root, builtAt: created
                 ))
             }

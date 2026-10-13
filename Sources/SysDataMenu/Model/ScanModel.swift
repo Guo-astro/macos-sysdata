@@ -185,7 +185,11 @@ final class ScanModel {
     }
 
     var visibleItems: [StorageItem] {
-        items.filter { !hiddenIDs.contains($0.id) }
+        items.filter { !isHidden($0) }
+    }
+
+    private func isHidden(_ item: StorageItem) -> Bool {
+        hiddenIDs.contains(item.id) || item.hiddenWith.map(hiddenIDs.contains) == true
     }
 
     var hiddenCount: Int {

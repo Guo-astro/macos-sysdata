@@ -134,6 +134,13 @@ struct MenuView: View {
         .onChange(of: model.growthFocus) { _, focus in
             if focus != nil { showsHistory = true }
         }
+        // However History is left — the menu, Forget everything, turning the
+        // record off — the notification's question is answered. Left set, it
+        // would head the next ordinary visit, and a second notification for
+        // the same category would not change anything to open it again.
+        .onChange(of: showsHistory) { _, shown in
+            if !shown { model.growthFocus = nil }
+        }
         .task {
             if !model.hasScanned, !model.isScanning { await model.scan() }
             await updates.checkIfDue()

@@ -75,10 +75,22 @@ struct DockerProjectsTests {
         #expect(shop.partName == "Docker images")
         #expect(shop.builtAt == Date(timeIntervalSince1970: 1_790_000_000))
         #expect(shop.action.plan == [
-            "\(Self.docker) container rm --force c-web c-db",
+            "\(Self.docker) container rm c-web c-db",
             "\(Self.docker) image rm shop-web:latest shop-web:v2",
         ])
         #expect(items["docker-project-images-blog"] == nil, "postgres is shared, and blog has nothing else")
+    }
+
+    /// An archive must never stop a database that is running. Removing its
+    /// containers would, and its images could not be removed anyway.
+    @Test func aProjectThatIsRunningIsNotArchivedFromHere() throws {
+        let json = Self.current.replacingOccurrences(
+            of: "{\"Id\": \"c-db\", \"ImageID\": \"sha256:postgres\",",
+            with: "{\"Id\": \"c-db\", \"ImageID\": \"sha256:postgres\", \"State\": \"running\","
+        )
+        let shop = try #require(try items(json)["docker-project-images-shop"])
+        #expect(shop.action.isManual)
+        #expect(shop.detail.contains("1 of its containers are running"))
     }
 
     /// A volume in use is the project's data and is only described; one no
