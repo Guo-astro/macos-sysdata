@@ -5,6 +5,22 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.7.1 — 2026-10-13
+
+- **Hidden models stay hidden.** Ollama and Hugging Face are listed model
+  by model since 1.7.0. If you had hidden the old single row to keep your
+  models, every one of them came back into the list. They now follow the
+  choice you made for the row they replaced.
+- **Archiving never stops a running project.** The Docker images of a
+  Compose project are no longer archived while any of its containers is
+  running: removing a running container would stop a database mid-work.
+  Such a project is listed as manual, with the command that stops it first
+  and keeps its volumes.
+- **The growth notification no longer lingers.** Leaving History by any
+  route now clears the category it was opened for, so it does not head the
+  next ordinary visit, and a second notification for the same category
+  opens it again.
+
 ## v1.7.0 — 2026-10-04
 
 - **AI models and tools, as a group.** Ollama, Hugging Face, LM Studio and
