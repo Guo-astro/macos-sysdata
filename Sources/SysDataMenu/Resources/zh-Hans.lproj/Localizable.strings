@@ -14,9 +14,11 @@
 "%lld idle %lld+ days: %@" = "%lld 个闲置 %lld+ 天：%@";
 "%lld items need root; the password is asked once." = "%lld 个项目需要 root 权限；只需输入一次密码。";
 "%lld items need root; the password may be asked more than once." = "%lld 个项目需要 root 权限；可能需要多次输入密码。";
+"%lld items · %@" = "%1$lld 项 · %2$@";
 "%lld marked Review go to the Trash: %@" = "%lld 个标记为“需确认”的项目将移到废纸篓：%@";
 "%lld months idle" = "%lld 个月未变动";
 "%lld not on screen" = "%lld 项未显示在当前界面中";
+"%lld of them need a look first, longest untouched first." = "其中 %lld 项需要先看一眼，最久未动的在前。";
 "%lld projects · %@" = "%lld 个项目 · %@";
 "%lld years idle" = "%lld 年未变动";
 "1 item needs root." = "1 个项目需要 root 权限。";
@@ -25,6 +27,7 @@
 "1 year idle" = "1 年未变动";
 "AI models and tools" = "AI 模型与工具";
 "After a second scan this shows what grew, and whether anything you deleted came back." = "再次扫描后，这里会显示哪些项目占用的空间增加了，以及已删除的项目是否重新出现。";
+"All of it is safe: it rebuilds on its own." = "全部都很安全：会自动重新生成。";
 "Android" = "Android";
 "App data & caches" = "应用数据与缓存";
 "Archive" = "归档";
@@ -78,6 +81,7 @@
 "Don't show this item again" = "不再显示此项目";
 "Download" = "下载";
 "Empty folder" = "空文件夹";
+"Everything this app can free is %@" = "此应用能释放的全部空间为 %@";
 "Expand %@" = "展开%@";
 "Expand all" = "全部展开";
 "Filter" = "筛选";
@@ -87,6 +91,8 @@
 "Free and open source" = "免费且开源";
 "Free space" = "可用空间";
 "Free space on the startup disk." = "启动磁盘上的可用空间。";
+"Free up %@" = "腾出 %@";
+"Free up…" = "腾出空间…";
 "Freed %@" = "已释放 %@";
 "Freed %@ automatically" = "已自动清理 %@";
 "Frees about %@. " = "可释放约 %@ 的空间。 ";
@@ -127,6 +133,7 @@
 "No project build output found" = "未找到项目构建输出";
 "No single item stands out. Many small ones grew together." = "没有特别突出的单个项目，是许多小项目一起增长。";
 "Nobody has changed this project's own files in %lld days." = "%lld 天内没有人修改过这个项目自己的文件。";
+"Nothing here can be freed by this app." = "此应用在这里无法释放任何空间。";
 "Nothing to compare yet" = "暂无可比较的记录";
 "Nothing to reclaim" = "没有可释放的空间";
 "Notify about unusual growth" = "异常增长通知";
@@ -134,6 +141,7 @@
 "Once a week, delete the items marked Safe — the caches that regenerate — and notify you what was freed. Never anything that needs review or a password." = "每周一次，删除标记为“可安全清理”的项目（会自动重建的缓存），并通知你清理了多少。绝不触碰任何需要检查或密码的内容。";
 "Once a week, if System Data has grown, a notification says by how much and what grew most. Nothing leaves your Mac." = "每周一次，如果系统数据增长了，通知会告诉你增长了多少以及增长最多的是什么。任何数据都不会离开你的 Mac。";
 "One grant covers everything. Until then this scan leaves the protected places alone — app containers, Desktop, Documents, Music, Photos — rather than asking about them one app at a time, so what you see below is incomplete. Add System Data Unpacked in the settings pane, then reopen the app." = "一次授权即可涵盖所有位置。在授权前，扫描会跳过受保护的位置（应用容器、桌面、文稿、音乐、照片），而不会逐个应用请求权限，因此下方结果并不完整。请在“完全磁盘访问权限”设置中添加“System Data Unpacked”，然后重新打开应用。";
+"Only the safe items are selected; the rest is yours to choose." = "仅选中了安全项目，其余由你自己决定。";
 "Open Settings" = "打开设置";
 "Open Unpacked to see what grew." = "打开 Unpacked 查看增长了什么。";
 "Open Unpacked to see what is taking up room." = "打开 Unpacked 以查看哪些内容占用了空间。";
@@ -144,6 +152,7 @@
 "Other files" = "其他文件";
 "Other large folders" = "其他大型文件夹";
 "Package managers" = "软件包管理器";
+"Plan to free %@" = "腾出 %@ 的方案";
 "Project build folders" = "项目构建文件夹";
 "Project deleted" = "项目已删除";
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "可清除空间是 macOS 估计在必要时可释放的空间，包括缓存和本地快照。这只是估计值，不能当作确定可用的空间；它会自行变化，写入文件也不会直接消耗这部分空间。下方列出的项目才是你可以实际清理以释放空间的内容。";
@@ -163,6 +172,7 @@
 "Select every item that is regenerated automatically" = "选择所有会自动重新生成的项目";
 "Select safe" = "选择可安全清理的项目";
 "Select the build folders of projects whose own files nobody has changed in this long. Each is recreated by its build or install command." = "选择在这段时间内无人修改过其文件的项目的构建文件夹。每个文件夹都可由对应的构建或安装命令重新生成。";
+"Selects the least worrying items that add up to this much. Nothing is deleted until you confirm." = "选择合计达到该大小、风险最小的项目。在你确认之前不会删除任何内容。";
 "Settings" = "设置";
 "Shared & other users" = "共享与其他用户";
 "Show all" = "显示全部";
@@ -186,6 +196,7 @@
 "System Data holds %@ that is safe to free." = "系统数据中有 %@ 可安全释放。";
 "System Data size" = "系统数据大小";
 "Temporary files" = "临时文件";
+"That is %@ short of %@." = "距离 %2$@ 还差 %1$@。";
 "The app could not be replaced: %@" = "无法替换应用：%@";
 "The download did not finish. Nothing was installed." = "下载未完成。未安装任何内容。";
 "The download does not come from GitHub. Nothing was installed." = "下载内容并非来自 GitHub。未安装任何内容。";

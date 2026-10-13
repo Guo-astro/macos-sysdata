@@ -444,6 +444,28 @@ final class ScanModel {
         selectionAnchorID = nil
     }
 
+    /// The last plan "Free up…" built.
+    private var spacePlan: SpacePlan?
+
+    /// The plan, for as long as the selection is still exactly it. Ticking a
+    /// row, unticking one, or deleting the batch ends it without anything
+    /// having to remember to.
+    var activeSpacePlan: SpacePlan? {
+        guard let plan = spacePlan, selectedIDs == Set(plan.items.map(\.id)) else { return nil }
+        return plan
+    }
+
+    /// Selects the least worrying items that add up to `target`, unfolding
+    /// the groups they are in so the choice can be read. Deleting them still
+    /// goes through the usual confirmation, with every command shown.
+    func planSpace(freeing target: Int64) {
+        let plan = SpacePlan.build(freeing: target, from: visibleItems.filter { !busyItemIDs.contains($0.id) })
+        spacePlan = plan
+        selectedIDs = Set(plan.items.map(\.id))
+        collapsedCategories.subtract(plan.items.map(\.category))
+        selectionAnchorID = nil
+    }
+
     /// Categories, largest first once the scan has finished. While results are
     /// still arriving they keep their fixed order, so headers do not jump
     /// around under the pointer as totals change.

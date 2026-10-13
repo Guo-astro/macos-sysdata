@@ -14,9 +14,11 @@
 "%lld idle %lld+ days: %@" = "%lld seit %lld+ Tagen unberührt: %@";
 "%lld items need root; the password is asked once." = "%lld Objekte benötigen Root-Rechte; das Passwort wird einmal abgefragt.";
 "%lld items need root; the password may be asked more than once." = "%lld Objekte benötigen Root-Rechte; das Passwort wird möglicherweise mehrfach abgefragt.";
+"%lld items · %@" = "%1$lld Einträge · %2$@";
 "%lld marked Review go to the Trash: %@" = "%lld als „Prüfen“ markierte Objekte wandern in den Papierkorb: %@";
 "%lld months idle" = "%lld Monate inaktiv";
 "%lld not on screen" = "%lld nicht sichtbar";
+"%lld of them need a look first, longest untouched first." = "%lld davon sollten Sie sich zuerst ansehen, am längsten unberührte zuerst.";
 "%lld projects · %@" = "%lld Projekte · %@";
 "%lld years idle" = "%lld Jahre inaktiv";
 "1 item needs root." = "1 Objekt benötigt Root-Rechte.";
@@ -25,6 +27,7 @@
 "1 year idle" = "1 Jahr inaktiv";
 "AI models and tools" = "KI-Modelle und -Werkzeuge";
 "After a second scan this shows what grew, and whether anything you deleted came back." = "Nach einem zweiten Scan zeigt dies, was gewachsen ist und ob etwas von dem, was du gelöscht hast, zurückgekommen ist.";
+"All of it is safe: it rebuilds on its own." = "Alles ist unbedenklich: Es entsteht von selbst neu.";
 "Android" = "Android";
 "App data & caches" = "App-Daten & Caches";
 "Archive" = "Archivieren";
@@ -78,6 +81,7 @@
 "Don't show this item again" = "Dieses Objekt nicht mehr anzeigen";
 "Download" = "Herunterladen";
 "Empty folder" = "Leerer Ordner";
+"Everything this app can free is %@" = "Alles, was diese App freigeben kann, sind %@";
 "Expand %@" = "%@ ausklappen";
 "Expand all" = "Alle ausklappen";
 "Filter" = "Filter";
@@ -87,6 +91,8 @@
 "Free and open source" = "Kostenlos und Open Source";
 "Free space" = "Speicherplatz freigeben";
 "Free space on the startup disk." = "Freier Speicherplatz auf dem Startvolume.";
+"Free up %@" = "%@ freimachen";
+"Free up…" = "Platz schaffen…";
 "Freed %@" = "%@ freigegeben";
 "Freed %@ automatically" = "%@ automatisch freigegeben";
 "Frees about %@. " = "Gibt etwa %@ frei. ";
@@ -127,6 +133,7 @@
 "No project build output found" = "Keine Build-Ausgabe von Projekten gefunden";
 "No single item stands out. Many small ones grew together." = "Kein einzelner Eintrag fällt auf. Viele kleine sind gemeinsam gewachsen.";
 "Nobody has changed this project's own files in %lld days." = "Die eigenen Dateien dieses Projekts hat seit %lld Tagen niemand geändert.";
+"Nothing here can be freed by this app." = "Hier kann diese App nichts freigeben.";
 "Nothing to compare yet" = "Noch nichts zum Vergleichen";
 "Nothing to reclaim" = "Nichts freizugeben";
 "Notify about unusual growth" = "Über ungewöhnliches Wachstum informieren";
@@ -134,6 +141,7 @@
 "Once a week, delete the items marked Safe — the caches that regenerate — and notify you what was freed. Never anything that needs review or a password." = "Einmal pro Woche werden die als „Sicher“ markierten Elemente – die Caches, die sich von selbst neu aufbauen – gelöscht, und du wirst benachrichtigt, wie viel freigegeben wurde. Nie etwas, das eine Überprüfung oder ein Passwort erfordert.";
 "Once a week, if System Data has grown, a notification says by how much and what grew most. Nothing leaves your Mac." = "Einmal pro Woche wird dir, falls die Systemdaten gewachsen sind, per Benachrichtigung mitgeteilt, um wie viel und was am meisten gewachsen ist. Nichts verlässt deinen Mac.";
 "One grant covers everything. Until then this scan leaves the protected places alone — app containers, Desktop, Documents, Music, Photos — rather than asking about them one app at a time, so what you see below is incomplete. Add System Data Unpacked in the settings pane, then reopen the app." = "Eine einzige Freigabe deckt alles ab. Bis dahin lässt dieser Scan die geschützten Orte unangetastet — App-Container, Schreibtisch, Dokumente, Musik, Fotos — anstatt einzeln pro App nachzufragen. Was du unten siehst, ist deshalb unvollständig. Füge „System Data Unpacked“ im Einstellungsbereich hinzu und öffne die App danach erneut.";
+"Only the safe items are selected; the rest is yours to choose." = "Nur die unbedenklichen Einträge sind ausgewählt; den Rest wählen Sie selbst.";
 "Open Settings" = "Einstellungen öffnen";
 "Open Unpacked to see what grew." = "Öffne Unpacked, um zu sehen, was gewachsen ist.";
 "Open Unpacked to see what is taking up room." = "Öffne Unpacked, um zu sehen, was Platz beansprucht.";
@@ -144,6 +152,7 @@
 "Other files" = "Andere Dateien";
 "Other large folders" = "Andere große Ordner";
 "Package managers" = "Paketmanager";
+"Plan to free %@" = "Plan, um %@ freizumachen";
 "Project build folders" = "Build-Ordner von Projekten";
 "Project deleted" = "Projekt gelöscht";
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Löschbar ist das, was macOS schätzungsweise zurückgeben könnte, wenn es müsste: Caches und lokale Snapshots. Das ist eine Schätzung, kein Speicherplatz, auf den du dich verlassen kannst — er verändert sich von selbst, und das Schreiben einer Datei verbraucht ihn nicht. Die Objekte unten sind die, die du tatsächlich freigeben kannst.";
@@ -163,6 +172,7 @@
 "Select every item that is regenerated automatically" = "Wähle jedes Objekt aus, das automatisch neu erzeugt wird";
 "Select safe" = "Sichere auswählen";
 "Select the build folders of projects whose own files nobody has changed in this long. Each is recreated by its build or install command." = "Wählt die Build-Ordner von Projekten, deren eigene Dateien so lange niemand geändert hat. Jeder entsteht durch seinen Build- oder Installationsbefehl neu.";
+"Selects the least worrying items that add up to this much. Nothing is deleted until you confirm." = "Wählt die unbedenklichsten Einträge aus, die zusammen so viel ergeben. Gelöscht wird erst nach Ihrer Bestätigung.";
 "Settings" = "Einstellungen";
 "Shared & other users" = "Geteilt & andere Benutzer";
 "Show all" = "Alle anzeigen";
@@ -186,6 +196,7 @@
 "System Data holds %@ that is safe to free." = "Systemdaten enthält %@, das sicher freigegeben werden kann.";
 "System Data size" = "Größe der Systemdaten";
 "Temporary files" = "Temporäre Dateien";
+"That is %@ short of %@." = "Das sind %1$@ weniger als %2$@.";
 "The app could not be replaced: %@" = "Die App konnte nicht ersetzt werden: %@";
 "The download did not finish. Nothing was installed." = "Der Download wurde nicht abgeschlossen. Es wurde nichts installiert.";
 "The download does not come from GitHub. Nothing was installed." = "Der Download stammt nicht von GitHub. Es wurde nichts installiert.";

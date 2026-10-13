@@ -21,6 +21,8 @@ struct DiskOverview: View {
     let allSafeSelected: Bool
     let canSelectSafe: Bool
     let onSelectSafe: () -> Void
+    /// Asked for from the "Free up…" menu: how much space is wanted.
+    var onPlan: (Int64) -> Void = { _ in }
     /// What the last delete gave back, shown for a few seconds as a small
     /// celebration over the headline number. Nil the rest of the time.
     var justFreed: Int64?
@@ -34,6 +36,9 @@ struct DiskOverview: View {
     private enum Slice { case safe, review, manual, other, free }
 
     private static let otherColor = Color.gray.opacity(0.45)
+
+    /// What people actually need room for: an update, a project, a recording.
+    private static let planTargets: [Int64] = [5, 10, 20, 50, 100].map { $0 * 1_000_000_000 }
 
     private var other: Int64 {
         max(capacity - free - safe - review - manual, 0)
@@ -64,11 +69,24 @@ struct DiskOverview: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer(minLength: 8)
-                Button(allSafeSelected ? L("Deselect safe") : L("Select safe"), action: onSelectSafe)
-                    .buttonStyle(.borderedProminent)
-                    .tint(.green)
-                    .disabled(!canSelectSafe)
-                    .help(L("Select every item that is regenerated automatically"))
+                VStack(alignment: .trailing, spacing: 6) {
+                    Button(allSafeSelected ? L("Deselect safe") : L("Select safe"), action: onSelectSafe)
+                        .buttonStyle(.borderedProminent)
+                        .tint(.green)
+                        .disabled(!canSelectSafe)
+                        .help(L("Select every item that is regenerated automatically"))
+                    Menu {
+                        ForEach(Self.planTargets, id: \.self) { bytes in
+                            Button(L("Free up %@", bytes.byteString)) { onPlan(bytes) }
+                        }
+                    } label: {
+                        Label(L("Free up…"), systemImage: "target")
+                    }
+                    .menuStyle(.borderlessButton)
+                    .controlSize(.small)
+                    .fixedSize()
+                    .help(L("Selects the least worrying items that add up to this much. Nothing is deleted until you confirm."))
+                }
             }
 
             bar

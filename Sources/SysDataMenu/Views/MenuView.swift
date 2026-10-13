@@ -526,6 +526,10 @@ struct MenuView: View {
                 overview
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
+                if let plan = model.activeSpacePlan {
+                    spacePlanCard(plan)
+                        .padding(.horizontal, 16)
+                }
                 Picker(L("Group by"), selection: $listsByProject) {
                     Text(L("By category")).tag(false)
                     Text(L("By project")).tag(true)
@@ -561,9 +565,38 @@ struct MenuView: View {
             allSafeSelected: model.everyListedSafeItemIsSelected,
             canSelectSafe: !model.isScanning && model.safeBytes > 0,
             onSelectSafe: { model.selectAllSafe() },
+            onPlan: { model.planSpace(freeing: $0) },
             justFreed: freedFlash
         )
         .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.85), value: model.safeBytes)
+    }
+
+    /// What "Free up…" chose, in words: how much, how many, and how much of it
+    /// needs a look. The batch itself is the selection in the list below.
+    private func spacePlanCard(_ plan: SpacePlan) -> some View {
+        let reaches = plan.reachesTarget
+        let detail: String = if plan.items.isEmpty {
+            L("Nothing here can be freed by this app.")
+        } else if !reaches {
+            L("That is %@ short of %@.", plan.shortfall.byteString, plan.target.byteString)
+                + " " + L("Only the safe items are selected; the rest is yours to choose.")
+        } else if plan.reviewCount == 0 {
+            L("All of it is safe: it rebuilds on its own.")
+        } else {
+            L("%lld of them need a look first, longest untouched first.", plan.reviewCount)
+        }
+        return NoticeCard(
+            symbol: "target", tint: reaches ? .green : .orange,
+            title: reaches
+                ? L("Plan to free %@", plan.target.byteString)
+                : L("Everything this app can free is %@", plan.available.byteString),
+            message: plan.items.isEmpty
+                ? detail
+                : L("%lld items · %@", plan.items.count, plan.totalBytes.byteString) + "\n" + detail
+        ) {
+            Button(L("Clear")) { model.clearSelection() }
+                .controlSize(.small)
+        }
     }
 
     private var pulseText: String {

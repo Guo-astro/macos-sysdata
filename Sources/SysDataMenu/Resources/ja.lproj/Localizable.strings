@@ -14,9 +14,11 @@
 "%lld idle %lld+ days: %@" = "%lld 件が %lld 日以上未使用: %@";
 "%lld items need root; the password is asked once." = "%lld 項目に管理者権限が必要です。パスワードは一度だけ求められます。";
 "%lld items need root; the password may be asked more than once." = "%lld 項目に管理者権限が必要です。パスワードが複数回求められることがあります。";
+"%lld items · %@" = "%1$lld 件 · %2$@";
 "%lld marked Review go to the Trash: %@" = "「確認」の %lld 項目はゴミ箱へ移動します：%@";
 "%lld months idle" = "%lld か月未使用";
 "%lld not on screen" = "%lld 件は画面外";
+"%lld of them need a look first, longest untouched first." = "そのうち %lld 件は先に確認が必要です。最も長く触れていないものから並べています。";
 "%lld projects · %@" = "%lld プロジェクト · %@";
 "%lld years idle" = "%lld 年未使用";
 "1 item needs root." = "1 項目に管理者権限が必要です。";
@@ -25,6 +27,7 @@
 "1 year idle" = "1 年未使用";
 "AI models and tools" = "AI モデルとツール";
 "After a second scan this shows what grew, and whether anything you deleted came back." = "2 回目以降のスキャンで、何が増えたか、削除したものが戻っていないかを表示します。";
+"All of it is safe: it rebuilds on its own." = "すべて安全です。自動で再生成されます。";
 "Android" = "Android";
 "App data & caches" = "Appのデータとキャッシュ";
 "Archive" = "アーカイブ";
@@ -78,6 +81,7 @@
 "Don't show this item again" = "この項目を今後表示しない";
 "Download" = "ダウンロード";
 "Empty folder" = "空のフォルダ";
+"Everything this app can free is %@" = "このアプリで解放できるのはすべてで %@ です";
 "Expand %@" = "%@ を展開";
 "Expand all" = "すべて展開";
 "Filter" = "フィルタ";
@@ -87,6 +91,8 @@
 "Free and open source" = "無料・オープンソース";
 "Free space" = "空き容量";
 "Free space on the startup disk." = "起動ディスクの空き容量。";
+"Free up %@" = "%@ を確保";
+"Free up…" = "空き容量を確保…";
 "Freed %@" = "%@ を解放";
 "Freed %@ automatically" = "%@ を自動的に解放しました";
 "Frees about %@. " = "約 %@ を解放します。 ";
@@ -127,6 +133,7 @@
 "No project build output found" = "プロジェクトのビルド出力は見つかりません";
 "No single item stands out. Many small ones grew together." = "目立つ項目はありません。小さな項目が多数まとめて増えました。";
 "Nobody has changed this project's own files in %lld days." = "このプロジェクト自体のファイルは %lld 日間誰も変更していません。";
+"Nothing here can be freed by this app." = "このアプリで解放できるものはありません。";
 "Nothing to compare yet" = "まだ比較できるものがありません";
 "Nothing to reclaim" = "解放できるものがありません";
 "Notify about unusual growth" = "異常な増加を通知";
@@ -134,6 +141,7 @@
 "Once a week, delete the items marked Safe — the caches that regenerate — and notify you what was freed. Never anything that needs review or a password." = "週に一度、「安全」と記された項目（再生成されるキャッシュ）を削除し、解放した容量を通知します。確認やパスワードが必要なものには一切触れません。";
 "Once a week, if System Data has grown, a notification says by how much and what grew most. Nothing leaves your Mac." = "週に一度、システムデータが増えていれば、どれだけ、何が最も増えたかを通知でお知らせします。データが Mac の外に出ることはありません。";
 "One grant covers everything. Until then this scan leaves the protected places alone — app containers, Desktop, Documents, Music, Photos — rather than asking about them one app at a time, so what you see below is incomplete. Add System Data Unpacked in the settings pane, then reopen the app." = "1 回の許可ですべてに対応できます。それまでこのスキャンは保護された場所——Appコンテナ、デスクトップ、書類、ミュージック、写真——には触れず、Appごとに個別に確認を求めることもしません。そのため下に表示される内容は不完全です。設定パネルで「System Data Unpacked」を追加してから、Appを開き直してください。";
+"Only the safe items are selected; the rest is yours to choose." = "安全な項目だけを選択しました。残りはご自身で選んでください。";
 "Open Settings" = "設定を開く";
 "Open Unpacked to see what grew." = "何が増えたかを確認するには Unpacked を開いてください。";
 "Open Unpacked to see what is taking up room." = "何が容量を使っているかを見るには、Unpacked を開いてください。";
@@ -144,6 +152,7 @@
 "Other files" = "その他のファイル";
 "Other large folders" = "その他の大きいフォルダ";
 "Package managers" = "パッケージマネージャ";
+"Plan to free %@" = "%@ を確保するプラン";
 "Project build folders" = "プロジェクトのビルドフォルダ";
 "Project deleted" = "プロジェクト削除済み";
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "パージ可能とは、必要になればmacOSが解放できると見積もっている容量です——キャッシュやローカルスナップショットなど。これは見積もりであり、当てにできる空き容量ではありません。ひとりでに変動し、ファイルを書き込んでも消費されません。下の項目こそ、実際に解放できるものです。";
@@ -163,6 +172,7 @@
 "Select every item that is regenerated automatically" = "自動的に再生成される項目をすべて選択";
 "Select safe" = "安全な項目を選択";
 "Select the build folders of projects whose own files nobody has changed in this long. Each is recreated by its build or install command." = "この期間、誰もファイルを変更していないプロジェクトのビルドフォルダを選択します。どれもビルドまたはインストールのコマンドで作り直せます。";
+"Selects the least worrying items that add up to this much. Nothing is deleted until you confirm." = "合計がこの容量になる、最も心配の少ない項目を選びます。確認するまで何も削除されません。";
 "Settings" = "設定";
 "Shared & other users" = "共有と他のユーザ";
 "Show all" = "すべて表示";
@@ -186,6 +196,7 @@
 "System Data holds %@ that is safe to free." = "システムデータには安全に解放できる %@ があります。";
 "System Data size" = "システムデータのサイズ";
 "Temporary files" = "一時ファイル";
+"That is %@ short of %@." = "目標の %2$@ に対して %1$@ 足りません。";
 "The app could not be replaced: %@" = "Appを置き換えられませんでした：%@";
 "The download did not finish. Nothing was installed." = "ダウンロードが完了しませんでした。何もインストールされていません。";
 "The download does not come from GitHub. Nothing was installed." = "ダウンロード元が GitHub ではありません。何もインストールされていません。";

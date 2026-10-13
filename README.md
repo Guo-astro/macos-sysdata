@@ -177,6 +177,15 @@ prompt, which is why it asks each time and shows you the command first.
   under the line, the window offers to free the safe items in one press.
 - **Weekly summary.** Optional. Once a week, if System Data has grown by more
   than 2 GB, a notification says by how much and what grew most.
+- **Free up…** "I need 20 GB" instead of reading two hundred rows. The menu
+  under **Select safe** takes an amount (5, 10, 20, 50 or 100 GB) and
+  selects the least worrying set of items that adds up to it: everything
+  marked Safe first, largest first, then only as much of Review as is
+  needed, longest untouched first. The Trash comes last. It selects, it
+  does not delete: the batch goes through the same confirmation as any
+  other, with every command shown, and it ends the moment you change the
+  selection. When the amount is out of reach it says how far short
+  everything falls and selects only the Safe items.
 - **Projects on external drives.** Off until switched on in the settings
   menu. The Projects view then also looks in the `Developer`, `Projects`,
   `Projeler`, `Code` and `dev` folders at the top of plugged-in drives.

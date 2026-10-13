@@ -14,9 +14,11 @@
 "%lld idle %lld+ days: %@" = "%lld без изменений %lld+ дн.: %@";
 "%lld items need root; the password is asked once." = "Для %lld объектов нужны права root; пароль будет запрошен один раз.";
 "%lld items need root; the password may be asked more than once." = "Для %lld объектов нужны права root; пароль может быть запрошен несколько раз.";
+"%lld items · %@" = "%1$lld элем. · %2$@";
 "%lld marked Review go to the Trash: %@" = "%lld объектов с пометкой «Проверить» будут перемещены в Корзину: %@";
 "%lld months idle" = "%lld мес. без использования";
 "%lld not on screen" = "%lld вне экрана";
+"%lld of them need a look first, longest untouched first." = "%lld из них стоит сначала проверить, начиная с самых давно нетронутых.";
 "%lld projects · %@" = "Проектов: %lld · %@";
 "%lld years idle" = "%lld г. без использования";
 "1 item needs root." = "Для 1 объекта нужны права root.";
@@ -25,6 +27,7 @@
 "1 year idle" = "1 год без использования";
 "AI models and tools" = "Модели и инструменты ИИ";
 "After a second scan this shows what grew, and whether anything you deleted came back." = "После повторного сканирования здесь будет видно, что выросло и не вернулось ли что-то из удалённого.";
+"All of it is safe: it rebuilds on its own." = "Всё безопасно: восстановится само.";
 "Android" = "Android";
 "App data & caches" = "Данные и кэши приложений";
 "Archive" = "Архивировать";
@@ -78,6 +81,7 @@
 "Don't show this item again" = "Больше не показывать этот элемент";
 "Download" = "Загрузить";
 "Empty folder" = "Пустая папка";
+"Everything this app can free is %@" = "Всё, что может освободить это приложение, — %@";
 "Expand %@" = "Развернуть %@";
 "Expand all" = "Развернуть все";
 "Filter" = "Фильтр";
@@ -87,6 +91,8 @@
 "Free and open source" = "Бесплатно и с открытым кодом";
 "Free space" = "Свободное место";
 "Free space on the startup disk." = "Свободное место на загрузочном диске.";
+"Free up %@" = "Освободить %@";
+"Free up…" = "Освободить место…";
 "Freed %@" = "Освобождено %@";
 "Freed %@ automatically" = "Автоматически освобождено %@";
 "Frees about %@. " = "Освобождает около %@. ";
@@ -127,6 +133,7 @@
 "No project build output found" = "Результаты сборки проектов не найдены";
 "No single item stands out. Many small ones grew together." = "Ничего одного выдающегося нет. Выросло много мелких элементов.";
 "Nobody has changed this project's own files in %lld days." = "Файлы этого проекта никто не менял %lld дн.";
+"Nothing here can be freed by this app." = "Это приложение здесь ничего освободить не может.";
 "Nothing to compare yet" = "Пока нечего сравнивать";
 "Nothing to reclaim" = "Нечего освобождать";
 "Notify about unusual growth" = "Уведомлять о необычном росте";
@@ -134,6 +141,7 @@
 "Once a week, delete the items marked Safe — the caches that regenerate — and notify you what was freed. Never anything that needs review or a password." = "Раз в неделю удалять элементы с пометкой «Безопасно» — кеши, которые восстанавливаются заново, — и уведомлять о том, сколько места было освобождено. Никогда ничего, что требует проверки или пароля.";
 "Once a week, if System Data has grown, a notification says by how much and what grew most. Nothing leaves your Mac." = "Раз в неделю, если объём «Данных системы» увеличился, приходит уведомление о том, насколько и что выросло больше всего. Ничего не покидает ваш Mac.";
 "One grant covers everything. Until then this scan leaves the protected places alone — app containers, Desktop, Documents, Music, Photos — rather than asking about them one app at a time, so what you see below is incomplete. Add System Data Unpacked in the settings pane, then reopen the app." = "Одного разрешения достаточно для всего. До этого момента сканирование не затрагивает защищённые места — контейнеры приложений, Рабочий стол, Документы, Музыку, Фото, — вместо того чтобы запрашивать доступ для каждого приложения по отдельности, поэтому список ниже неполон. Добавьте «System Data Unpacked» в настройках, затем откройте приложение заново.";
+"Only the safe items are selected; the rest is yours to choose." = "Выбраны только безопасные элементы; остальное выбираете вы.";
 "Open Settings" = "Открыть настройки";
 "Open Unpacked to see what grew." = "Откройте Unpacked, чтобы увидеть, что выросло.";
 "Open Unpacked to see what is taking up room." = "Откройте Unpacked, чтобы увидеть, что занимает место.";
@@ -144,6 +152,7 @@
 "Other files" = "Другие файлы";
 "Other large folders" = "Другие крупные папки";
 "Package managers" = "Менеджеры пакетов";
+"Plan to free %@" = "План освобождения %@";
 "Project build folders" = "Папки сборки проектов";
 "Project deleted" = "Проект удалён";
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Вытесняемые данные — это то, что, по оценке macOS, можно освободить при необходимости: кэши и локальные снимки. Это лишь оценка, а не место, на которое можно рассчитывать, — оно меняется само по себе, и запись файла его не расходует. Ниже перечислены объекты, которые можно освободить на самом деле.";
@@ -163,6 +172,7 @@
 "Select every item that is regenerated automatically" = "Выбрать все объекты, которые создаются автоматически заново";
 "Select safe" = "Выбрать безопасные";
 "Select the build folders of projects whose own files nobody has changed in this long. Each is recreated by its build or install command." = "Выбирает папки сборки проектов, файлы которых никто не менял всё это время. Каждая пересоздаётся командой сборки или установки.";
+"Selects the least worrying items that add up to this much. Nothing is deleted until you confirm." = "Выбирает самые безопасные элементы, которые в сумме дают столько места. Ничего не удаляется без вашего подтверждения.";
 "Settings" = "Настройки";
 "Shared & other users" = "Общие данные и другие пользователи";
 "Show all" = "Показать все";
@@ -186,6 +196,7 @@
 "System Data holds %@ that is safe to free." = "«Данные системы» содержат %@, которые можно безопасно освободить.";
 "System Data size" = "Размер «Данных системы»";
 "Temporary files" = "Временные файлы";
+"That is %@ short of %@." = "Не хватает %1$@ до %2$@.";
 "The app could not be replaced: %@" = "Не удалось заменить приложение: %@";
 "The download did not finish. Nothing was installed." = "Загрузка не завершилась. Ничего не установлено.";
 "The download does not come from GitHub. Nothing was installed." = "Загрузка получена не с GitHub. Ничего не установлено.";
