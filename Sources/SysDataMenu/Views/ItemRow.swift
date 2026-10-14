@@ -69,13 +69,12 @@ struct ItemRow: View {
 
     private var details: some View {
         VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 6) {
-                Text(item.name)
-                    .lineLimit(1)
-                safetyBadge
-                if isIdleProject, let idle = item.idleLabel {
-                    idleBadge(idle)
-                }
+            // The name comes first. When the row is narrow the chip gives up
+            // its word and keeps its symbol, rather than the name being cut
+            // to "Erase iPhone 18 Pr…".
+            ViewThatFits(in: .horizontal) {
+                titleLine(compactBadge: false)
+                titleLine(compactBadge: true)
             }
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 if !isIdleProject, let idle = item.idleLabel {
@@ -97,6 +96,20 @@ struct ItemRow: View {
         }
     }
 
+    private func titleLine(compactBadge: Bool) -> some View {
+        HStack(spacing: 6) {
+            if compactBadge {
+                Text(item.name).lineLimit(1)
+            } else {
+                Text(item.name).lineLimit(1).fixedSize()
+            }
+            safetyBadge(compact: compactBadge)
+            if isIdleProject, let idle = item.idleLabel {
+                idleBadge(idle)
+            }
+        }
+    }
+
     private var sizeColumn: some View {
         VStack(alignment: .trailing, spacing: 1) {
             Text(item.sizeBytes?.byteString ?? "—")
@@ -112,9 +125,11 @@ struct ItemRow: View {
                     .foregroundStyle(change > 0 ? Color.orange : Color.secondary)
             }
             if trend.count >= 3, trend.min() != trend.max() {
+                // Coloured by direction, like the overview's line: growth is
+                // the news, so it is the one that is warm.
                 Sparkline(values: trend)
                     .frame(width: 46, height: 12)
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle((trend.last ?? 0) > (trend.first ?? 0) ? Color.orange.opacity(0.8) : Color.green.opacity(0.8))
                     .accessibilityLabel(L("Size trend over recent scans"))
             }
         }
@@ -207,14 +222,31 @@ struct ItemRow: View {
 
     // MARK: Badge
 
-    private var safetyBadge: some View {
-        Text(item.safety.label)
-            .font(.caption2.weight(.medium))
-            .padding(.horizontal, 5)
-            .padding(.vertical, 1)
-            .background(badgeColor.opacity(0.18), in: Capsule())
-            .foregroundStyle(badgeColor)
-            .accessibilityLabel(L("Safety: %@", item.safety.label))
+    /// The safety as a chip with its own symbol, so it reads by shape as
+    /// well as by colour: a shield for Safe, an eye for Review, a hand for
+    /// Manual.
+    private func safetyBadge(compact: Bool) -> some View {
+        HStack(spacing: 3) {
+            Image(systemName: badgeSymbol)
+                .font(.system(size: 8, weight: .bold))
+            if !compact { Text(item.safety.label) }
+        }
+        .font(.caption2.weight(.semibold))
+        .padding(.horizontal, 6)
+        .padding(.vertical, 1.5)
+        .background(badgeColor.opacity(0.16), in: Capsule())
+        .overlay { Capsule().strokeBorder(badgeColor.opacity(0.25), lineWidth: 0.5) }
+        .foregroundStyle(badgeColor)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(L("Safety: %@", item.safety.label))
+    }
+
+    private var badgeSymbol: String {
+        switch item.safety {
+        case .safe: "checkmark.shield.fill"
+        case .review: "eye.fill"
+        case .manual: "hand.raised.fill"
+        }
     }
 
     /// One of the rows the header's "Idle 60 days" link selects. The link

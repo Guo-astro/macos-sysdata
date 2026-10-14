@@ -101,6 +101,7 @@
 "Free up…" = "腾出空间…";
 "Freed %@" = "已释放 %@";
 "Freed %@ automatically" = "已自动清理 %@";
+"Freed, by day" = "按天释放";
 "Frees about %@. " = "可释放约 %@ 的空间。 ";
 "Grant Full Disk Access once" = "只需授予一次完全磁盘访问权限";
 "Grew most" = "空间增长最多";
@@ -158,6 +159,7 @@
 "Other" = "其他";
 "Other files" = "其他文件";
 "Other large folders" = "其他大型文件夹";
+"Over time" = "随时间变化";
 "Package managers" = "软件包管理器";
 "Plan to free %@" = "腾出 %@ 的方案";
 "Project build folders" = "项目构建文件夹";

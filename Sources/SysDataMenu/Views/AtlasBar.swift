@@ -18,21 +18,31 @@ struct AtlasBar: View {
         GeometryReader { geometry in
             let total = safe + review + manual
             let length = geometry.size.width * CGFloat(total) / CGFloat(max(scale, 1))
-            HStack(spacing: 0) {
-                segment(safe, of: total, length: length, color: .green)
-                segment(review, of: total, length: length, color: .orange)
-                segment(manual, of: total, length: length, color: .secondary)
+            ZStack(alignment: .leading) {
+                // The track is the largest category, so every bar is read
+                // against the same full length.
+                Capsule().fill(.quaternary.opacity(0.35))
+                HStack(spacing: 0) {
+                    segment(safe, of: total, length: length, color: .green)
+                    segment(review, of: total, length: length, color: .orange)
+                    segment(manual, of: total, length: length, color: .secondary)
+                }
+                .frame(width: length, alignment: .leading)
+                .clipShape(Capsule())
+                .overlay(alignment: .top) {
+                    // A highlight along the top edge, so the bar has the same
+                    // light from above as the icons.
+                    Capsule().fill(.white.opacity(0.22)).frame(width: length, height: 1.5).padding(.top, 0.5)
+                }
             }
-            .frame(width: length, alignment: .leading)
-            .clipShape(Capsule())
         }
-        .frame(height: 4)
+        .frame(height: 6)
         .accessibilityElement()
         .accessibilityLabel(L("%@ safe · %@ to review · %@ manual",
                               safe.byteString, review.byteString, manual.byteString))
     }
 
     private func segment(_ bytes: Int64, of total: Int64, length: CGFloat, color: Color) -> some View {
-        color.frame(width: total > 0 ? length * CGFloat(bytes) / CGFloat(total) : 0)
+        Rectangle().fill(color.gradient).frame(width: total > 0 ? length * CGFloat(bytes) / CGFloat(total) : 0)
     }
 }

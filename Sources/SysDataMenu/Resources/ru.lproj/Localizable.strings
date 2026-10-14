@@ -101,6 +101,7 @@
 "Free up…" = "Освободить место…";
 "Freed %@" = "Освобождено %@";
 "Freed %@ automatically" = "Автоматически освобождено %@";
+"Freed, by day" = "Освобождено по дням";
 "Frees about %@. " = "Освобождает около %@. ";
 "Grant Full Disk Access once" = "Предоставьте полный доступ к диску один раз";
 "Grew most" = "Выросло больше всего";
@@ -158,6 +159,7 @@
 "Other" = "Другое";
 "Other files" = "Другие файлы";
 "Other large folders" = "Другие крупные папки";
+"Over time" = "Со временем";
 "Package managers" = "Менеджеры пакетов";
 "Plan to free %@" = "План освобождения %@";
 "Project build folders" = "Папки сборки проектов";

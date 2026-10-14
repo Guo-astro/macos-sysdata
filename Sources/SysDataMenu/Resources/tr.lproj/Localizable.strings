@@ -101,6 +101,7 @@
 "Free up…" = "Yer aç…";
 "Freed %@" = "%@ boşaltıldı";
 "Freed %@ automatically" = "%@ otomatik boşaltıldı";
+"Freed, by day" = "Günlere göre boşaltılan";
 "Frees about %@. " = "Yaklaşık %@ boşaltır. ";
 "Grant Full Disk Access once" = "Tam Disk Erişimi'ni bir kez verin";
 "Grew most" = "En çok büyüyen";
@@ -158,6 +159,7 @@
 "Other" = "Diğer";
 "Other files" = "Diğer dosyalar";
 "Other large folders" = "Diğer büyük klasörler";
+"Over time" = "Zaman içinde";
 "Package managers" = "Paket yöneticileri";
 "Plan to free %@" = "%@ yer açma planı";
 "Project build folders" = "Proje derleme klasörleri";

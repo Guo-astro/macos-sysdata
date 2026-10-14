@@ -101,6 +101,7 @@
 "Free up…" = "공간 확보…";
 "Freed %@" = "%@ 확보";
 "Freed %@ automatically" = "%@ 자동으로 확보했습니다";
+"Freed, by day" = "일별 확보량";
 "Frees about %@. " = "약 %@ 확보됩니다. ";
 "Grant Full Disk Access once" = "전체 디스크 접근 권한을 한 번 허용";
 "Grew most" = "가장 많이 늘어남";
@@ -158,6 +159,7 @@
 "Other" = "기타";
 "Other files" = "기타 파일";
 "Other large folders" = "기타 큰 폴더";
+"Over time" = "시간 흐름";
 "Package managers" = "패키지 관리자";
 "Plan to free %@" = "%@ 확보 계획";
 "Project build folders" = "프로젝트 빌드 폴더";

@@ -20,6 +20,7 @@ struct MenuView: View {
     /// What the last delete gave back, kept on screen for a few seconds.
     @State private var freedFlash: Int64?
     @State private var hoveredCategory: StorageCategory?
+    @State private var hoveredProject: String?
     @State private var showsHistory = false
     @State private var warnsAboutLowSpace = LowSpaceAlert.isEnabled
     @State private var lowSpaceThreshold = LowSpaceAlert.threshold
@@ -410,34 +411,27 @@ struct MenuView: View {
     }
 
     private var headerTitleRow: some View {
-        HStack(alignment: .firstTextBaseline) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+        HStack(alignment: .center, spacing: 10) {
+            Image(nsImage: NSApplication.shared.applicationIconImage)
+                .resizable()
+                .interpolation(.high)
+                .frame(width: 30, height: 30)
+                .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 0) {
                 Text(L("System Data"))
                     .font(titleFont)
                 if !model.visibleItems.isEmpty {
                     Text(model.measuredBytes.byteString)
-                        .font(titleFont)
+                        .font(.caption.weight(.medium))
                         .foregroundStyle(.secondary)
                         .monospacedDigit()
+                        .contentTransition(.numericText(value: Double(model.measuredBytes)))
                 }
             }
             Spacer()
-            if model.isScanning {
-                // Determinate while the probes run: the first scan on a full
-                // disk is slow enough that a spinner alone cannot be told
-                // apart from a hang.
-                if model.probesTotal > 0, model.probesFinished < model.probesTotal {
-                    ProgressView(value: Double(model.probesFinished), total: Double(model.probesTotal))
-                        .progressViewStyle(.circular)
-                        .controlSize(.small)
-                        .accessibilityLabel(L("Scanning"))
-                } else {
-                    ProgressView()
-                        .controlSize(.small)
-                        .accessibilityLabel(L("Scanning"))
-                }
-            } else {
-                if !model.visibleItems.isEmpty {
+            HStack(spacing: 2) {
+                if !model.isScanning, !model.visibleItems.isEmpty {
                     // Icon-only: spelling out "Size"/"Idle longest" here cost
                     // enough width to push the title onto two lines.
                     Menu {
@@ -457,8 +451,8 @@ struct MenuView: View {
                     }
                     .menuStyle(.borderlessButton)
                     .menuIndicator(.hidden)
-                    .controlSize(.small)
                     .fixedSize()
+                    .frame(width: 28, height: 28)
                     .help(L("Order rows by size, or by how long they have sat untouched"))
 
                     Button {
@@ -478,22 +472,24 @@ struct MenuView: View {
                         )
                         .labelStyle(.iconOnly)
                     }
-                    // Borderless, like the sort control beside it: two icons in
-                    // a row should not look like two different kinds of thing.
-                    .buttonStyle(.borderless)
-                    .controlSize(.small)
+                    // Round, like every icon in the header: a row of icons
+                    // should not look like different kinds of thing.
+                    .buttonStyle(RoundIconButtonStyle())
                     .accessibilityLabel(
                         model.areAllListedCategoriesCollapsed ? L("Expand all") : L("Collapse all")
                     )
                     .help(model.areAllListedCategoriesCollapsed ? L("Expand all") : L("Collapse all"))
-
                 }
-                Button {
+                // Determinate while the probes run: the first scan on a full
+                // disk is slow enough that a spinner alone cannot be told
+                // apart from a hang. The ring around the button is that count.
+                ScanButton(
+                    isScanning: model.isScanning,
+                    progress: model.probesTotal > 0 && model.probesFinished < model.probesTotal
+                        ? Double(model.probesFinished) / Double(model.probesTotal) : nil
+                ) {
                     Task { await model.scan() }
-                } label: {
-                    Label(L("Rescan"), systemImage: "arrow.clockwise")
                 }
-                .controlSize(.small)
                 settingsMenu
             }
         }
@@ -530,9 +526,13 @@ struct MenuView: View {
                     .accessibilityLabel(L("Clear"))
                 }
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 5)
-            .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 6))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(.quaternary.opacity(0.4), in: Capsule())
+            .overlay {
+                Capsule().strokeBorder(Color.accentColor.opacity(filterIsFocused ? 0.6 : 0), lineWidth: 1.5)
+            }
+            .animation(reduceMotion ? nil : .easeOut(duration: 0.15), value: filterIsFocused)
             .padding(.horizontal, presentation == .window ? 18 : 14)
             .padding(.bottom, 8)
         }
@@ -607,15 +607,9 @@ struct MenuView: View {
                     spacePlanCard(plan)
                         .padding(.horizontal, 16)
                 }
-                Picker(L("Group by"), selection: $listsByProject) {
-                    Text(L("By category")).tag(false)
-                    Text(L("By project")).tag(true)
-                }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .controlSize(.small)
-                .padding(.horizontal, 16)
-                .padding(.top, 4)
+                ModeSwitch(byProject: $listsByProject)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 4)
                 if listsByProject {
                     projectList
                 } else {
@@ -702,26 +696,32 @@ struct MenuView: View {
         let groups = model.categories
         let scale = groups.map(\.total).max() ?? 0
         return ScrollView {
-            LazyVStack(alignment: .leading, spacing: 0) {
+            LazyVStack(alignment: .leading, spacing: 8) {
                 ForEach(groups, id: \.category) { group in
-                    categoryHeader(group.category, total: group.total, items: group.items)
-                        .padding(.top, 6)
-                    atlasRow(group.category, items: group.items, scale: scale, growth: growth[group.category])
-                        .padding(.top, 3)
-                        .padding(.bottom, 6)
-                    // The separators a List drew on its own.
-                    Divider()
-                    if !model.collapsedCategories.contains(group.category) {
-                        ForEach(group.items) { item in
-                            itemRow(item)
-                                .padding(.vertical, 4)
-                            Divider()
+                    let isOpen = !model.collapsedCategories.contains(group.category)
+                    // One card per group: the header, its bar and, when it is
+                    // open, its rows, so a group reads as one thing.
+                    VStack(alignment: .leading, spacing: 0) {
+                        categoryHeader(group.category, total: group.total, items: group.items)
+                        atlasRow(group.category, items: group.items, scale: scale, growth: growth[group.category])
+                            .padding(.top, 5)
+                            .padding(.bottom, isOpen ? 8 : 0)
+                        if isOpen {
+                            ForEach(group.items) { item in
+                                Divider().opacity(0.6)
+                                itemRow(item)
+                                    .padding(.vertical, 4)
+                            }
+                            .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .top)))
                         }
                     }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 10)
+                    .listCard(raised: hoveredCategory == group.category)
+                    .onHover { hoveredCategory = $0 ? group.category : (hoveredCategory == group.category ? nil : hoveredCategory) }
                 }
             }
-            // The insets the inset List style used to add.
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 12)
             .padding(.vertical, 8)
         }
     }
@@ -746,7 +746,7 @@ struct MenuView: View {
             .frame(maxWidth: .infinity)
         } else {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0) {
+                LazyVStack(alignment: .leading, spacing: 8) {
                     projectSummary(projects)
                         .padding(.top, 6)
                         .padding(.bottom, 2)
@@ -755,7 +755,10 @@ struct MenuView: View {
                             project: project,
                             isBusy: project.items.contains { model.busyItemIDs.contains($0.id) }
                         ) { archive(project) }
-                        Divider()
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 4)
+                        .listCard(raised: hoveredProject == project.id)
+                        .onHover { hoveredProject = $0 ? project.id : (hoveredProject == project.id ? nil : hoveredProject) }
                     }
                 }
                 .padding(.horizontal, 16)
@@ -866,6 +869,8 @@ struct MenuView: View {
                 }
             } label: {
                 Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
                     .rotationEffect(.degrees(model.collapsedCategories.contains(category) ? 0 : 90))
                     .frame(width: 10)
             }
@@ -906,20 +911,11 @@ struct MenuView: View {
             // is still the truth about what was measured.
             let isUnmeasurable = items.allSatisfy { $0.sizeBytes == nil }
             Text(isUnmeasurable ? "—" : total.byteString)
+                .fontWeight(.semibold)
                 .monospacedDigit()
                 .foregroundStyle(isUnmeasurable ? .secondary : .primary)
+                .contentTransition(.numericText(value: Double(total)))
         }
-        .padding(.vertical, 3)
-        .padding(.horizontal, 6)
-        .background(
-            hoveredCategory == category ? Color.primary.opacity(0.07) : .clear,
-            in: RoundedRectangle(cornerRadius: 9, style: .continuous)
-        )
-        // The highlight reaches past the row's edges without moving what is
-        // in it, so the bar below still lines up with the title and the total.
-        .padding(.horizontal, -6)
-        .onHover { hoveredCategory = $0 ? category : (hoveredCategory == category ? nil : hoveredCategory) }
-        .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: hoveredCategory)
     }
 
     private var rangeSelectableItems: [StorageItem] {
@@ -1090,12 +1086,13 @@ struct MenuView: View {
             Label(L("Settings"), systemImage: "gearshape")
                 .labelStyle(.iconOnly)
         }
-        // Bordered, like Rescan beside it. As a borderless ellipsis it was the
-        // quietest thing in the header, and everything the app can be told to
-        // do is behind it.
+        // On a disc, the one filled icon in the header: everything the app
+        // can be told to do is behind it.
+        .menuStyle(.borderlessButton)
         .menuIndicator(.hidden)
-        .controlSize(.small)
         .fixedSize()
+        .frame(width: 28, height: 28)
+        .background(Circle().fill(.quaternary.opacity(0.45)))
         .help(L("History and settings"))
     }
 
@@ -1148,10 +1145,12 @@ struct MenuView: View {
                     Button(role: .destructive) {
                         confirmsBatch = true
                     } label: {
-                        Text(L("Delete %lld selected · %@", model.selectedItems.count, model.selectedBytes.byteString))
+                        Label(L("Delete %lld selected · %@", model.selectedItems.count, model.selectedBytes.byteString),
+                              systemImage: "trash.fill")
                             .monospacedDigit()
                     }
                     .buttonStyle(.borderedProminent)
+                    .buttonBorderShape(.capsule)
                     .tint(.red)
                     .controlSize(.small)
                     .disabled(!model.busyItemIDs.isEmpty)

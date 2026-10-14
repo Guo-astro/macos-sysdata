@@ -53,29 +53,31 @@ extension StorageCategory {
     }
 }
 
-/// The category's symbol on a small tile with depth: lit from above, a
-/// sheen across the top half, an edge that catches the light and a soft
-/// shadow in its own colour, so the list reads like a shelf of objects rather
-/// than a column of flat squares. Pointed at, it lifts and tilts towards the
-/// pointer; under Reduce Motion it stays still.
-struct CategoryIcon: View {
-    let category: StorageCategory
+/// A symbol on a small tile with depth: lit from above, a sheen across the
+/// top half, an edge that catches the light and a soft shadow in its own
+/// colour, so icons read as objects rather than flat squares. Pointed at, it
+/// lifts and tilts towards the pointer; under Reduce Motion it stays still.
+/// Shared by the category list, the notices and the empty states, so every
+/// icon in the window is made the same way.
+struct DepthTile: View {
+    let symbol: String
+    let tint: Color
     var size: CGFloat = 24
-    /// Lifted, because the row it heads is being pointed at.
+    /// Lifted, because whatever it heads is being pointed at.
     var isRaised = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: size * 0.3, style: .continuous)
-        Image(systemName: category.symbol)
+        Image(systemName: symbol)
             .font(.system(size: size * 0.5, weight: .semibold))
             .symbolRenderingMode(.hierarchical)
             .foregroundStyle(.white)
             .shadow(color: .black.opacity(0.28), radius: 0.6, y: 0.8)
             .frame(width: size, height: size)
             .background {
-                shape.fill(category.tint)
+                shape.fill(tint)
                 // Lit from above: lighter at the top, deeper at the bottom.
                 shape.fill(LinearGradient(
                     colors: [.white.opacity(0.30), .clear, .black.opacity(0.22)],
@@ -92,7 +94,7 @@ struct CategoryIcon: View {
                     startPoint: .top, endPoint: .bottom
                 ), lineWidth: 0.75)
             }
-            .shadow(color: category.tint.opacity(0.45), radius: isRaised ? 5 : 2, y: isRaised ? 3 : 1.5)
+            .shadow(color: tint.opacity(0.45), radius: isRaised ? 5 : 2, y: isRaised ? 3 : 1.5)
             .rotation3DEffect(
                 .degrees(isRaised && !reduceMotion ? 14 : 0),
                 axis: (x: 1, y: -0.7, z: 0), perspective: 0.5
@@ -100,5 +102,16 @@ struct CategoryIcon: View {
             .scaleEffect(isRaised && !reduceMotion ? 1.08 : 1)
             .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: isRaised)
             .accessibilityHidden(true)
+    }
+}
+
+/// The category's symbol, as a lit tile in the category's colour.
+struct CategoryIcon: View {
+    let category: StorageCategory
+    var size: CGFloat = 24
+    var isRaised = false
+
+    var body: some View {
+        DepthTile(symbol: category.symbol, tint: category.tint, size: size, isRaised: isRaised)
     }
 }

@@ -101,6 +101,7 @@
 "Free up…" = "Libérer de l'espace…";
 "Freed %@" = "%@ libérés";
 "Freed %@ automatically" = "%@ libérés automatiquement";
+"Freed, by day" = "Libéré, par jour";
 "Frees about %@. " = "Libère environ %@. ";
 "Grant Full Disk Access once" = "Accordez l'accès complet au disque une fois";
 "Grew most" = "A le plus grossi";
@@ -158,6 +159,7 @@
 "Other" = "Autres";
 "Other files" = "Autres fichiers";
 "Other large folders" = "Autres dossiers volumineux";
+"Over time" = "Au fil du temps";
 "Package managers" = "Gestionnaires de paquets";
 "Plan to free %@" = "Plan pour libérer %@";
 "Project build folders" = "Dossiers de build de projets";

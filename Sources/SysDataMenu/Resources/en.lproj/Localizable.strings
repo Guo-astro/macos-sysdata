@@ -101,6 +101,7 @@
 "Free up…" = "Free up…";
 "Freed %@" = "Freed %@";
 "Freed %@ automatically" = "Freed %@ automatically";
+"Freed, by day" = "Freed, by day";
 "Frees about %@. " = "Frees about %@. ";
 "Grant Full Disk Access once" = "Grant Full Disk Access once";
 "Grew most" = "Grew most";
@@ -158,6 +159,7 @@
 "Other" = "Other";
 "Other files" = "Other files";
 "Other large folders" = "Other large folders";
+"Over time" = "Over time";
 "Package managers" = "Package managers";
 "Plan to free %@" = "Plan to free %@";
 "Project build folders" = "Project build folders";

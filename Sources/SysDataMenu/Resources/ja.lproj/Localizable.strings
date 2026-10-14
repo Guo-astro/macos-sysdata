@@ -101,6 +101,7 @@
 "Free up…" = "空き容量を確保…";
 "Freed %@" = "%@ を解放";
 "Freed %@ automatically" = "%@ を自動的に解放しました";
+"Freed, by day" = "日ごとの解放量";
 "Frees about %@. " = "約 %@ を解放します。 ";
 "Grant Full Disk Access once" = "フルディスクアクセスを一度許可";
 "Grew most" = "増加が最大";
@@ -158,6 +159,7 @@
 "Other" = "その他";
 "Other files" = "その他のファイル";
 "Other large folders" = "その他の大きいフォルダ";
+"Over time" = "推移";
 "Package managers" = "パッケージマネージャ";
 "Plan to free %@" = "%@ を確保するプラン";
 "Project build folders" = "プロジェクトのビルドフォルダ";
