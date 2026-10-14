@@ -143,48 +143,44 @@
   .parts b { font-weight: 600; }
   .note { color: var(--soft); font-size: 14px; margin: 16px 0 0; }
 
-  /* Install: one primary action, the GitHub stars beside it as a familiar
-     split button, and Homebrew under them for the people who prefer it. */
-  .install { display: grid; gap: 14px; margin: 36px 0 0; max-width: 620px; }
-  .install-row { display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn, .star-btn { height: 48px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; }
+  /* Install: one bar the width of the storage card above it. Download is
+     the primary action; Homebrew sits beside it as the equal alternative. */
+  .install { margin: 28px 0 0; }
+  .install-row {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--sheet); border: 1px solid var(--rule); border-radius: 18px; padding: 8px;
+  }
   .btn {
-    display: inline-flex; align-items: center; gap: 9px; padding: 0 22px;
+    display: inline-flex; align-items: center; gap: 9px; flex: none; height: 50px; padding: 0 24px;
+    border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none;
     background: var(--ink); color: var(--paper);
-    box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 8px 20px -10px rgba(10,14,20,.6);
-    transition: transform .15s ease, box-shadow .15s ease;
+    transition: transform .15s ease;
   }
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 12px 24px -10px rgba(10,14,20,.7); }
-  .star-btn {
-    display: inline-flex; align-items: stretch; overflow: hidden;
-    background: var(--sheet); border: 1px solid var(--rule); color: var(--ink);
-  }
-  .star-btn > span { display: inline-flex; align-items: center; padding: 0 15px; }
-  .star-label { gap: 8px; }
-  .star-label svg { color: #e3a33a; }
-  .star-count { border-left: 1px solid var(--rule); color: var(--soft); font-variant-numeric: tabular-nums; }
-  .star-btn:hover { border-color: var(--soft); }
-  .star-btn:hover .star-count { color: var(--ink); }
-  .fine { color: var(--soft); font-size: 15px; margin: 0; }
-  .brew { display: grid; gap: 7px; margin-top: 10px; }
-  .brew-label { color: var(--soft); font-size: 14px; }
-  .cmd {
-    display: flex; align-items: center; gap: 8px; min-width: 0;
-    background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 5px 5px 5px 16px;
-  }
-  .cmd code { flex: 1; min-width: 0; font: 15px ui-monospace, "SF Mono", Menlo, monospace; overflow-wrap: anywhere; }
+  .btn:hover { transform: translateY(-1px); }
+  .or { color: var(--soft); font-size: 14px; }
+  .cmd { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; height: 50px; padding: 0 6px 0 4px; }
+  .cmd code { flex: 1; min-width: 0; font: 15px ui-monospace, "SF Mono", Menlo, monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .cmd .prompt { color: var(--mystery); margin-right: 10px; user-select: none; }
   .cmd button {
     display: inline-flex; align-items: center; gap: 6px; flex: none;
-    border: 0; background: transparent; color: var(--soft); font: inherit; font-size: 14px;
-    padding: 8px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font: inherit; font-size: 14px;
+    height: 36px; padding: 0 12px; border-radius: 9px; cursor: pointer;
   }
-  .cmd button:hover { background: var(--free); color: var(--ink); }
+  .cmd button:hover { border-color: var(--soft); }
   .cmd button.done { color: var(--safe); }
+  .install-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; margin-top: 12px; padding: 0 8px; }
+  .fine { color: var(--soft); font-size: 14px; margin: 0; }
+  .stars { display: inline-flex; align-items: center; gap: 6px; color: var(--soft); font-size: 14px; text-decoration: none; }
+  .stars svg { color: #e3a33a; }
+  .stars:hover { color: var(--ink); }
+  .stars #star-count { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
   a:focus:not(:focus-visible) { outline: none; }
-  @media (max-width: 520px) {
-    .install-row > a { flex: 1 1 100%; justify-content: center; }
-    .star-label { flex: 1; justify-content: center; }
+  @media (max-width: 720px) {
+    .install-row { flex-direction: column; align-items: stretch; gap: 6px; }
+    .btn { justify-content: center; }
+    .or { display: none; }
+    .cmd { height: auto; padding: 6px 4px 4px 10px; }
+    .cmd code { font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
   }
 
   /* Sections */
@@ -306,18 +302,15 @@
       <div class="install">
         <div class="install-row">
           <a class="btn" href="https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>Download for Mac</a>
-          <a class="star-btn" href="https://github.com/Jarvis322/macos-sysdata" aria-label="Star on GitHub">
-            <span class="star-label"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>Star on GitHub</span>
-            <span id="star-count" class="star-count">920+</span>
-          </a>
-        </div>
-        <p class="fine">Free and open source. Signed and notarized by Apple. macOS 14 or later.</p>
-        <div class="brew">
-          <span class="brew-label">Or install with Homebrew</span>
+          <span class="or" aria-hidden="true">or</span>
           <div class="cmd">
-            <code id="brew"><span class="prompt" aria-hidden="true">$</span>brew install --cask jarvis322/tap/sysdata</code>
-            <button type="button" data-copy="brew" aria-label="Copy the Homebrew command"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="5" y="5" width="8.5" height="8.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 3.2A1.7 1.7 0 0 0 9 2.5H4.2A1.7 1.7 0 0 0 2.5 4.2V9A1.7 1.7 0 0 0 3.2 10.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Copy</span></button>
-          </div>
+          <code id="brew"><span class="prompt" aria-hidden="true">$</span>brew install --cask jarvis322/tap/sysdata</code>
+          <button type="button" data-copy="brew" aria-label="Copy the Homebrew command"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="5" y="5" width="8.5" height="8.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 3.2A1.7 1.7 0 0 0 9 2.5H4.2A1.7 1.7 0 0 0 2.5 4.2V9A1.7 1.7 0 0 0 3.2 10.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span>Copy</span></button>
+        </div>
+        </div>
+        <div class="install-meta">
+          <p class="fine">Free and open source. Signed and notarized by Apple. macOS 14 or later.</p>
+          <a class="stars" href="https://github.com/Jarvis322/macos-sysdata/stargazers"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span><span id="star-count">920+</span> stars on GitHub</span></a>
         </div>
       </div>
     </div>
@@ -406,9 +399,7 @@
     <section class="closing" aria-labelledby="closing-title">
       <h2 id="closing-title">See your own number.</h2>
       <div class="install">
-        <div class="install-row">
           <a class="btn" href="https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 2v8.5M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg>Download for Mac</a>
-        </div>
       </div>
     </section>
   </main>
