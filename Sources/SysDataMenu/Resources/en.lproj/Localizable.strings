@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld not on screen";
 "%lld of them need a look first, longest untouched first." = "%lld of them need a look first, longest untouched first.";
 "%lld projects · %@" = "%lld projects · %@";
+"%lld safe" = "%lld safe";
+"%lld to review" = "%lld to review";
 "%lld years idle" = "%lld years idle";
 "1 item needs root." = "1 item needs root.";
 "1 month idle" = "1 month idle";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "Ask for Touch ID before deleting";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac.";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask.";
+"Asks for your password" = "Asks for your password";
 "Automatically free safe items" = "Automatically free safe items";
 "Back to the list" = "Back to the list";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first.";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "Delete everything inside %@";
 "Delete files older than %lld days in %@" = "Delete files older than %lld days in %@";
 "Delete local snapshots…" = "Delete local snapshots…";
+"Delete now" = "Delete now";
 "Delete the history file" = "Delete the history file";
 "Delete what this project's build recreates. Its source files are never touched." = "Delete what this project's build recreates. Its source files are never touched.";
 "Deleted" = "Deleted";
 "Deleted %@, back by %@" = "Deleted %@, back by %@";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room.";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now.";
+"Deleted for good. The space is free at once." = "Deleted for good. The space is free at once.";
 "Deselect" = "Deselect";
 "Deselect safe" = "Deselect safe";
 "Developer tool data" = "Developer tool data";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "Don't show this item again";
 "Download" = "Download";
 "Empty folder" = "Empty folder";
+"Empty the Trash…" = "Empty the Trash…";
 "Everything this app can free is %@" = "Everything this app can free is %@";
 "Expand %@" = "Expand %@";
 "Expand all" = "Expand all";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "Menu bar shows";
 "Mostly %@, up %@." = "Mostly %@, up %@.";
 "Move safe items to the Trash" = "Move safe items to the Trash";
+"Move to the Trash" = "Move to the Trash";
 "Moved to the Trash. Empty the Trash to free the space." = "Moved to the Trash. Empty the Trash to free the space.";
 "My Mac keeps" = "My Mac keeps";
 "New: %@ now" = "New: %@ now";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free.";
 "Quit" = "Quit";
 "Reclaimed this session: %@" = "Reclaimed this session: %@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "Recoverable from the Trash until you empty it. Frees nothing yet.";
 "Remember what changed" = "Remember what changed";
 "Rescan" = "Rescan";
 "Reveal %@ in Finder" = "Reveal %@ in Finder";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "Usually %@, now %@";
 "Version %@ is available." = "Version %@ is available.";
 "Virtual machines" = "Virtual machines";
+"Waiting for Touch ID…" = "Waiting for Touch ID…";
 "Warn below" = "Warn below";
 "Warn when free space runs low" = "Warn when free space runs low";
 "Weekly summary" = "Weekly summary";

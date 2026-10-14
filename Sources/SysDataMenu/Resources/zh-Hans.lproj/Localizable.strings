@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld 项未显示在当前界面中";
 "%lld of them need a look first, longest untouched first." = "其中 %lld 项需要先看一眼，最久未动的在前。";
 "%lld projects · %@" = "%lld 个项目 · %@";
+"%lld safe" = "%lld 项安全";
+"%lld to review" = "%lld 项待查看";
 "%lld years idle" = "%lld 年未变动";
 "1 item needs root." = "1 个项目需要 root 权限。";
 "1 month idle" = "1 个月未变动";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "删除前要求 Touch ID";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "每天向 GitHub 检查一次是否有新版本。这是此应用唯一的网络请求；保持关闭时，不会从你的 Mac 向外发送任何数据。";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "在此处确认的删除操作之前，会要求 Touch ID、Apple Watch 或 Mac 密码。每周自动清理和快捷指令无人值守运行，不会询问。";
+"Asks for your password" = "会要求输入密码";
 "Automatically free safe items" = "自动清理可安全清理的项目";
 "Back to the list" = "返回列表";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "已启动的模拟器会忽略退出请求，导致关机延迟 33 秒。此选项会先关闭模拟器。";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "删除%@中的所有内容";
 "Delete files older than %lld days in %@" = "删除 %2$@ 中超过 %1$lld 天的文件";
 "Delete local snapshots…" = "删除本地快照…";
+"Delete now" = "立即删除";
 "Delete the history file" = "删除历史记录文件";
 "Delete what this project's build recreates. Its source files are never touched." = "删除此项目构建会重新生成的内容。绝不会触及其源文件。";
 "Deleted" = "已删除";
 "Deleted %@, back by %@" = "于 %@ 删除，截至 %@ 已重新出现";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "已删除 %@，但磁盘可用空间只增加了 %@。其余部分被 macOS 记为可清除空间，需要时会自动释放。";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "已删除 %@，但磁盘可用空间只增加了 %@：其余部分仍被本地快照占用。删除 Time Machine 本地快照即可立即取回。";
+"Deleted for good. The space is free at once." = "永久删除，空间会立即释放。";
 "Deselect" = "取消选择";
 "Deselect safe" = "取消选择可安全清理的项目";
 "Developer tool data" = "开发者工具数据";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "不再显示此项目";
 "Download" = "下载";
 "Empty folder" = "空文件夹";
+"Empty the Trash…" = "清倒废纸篓…";
 "Everything this app can free is %@" = "此应用能释放的全部空间为 %@";
 "Expand %@" = "展开%@";
 "Expand all" = "全部展开";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "菜单栏显示";
 "Mostly %@, up %@." = "主要是 %1$@，增加了 %2$@。";
 "Move safe items to the Trash" = "将可安全清理的项目移到废纸篓";
+"Move to the Trash" = "移到废纸篓";
 "Moved to the Trash. Empty the Trash to free the space." = "已移到废纸篓。清倒废纸篓以释放空间。";
 "My Mac keeps" = "我的 Mac 存着";
 "New: %@ now" = "新增：现在 %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "可清除空间是 macOS 估计在必要时可释放的空间，包括缓存和本地快照。这只是估计值，不能当作确定可用的空间；它会自行变化，写入文件也不会直接消耗这部分空间。下方列出的项目才是你可以实际清理以释放空间的内容。";
 "Quit" = "退出";
 "Reclaimed this session: %@" = "本次已释放：%@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "清倒废纸篓之前可以恢复。暂时不会释放空间。";
 "Remember what changed" = "记录变化";
 "Rescan" = "重新扫描";
 "Reveal %@ in Finder" = "在“访达”中显示%@";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "通常 %@，现在 %@";
 "Version %@ is available." = "版本 %@ 现已可用。";
 "Virtual machines" = "虚拟机";
+"Waiting for Touch ID…" = "正在等待 Touch ID…";
 "Warn below" = "可用空间低于此值时提醒";
 "Warn when free space runs low" = "可用空间不足时提醒";
 "Weekly summary" = "每周摘要";

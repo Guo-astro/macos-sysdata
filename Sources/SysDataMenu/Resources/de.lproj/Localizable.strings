@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld nicht sichtbar";
 "%lld of them need a look first, longest untouched first." = "%lld davon sollten Sie sich zuerst ansehen, am längsten unberührte zuerst.";
 "%lld projects · %@" = "%lld Projekte · %@";
+"%lld safe" = "%lld unbedenklich";
+"%lld to review" = "%lld zu prüfen";
 "%lld years idle" = "%lld Jahre inaktiv";
 "1 item needs root." = "1 Objekt benötigt Root-Rechte.";
 "1 month idle" = "1 Monat inaktiv";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "Vor dem Löschen Touch ID verlangen";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Fragt einmal täglich bei GitHub nach, ob eine neuere Version verfügbar ist. Das ist die einzige Anfrage, die diese App stellt; lässt du das deaktiviert, verlässt nichts deinen Mac.";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Fragt vor einem hier bestätigten Löschen nach Touch ID, Ihrer Apple Watch oder dem Mac-Passwort. Die automatische Wochenreinigung und Kurzbefehle laufen ohne Anwesenheit und fragen nie.";
+"Asks for your password" = "Fragt nach Ihrem Passwort";
 "Automatically free safe items" = "Sichere Elemente automatisch freigeben";
 "Back to the list" = "Zurück zur Liste";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Gestartete Simulatoren ignorieren die Beenden-Anfrage und verzögern das Herunterfahren um 33 Sekunden. Dies fährt sie zuerst herunter.";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "Alles in %@ löschen";
 "Delete files older than %lld days in %@" = "Dateien löschen, die älter als %lld Tage sind, in %@";
 "Delete local snapshots…" = "Lokale Schnappschüsse löschen…";
+"Delete now" = "Sofort löschen";
 "Delete the history file" = "Verlaufsdatei löschen";
 "Delete what this project's build recreates. Its source files are never touched." = "Löscht, was der Build dieses Projekts neu erzeugt. Seine Quelldateien werden nie angerührt.";
 "Deleted" = "Gelöscht";
 "Deleted %@, back by %@" = "%@ gelöscht, %@ zurückgekommen";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "%@ gelöscht, aber auf dem Volume sind nur %@ mehr frei. Den Rest führt macOS als bereinigbaren Speicher und gibt ihn frei, sobald er gebraucht wird.";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "%@ gelöscht, aber auf dem Volume sind nur %@ mehr frei: Den Rest halten lokale Schnappschüsse. Lösche die lokalen Time-Machine-Schnappschüsse, um ihn sofort zurückzubekommen.";
+"Deleted for good. The space is free at once." = "Endgültig gelöscht. Der Platz ist sofort frei.";
 "Deselect" = "Abwählen";
 "Deselect safe" = "Sichere abwählen";
 "Developer tool data" = "Daten von Entwicklertools";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "Dieses Objekt nicht mehr anzeigen";
 "Download" = "Herunterladen";
 "Empty folder" = "Leerer Ordner";
+"Empty the Trash…" = "Papierkorb leeren…";
 "Everything this app can free is %@" = "Alles, was diese App freigeben kann, sind %@";
 "Expand %@" = "%@ ausklappen";
 "Expand all" = "Alle ausklappen";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "Menüleiste zeigt";
 "Mostly %@, up %@." = "Hauptsächlich %@, %@ mehr.";
 "Move safe items to the Trash" = "Sichere Elemente in den Papierkorb verschieben";
+"Move to the Trash" = "In den Papierkorb legen";
 "Moved to the Trash. Empty the Trash to free the space." = "In den Papierkorb verschoben. Leere den Papierkorb, um den Speicherplatz freizugeben.";
 "My Mac keeps" = "Mein Mac hortet";
 "New: %@ now" = "Neu: jetzt %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Löschbar ist das, was macOS schätzungsweise zurückgeben könnte, wenn es müsste: Caches und lokale Snapshots. Das ist eine Schätzung, kein Speicherplatz, auf den du dich verlassen kannst — er verändert sich von selbst, und das Schreiben einer Datei verbraucht ihn nicht. Die Objekte unten sind die, die du tatsächlich freigeben kannst.";
 "Quit" = "Beenden";
 "Reclaimed this session: %@" = "In dieser Sitzung freigegeben: %@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "Bis zum Leeren des Papierkorbs wiederherstellbar. Gibt noch nichts frei.";
 "Remember what changed" = "Änderungen merken";
 "Rescan" = "Erneut scannen";
 "Reveal %@ in Finder" = "%@ im Finder anzeigen";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "Üblich %@, jetzt %@";
 "Version %@ is available." = "Version %@ ist verfügbar.";
 "Virtual machines" = "Virtuelle Maschinen";
+"Waiting for Touch ID…" = "Warten auf Touch ID…";
 "Warn below" = "Warnen unter";
 "Warn when free space runs low" = "Warnen, wenn der freie Speicherplatz knapp wird";
 "Weekly summary" = "Wöchentliche Zusammenfassung";

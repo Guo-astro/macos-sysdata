@@ -192,6 +192,69 @@ struct MenuView: View {
 
     // MARK: Confirmation
 
+    private var pendingBytes: Int64 {
+        pendingItems.reduce(0) { $0 + ($1.sizeBytes ?? 0) }
+    }
+
+    private var hasReviewItems: Bool {
+        pendingItems.contains { $0.safety == .review && !$0.action.isManual }
+    }
+
+    private var confirmationTitle: String {
+        if let item = pendingDeletion { return L("Delete %@?", item.name) }
+        if let project = archivingProject { return L("Archive %@?", project) }
+        return L("Delete %lld items?", model.selectedItems.count)
+    }
+
+    /// What is in the batch, at a glance: how many are safe, how many need a
+    /// look, and whether a password is going to be asked for.
+    private var confirmationChips: some View {
+        let safe = pendingItems.filter { $0.safety == .safe }.count
+        let review = pendingItems.filter { $0.safety == .review }.count
+        return HStack(spacing: 6) {
+            if safe > 0 { chip(L("%lld safe", safe), tint: .green) }
+            if review > 0 { chip(L("%lld to review", review), tint: .orange) }
+            if needsAdministrator {
+                chip(L("Asks for your password"), tint: .secondary, symbol: "lock.fill")
+            }
+        }
+    }
+
+    private func chip(_ text: String, tint: Color, symbol: String? = nil) -> some View {
+        HStack(spacing: 3) {
+            if let symbol { Image(systemName: symbol).font(.system(size: 9, weight: .semibold)) }
+            Text(text)
+        }
+        .font(.caption2.weight(.medium))
+        .foregroundStyle(tint)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 2)
+        .background(tint.opacity(0.14), in: Capsule())
+    }
+
+    /// Where Review items go, said before the click rather than in a notice
+    /// after it. The Trash is the undo and frees nothing until it is emptied;
+    /// the other choice is the opposite, and both are one tap away.
+    private var destinationChoice: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Picker("", selection: Binding(
+                get: { model.deletesReviewItemsImmediately },
+                set: { model.deletesReviewItemsImmediately = $0 }
+            )) {
+                Text(L("Move to the Trash")).tag(false)
+                Text(L("Delete now")).tag(true)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            Text(model.deletesReviewItemsImmediately
+                 ? L("Deleted for good. The space is free at once.")
+                 : L("Recoverable from the Trash until you empty it. Frees nothing yet."))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
     /// Runs what the bar is asking about, after the Mac's own check when the
     /// person has asked for one. A cancelled check leaves the bar open, so
     /// nothing is lost by trying again or pressing Cancel.
@@ -221,21 +284,26 @@ struct MenuView: View {
     /// Inline rather than a sheet: the menu bar panel is not a regular window,
     /// so sheets and confirmation dialogs never appear on it.
     private var confirmationBar: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let item = pendingDeletion {
-                Text(L("Delete %@?", item.name))
-                    .font(.subheadline.weight(.semibold))
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(confirmationTitle)
+                        .font(.subheadline.weight(.semibold))
+                    confirmationChips
+                }
+                Spacer(minLength: 8)
+                Text(pendingBytes.byteString)
+                    .font(.title3.weight(.semibold))
+                    .monospacedDigit()
+            }
+            if let item = pendingDeletion, item.safety != .review {
                 Text(confirmationMessage(for: item))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-            } else {
-                Text(archivingProject.map { L("Archive %@?", $0) } ?? L("Delete %lld items?", model.selectedItems.count))
-                    .font(.subheadline.weight(.semibold))
-                Text(batchMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if hasReviewItems {
+                destinationChoice
             }
             if !plannedOperations.isEmpty {
                 DisclosureGroup(isExpanded: $showsPlan) {
@@ -290,9 +358,18 @@ struct MenuView: View {
                 Button(role: .destructive) {
                     confirmDeletion()
                 } label: {
-                    Text(pendingDeletion != nil ? L("Delete")
-                         : archivingProject != nil ? L("Archive")
-                         : L("Delete %lld items", model.selectedItems.count))
+                    if isAuthenticating {
+                        // The button used to go grey with no reason given,
+                        // which looked like the app had stopped.
+                        HStack(spacing: 6) {
+                            ProgressView().controlSize(.small)
+                            Text(L("Waiting for Touch ID…"))
+                        }
+                    } else {
+                        Text(pendingDeletion != nil ? L("Delete")
+                             : archivingProject != nil ? L("Archive")
+                             : L("Delete %lld items", model.selectedItems.count))
+                    }
                 }
                 .keyboardShortcut(.defaultAction)
                 .tint(.red)
@@ -1035,6 +1112,16 @@ struct MenuView: View {
                     model.notice = nil
                     model.offersSnapshotCleanup = false
                 }
+                if model.noticeOffersEmptyingTheTrash, let trash = model.trashItem {
+                    // Same confirmation as any other row: it forgets files for
+                    // good, so the commands are shown and it is asked once.
+                    Button(L("Empty the Trash…")) {
+                        model.notice = nil
+                        pendingDeletion = trash
+                    }
+                    .controlSize(.small)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 if model.offersSnapshotCleanup, let snapshots = model.snapshotItem {
                     // Through the same confirmation as any other row, command
                     // shown: the notice explains, the person still decides.
@@ -1048,7 +1135,7 @@ struct MenuView: View {
                 }
             }
             HStack {
-                if model.selectedItems.isEmpty {
+                if model.selectedItems.isEmpty || pendingDeletion != nil || confirmsBatch {
                     Label(L("Reclaimed this session: %@", model.reclaimedBytes.byteString),
                           systemImage: model.reclaimedBytes > 0 ? "sparkles" : "circle.dashed")
                         .font(.caption)

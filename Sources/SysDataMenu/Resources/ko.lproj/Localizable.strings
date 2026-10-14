@@ -20,6 +20,8 @@
 "%lld not on screen" = "화면에 없는 항목 %lld개";
 "%lld of them need a look first, longest untouched first." = "그중 %lld개는 먼저 확인이 필요합니다. 가장 오래 손대지 않은 것부터입니다.";
 "%lld projects · %@" = "프로젝트 %lld개 · %@";
+"%lld safe" = "안전 %lld개";
+"%lld to review" = "검토 %lld개";
 "%lld years idle" = "%lld년간 미사용";
 "1 item needs root." = "1개 항목에 관리자 권한이 필요합니다.";
 "1 month idle" = "1개월간 미사용";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "삭제 전에 Touch ID 요구";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "하루에 한 번 GitHub에 새 버전이 있는지 확인합니다. 이것이 이 앱이 보내는 유일한 요청이며, 꺼두면 Mac에서 아무것도 전송되지 않습니다.";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "여기서 확인한 삭제 전에 Touch ID, Apple Watch 또는 Mac 암호를 요구합니다. 주간 자동 정리와 단축어는 자리에 없어도 실행되며 묻지 않습니다.";
+"Asks for your password" = "암호를 요구함";
 "Automatically free safe items" = "안전 항목 자동으로 비우기";
 "Back to the list" = "목록으로 돌아가기";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "부팅된 시뮬레이터는 종료 요청을 무시하고 33초 동안 종료를 지연시킵니다. 이 기능은 먼저 시뮬레이터를 종료합니다.";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "%@ 안의 모든 항목 삭제";
 "Delete files older than %lld days in %@" = "%2$@ 안에서 %1$lld일이 지난 파일 삭제";
 "Delete local snapshots…" = "로컬 스냅샷 삭제…";
+"Delete now" = "바로 삭제";
 "Delete the history file" = "기록 파일 삭제";
 "Delete what this project's build recreates. Its source files are never touched." = "이 프로젝트의 빌드가 다시 만드는 항목을 삭제합니다. 소스 파일은 절대 건드리지 않습니다.";
 "Deleted" = "삭제됨";
 "Deleted %@, back by %@" = "%@ 삭제됨, %@ 후 다시 생김";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "%@을(를) 삭제했지만 디스크 여유 공간은 %@만 늘었습니다. 나머지는 macOS가 제거 가능한 공간으로 잡아 두었다가 공간이 필요할 때 돌려줍니다.";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "%@을(를) 삭제했지만 디스크 여유 공간은 %@만 늘었습니다. 나머지는 로컬 스냅샷이 잡고 있습니다. Time Machine 로컬 스냅샷을 삭제하면 지금 바로 돌려받습니다.";
+"Deleted for good. The space is free at once." = "영구적으로 삭제됩니다. 공간이 바로 확보됩니다.";
 "Deselect" = "선택 해제";
 "Deselect safe" = "안전 항목 선택 해제";
 "Developer tool data" = "개발자 도구 데이터";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "이 항목 다시 표시 안 함";
 "Download" = "다운로드";
 "Empty folder" = "빈 폴더";
+"Empty the Trash…" = "휴지통 비우기…";
 "Everything this app can free is %@" = "이 앱이 확보할 수 있는 전부는 %@입니다";
 "Expand %@" = "%@ 펼치기";
 "Expand all" = "모두 펼치기";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "메뉴 막대에 표시";
 "Mostly %@, up %@." = "대부분 %@, %@ 증가.";
 "Move safe items to the Trash" = "안전 항목을 휴지통으로 이동";
+"Move to the Trash" = "휴지통으로 이동";
 "Moved to the Trash. Empty the Trash to free the space." = "휴지통으로 이동했습니다. 공간을 확보하려면 휴지통을 비우세요.";
 "My Mac keeps" = "내 Mac이 쌓아 둔";
 "New: %@ now" = "새 항목: 지금 %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "제거 가능 공간은 macOS가 필요할 때 돌려줄 수 있다고 추정하는 캐시와 로컬 스냅샷의 용량입니다. 이는 추정치일 뿐 확실히 믿을 수 있는 공간이 아니며, 저절로 변동하고 파일을 저장한다고 해서 줄어들지도 않습니다. 아래 항목이 실제로 확보할 수 있는 공간입니다.";
 "Quit" = "종료";
 "Reclaimed this session: %@" = "이번 세션에서 확보한 공간: %@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "휴지통을 비우기 전까지 복구할 수 있습니다. 아직 공간은 확보되지 않습니다.";
 "Remember what changed" = "변경 사항 기억하기";
 "Rescan" = "다시 검사";
 "Reveal %@ in Finder" = "Finder에서 %@ 보기";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "보통 %@, 지금 %@";
 "Version %@ is available." = "버전 %@을(를) 사용할 수 있습니다.";
 "Virtual machines" = "가상 머신";
+"Waiting for Touch ID…" = "Touch ID 대기 중…";
 "Warn below" = "다음 이하일 때 경고";
 "Warn when free space runs low" = "여유 공간이 부족할 때 경고";
 "Weekly summary" = "주간 요약";

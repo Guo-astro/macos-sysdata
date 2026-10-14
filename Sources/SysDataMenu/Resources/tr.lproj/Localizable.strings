@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld tanesi ekranda değil";
 "%lld of them need a look first, longest untouched first." = "%lld tanesine önce bakmak gerek, en uzun süredir dokunulmayan önce.";
 "%lld projects · %@" = "%lld proje · %@";
+"%lld safe" = "%lld güvenli";
+"%lld to review" = "%lld incelenecek";
 "%lld years idle" = "%lld yıldır boşta";
 "1 item needs root." = "1 kalem yönetici yetkisi istiyor.";
 "1 month idle" = "1 aydır boşta";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "Silmeden önce Touch ID iste";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Günde bir kez GitHub'a yeni sürüm olup olmadığını sorar. Uygulamanın yaptığı tek istek budur; kapalı bırakırsanız Mac'inizden hiçbir şey çıkmaz.";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Burada onayladığın bir silme işleminden önce Touch ID, Apple Watch'un veya Mac parolan istenir. Haftalık otomatik temizlik ve Kısayollar sen yokken çalışır, hiç sormaz.";
+"Asks for your password" = "Parolanı ister";
 "Automatically free safe items" = "Güvenli öğeleri otomatik boşalt";
 "Back to the list" = "Listeye dön";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Açık simülatörler çıkış isteğini yok sayar ve kapanışı 33 saniye bekletir. Bu seçenek önce onları kapatır.";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "%@ içindeki her şey silinir";
 "Delete files older than %lld days in %@" = "%2$@ içinde %1$lld günden eski dosyalar silinir";
 "Delete local snapshots…" = "Yerel anlık görüntüleri sil…";
+"Delete now" = "Hemen sil";
 "Delete the history file" = "Geçmiş dosyasını sil";
 "Delete what this project's build recreates. Its source files are never touched." = "Bu projenin derlemesinin yeniden oluşturduğu her şeyi siler. Kaynak dosyalarına asla dokunulmaz.";
 "Deleted" = "Silinen";
 "Deleted %@, back by %@" = "%@ tarihinde silindi, %@ tarihinde geri geldi";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "%@ silindi, ama diskte yalnızca %@ daha boş yer var. Kalanını macOS temizlenebilir alan olarak tutuyor ve yere ihtiyaç olduğunda geri veriyor.";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "%@ silindi, ama diskte yalnızca %@ daha boş yer var: kalanı yerel anlık görüntüler tutuyor. Hemen geri almak için Time Machine yerel anlık görüntülerini sil.";
+"Deleted for good. The space is free at once." = "Kalıcı olarak silinir. Yer hemen açılır.";
 "Deselect" = "Seçimi kaldır";
 "Deselect safe" = "Güvenlileri bırak";
 "Developer tool data" = "Geliştirici araç verileri";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "Bu kalemi bir daha gösterme";
 "Download" = "İndir";
 "Empty folder" = "Boş klasör";
+"Empty the Trash…" = "Çöp Sepeti'ni boşalt…";
 "Everything this app can free is %@" = "Bu uygulamanın boşaltabileceği her şey %@";
 "Expand %@" = "%@ kategorisini genişlet";
 "Expand all" = "Tümünü genişlet";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "Menü çubuğunda göster";
 "Mostly %@, up %@." = "Çoğunlukla %1$@, %2$@ arttı.";
 "Move safe items to the Trash" = "Güvenli öğeleri Çöp Sepeti'ne taşı";
+"Move to the Trash" = "Çöp Sepeti'ne taşı";
 "Moved to the Trash. Empty the Trash to free the space." = "Çöp Sepeti'ne taşındı. Alanı boşaltmak için Çöp Sepeti'ni boşaltın.";
 "My Mac keeps" = "Mac’im şunu tutuyor";
 "New: %@ now" = "Yeni: şimdi %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Temizlenebilir alan, macOS'in gerekirse geri verebileceğini tahmin ettiği yerdir: önbellekler ve yerel anlık görüntüler. Bu bir tahmindir, güvenebileceğin bir alan değil — kendiliğinden değişir ve dosya yazmak onu harcamaz. Aşağıdaki öğeler gerçekten boşaltabileceklerin.";
 "Quit" = "Çık";
 "Reclaimed this session: %@" = "Bu oturumda kazanılan: %@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "Çöp Sepeti'ni boşaltana kadar geri alınabilir. Henüz yer açmaz.";
 "Remember what changed" = "Neyin değiştiğini hatırla";
 "Rescan" = "Yeniden tara";
 "Reveal %@ in Finder" = "%@ öğesini Finder'da göster";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "Normalde %@, şimdi %@";
 "Version %@ is available." = "%@ sürümü yayınlandı.";
 "Virtual machines" = "Sanal makineler";
+"Waiting for Touch ID…" = "Touch ID bekleniyor…";
 "Warn below" = "Şunun altında uyar";
 "Warn when free space runs low" = "Boş alan azalınca uyar";
 "Weekly summary" = "Haftalık özet";

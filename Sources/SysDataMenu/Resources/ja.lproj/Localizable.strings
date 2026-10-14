@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld 件は画面外";
 "%lld of them need a look first, longest untouched first." = "そのうち %lld 件は先に確認が必要です。最も長く触れていないものから並べています。";
 "%lld projects · %@" = "%lld プロジェクト · %@";
+"%lld safe" = "安全 %lld 件";
+"%lld to review" = "確認 %lld 件";
 "%lld years idle" = "%lld 年未使用";
 "1 item needs root." = "1 項目に管理者権限が必要です。";
 "1 month idle" = "1 か月未使用";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "削除前に Touch ID を要求";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "新しいバージョンがあるか、1 日に一度 GitHub に問い合わせます。このAppが行う唯一の通信です。オフにすれば、Macから何も送信されません。";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "ここで確認した削除の前に、Touch ID、Apple Watch、または Mac のパスワードを求めます。毎週の自動クリーンとショートカットは無人で実行され、確認は行いません。";
+"Asks for your password" = "パスワードを要求";
 "Automatically free safe items" = "安全な項目を自動的に削除";
 "Back to the list" = "リストに戻る";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "起動中のシミュレータは終了要求を無視し、シャットダウンを 33 秒間止めます。これは先にシミュレータを終了させます。";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "%@ の中身をすべて削除";
 "Delete files older than %lld days in %@" = "%2$@ 内の %1$lld 日より古いファイルを削除";
 "Delete local snapshots…" = "ローカルスナップショットを削除…";
+"Delete now" = "今すぐ削除";
 "Delete the history file" = "履歴ファイルを削除";
 "Delete what this project's build recreates. Its source files are never touched." = "このプロジェクトのビルドで再作成されるものを削除します。ソースファイルには一切触れません。";
 "Deleted" = "削除済み";
 "Deleted %@, back by %@" = "%@ に削除、%@ までに復活";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "%@ を削除しましたが、ディスクの空き容量は %@ しか増えていません。残りはmacOSがパージ可能な領域として保持し、必要になったときに解放します。";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "%@ を削除しましたが、ディスクの空き容量は %@ しか増えていません。残りはローカルスナップショットが保持しています。Time Machineのローカルスナップショットを削除すると今すぐ解放されます。";
+"Deleted for good. The space is free at once." = "完全に削除されます。容量はすぐに空きます。";
 "Deselect" = "選択を解除";
 "Deselect safe" = "安全な項目の選択を解除";
 "Developer tool data" = "開発ツールのデータ";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "この項目を今後表示しない";
 "Download" = "ダウンロード";
 "Empty folder" = "空のフォルダ";
+"Empty the Trash…" = "ゴミ箱を空にする…";
 "Everything this app can free is %@" = "このアプリで解放できるのはすべてで %@ です";
 "Expand %@" = "%@ を展開";
 "Expand all" = "すべて展開";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "メニューバーの表示";
 "Mostly %@, up %@." = "主に %1$@、%2$@ 増加しました。";
 "Move safe items to the Trash" = "安全な項目をゴミ箱に入れる";
+"Move to the Trash" = "ゴミ箱に入れる";
 "Moved to the Trash. Empty the Trash to free the space." = "ゴミ箱に移動しました。容量を解放するにはゴミ箱を空にしてください。";
 "My Mac keeps" = "私の Mac が抱えている";
 "New: %@ now" = "新規: 現在 %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "パージ可能とは、必要になればmacOSが解放できると見積もっている容量です——キャッシュやローカルスナップショットなど。これは見積もりであり、当てにできる空き容量ではありません。ひとりでに変動し、ファイルを書き込んでも消費されません。下の項目こそ、実際に解放できるものです。";
 "Quit" = "終了";
 "Reclaimed this session: %@" = "今回解放した容量：%@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "ゴミ箱を空にするまで復元できます。まだ容量は空きません。";
 "Remember what changed" = "変化を記録する";
 "Rescan" = "再スキャン";
 "Reveal %@ in Finder" = "%@ をFinderで表示";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "通常 %@、現在 %@";
 "Version %@ is available." = "バージョン %@ が利用可能です。";
 "Virtual machines" = "仮想マシン";
+"Waiting for Touch ID…" = "Touch ID を待っています…";
 "Warn below" = "この値を下回ったら警告";
 "Warn when free space runs low" = "空き容量が少なくなったら警告";
 "Weekly summary" = "毎週の概要";

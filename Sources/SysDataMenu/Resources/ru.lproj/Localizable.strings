@@ -20,6 +20,8 @@
 "%lld not on screen" = "%lld вне экрана";
 "%lld of them need a look first, longest untouched first." = "%lld из них стоит сначала проверить, начиная с самых давно нетронутых.";
 "%lld projects · %@" = "Проектов: %lld · %@";
+"%lld safe" = "Безопасных: %lld";
+"%lld to review" = "На проверку: %lld";
 "%lld years idle" = "%lld г. без использования";
 "1 item needs root." = "Для 1 объекта нужны права root.";
 "1 month idle" = "1 мес. без использования";
@@ -36,6 +38,7 @@
 "Ask for Touch ID before deleting" = "Запрашивать Touch ID перед удалением";
 "Asks GitHub once a day whether a newer version exists. It is the only request this app makes; leave it off and nothing leaves your Mac." = "Раз в день проверяет на GitHub наличие новой версии. Это единственный запрос, который делает приложение; отключите эту функцию — и ничего не будет отправляться с вашего Mac.";
 "Asks for Touch ID, your Apple Watch or your Mac password before a delete you confirm here. The automatic weekly clean and Shortcuts run unattended and never ask." = "Перед удалением, подтверждённым здесь, запрашивает Touch ID, Apple Watch или пароль Mac. Автоматическая еженедельная очистка и Быстрые команды работают без вас и ничего не спрашивают.";
+"Asks for your password" = "Запросит пароль";
 "Automatically free safe items" = "Автоматически освобождать безопасные элементы";
 "Back to the list" = "Назад к списку";
 "Booted simulators ignore the quit request and hold the shutdown for 33 seconds. This shuts them down first." = "Запущенные симуляторы игнорируют запрос на завершение и задерживают выключение на 33 секунды. Сначала это выключит их.";
@@ -67,12 +70,14 @@
 "Delete everything inside %@" = "Удалить всё содержимое %@";
 "Delete files older than %lld days in %@" = "Удалить файлы старше %lld дн. в %@";
 "Delete local snapshots…" = "Удалить локальные снимки…";
+"Delete now" = "Удалить сразу";
 "Delete the history file" = "Удалить файл истории";
 "Delete what this project's build recreates. Its source files are never touched." = "Удаляет то, что сборка этого проекта создаёт заново. Исходные файлы никогда не затрагиваются.";
 "Deleted" = "Удалено";
 "Deleted %@, back by %@" = "Удалено %@, вернулось %@";
 "Deleted %@, but the disk has only %@ more free. macOS is holding the rest as purgeable space and gives it back when something needs the room." = "Удалено %@, но на диске освободилось только %@. Остальное macOS держит как очищаемое пространство и вернёт, когда место понадобится.";
 "Deleted %@, but the disk has only %@ more free: local snapshots still hold the rest. Delete the Time Machine local snapshots to get it back now." = "Удалено %@, но на диске освободилось только %@: остальное удерживают локальные снимки. Удалите локальные снимки Time Machine, чтобы вернуть место сейчас.";
+"Deleted for good. The space is free at once." = "Удаляется навсегда. Место освобождается сразу.";
 "Deselect" = "Снять выделение";
 "Deselect safe" = "Снять выделение с безопасных";
 "Developer tool data" = "Данные инструментов разработчика";
@@ -81,6 +86,7 @@
 "Don't show this item again" = "Больше не показывать этот элемент";
 "Download" = "Загрузить";
 "Empty folder" = "Пустая папка";
+"Empty the Trash…" = "Очистить Корзину…";
 "Everything this app can free is %@" = "Всё, что может освободить это приложение, — %@";
 "Expand %@" = "Развернуть %@";
 "Expand all" = "Развернуть все";
@@ -126,6 +132,7 @@
 "Menu bar shows" = "В строке меню показывается";
 "Mostly %@, up %@." = "Главным образом %@, рост на %@.";
 "Move safe items to the Trash" = "Перемещать безопасные элементы в Корзину";
+"Move to the Trash" = "Переместить в Корзину";
 "Moved to the Trash. Empty the Trash to free the space." = "Перемещено в Корзину. Чтобы освободить место, очистите Корзину.";
 "My Mac keeps" = "Мой Mac хранит";
 "New: %@ now" = "Новое: сейчас %@";
@@ -158,6 +165,7 @@
 "Purgeable is what macOS estimates it could give back if it had to: caches and local snapshots. It is an estimate, not space you can count on — it moves on its own, and writing a file does not spend it. The items below are the ones you can actually free." = "Вытесняемые данные — это то, что, по оценке macOS, можно освободить при необходимости: кэши и локальные снимки. Это лишь оценка, а не место, на которое можно рассчитывать, — оно меняется само по себе, и запись файла его не расходует. Ниже перечислены объекты, которые можно освободить на самом деле.";
 "Quit" = "Завершить";
 "Reclaimed this session: %@" = "Освобождено за этот сеанс: %@";
+"Recoverable from the Trash until you empty it. Frees nothing yet." = "Можно восстановить из Корзины, пока вы её не очистите. Место пока не освобождается.";
 "Remember what changed" = "Запоминать изменения";
 "Rescan" = "Повторить сканирование";
 "Reveal %@ in Finder" = "Показать %@ в Finder";
@@ -216,6 +224,7 @@
 "Usually %@, now %@" = "Обычно %@, сейчас %@";
 "Version %@ is available." = "Доступна версия %@.";
 "Virtual machines" = "Виртуальные машины";
+"Waiting for Touch ID…" = "Ожидание Touch ID…";
 "Warn below" = "Предупреждать ниже";
 "Warn when free space runs low" = "Предупреждать, когда заканчивается свободное место";
 "Weekly summary" = "Еженедельная сводка";

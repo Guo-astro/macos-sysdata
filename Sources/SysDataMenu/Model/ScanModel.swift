@@ -102,6 +102,12 @@ final class ScanModel {
     /// The category a growth notification was about, set when it is opened.
     /// The history view reads it to say which items made that category grow.
     var growthFocus: StorageCategory?
+    /// Whether items marked Review are deleted outright instead of going to
+    /// the Trash first. Chosen in the confirmation, where it is shown next to
+    /// what it does, and remembered. Off by default: the Trash is the undo.
+    var deletesReviewItemsImmediately: Bool = UserDefaults.standard.bool(forKey: ScanModel.reviewImmediatelyKey) {
+        didSet { UserDefaults.standard.set(deletesReviewItemsImmediately, forKey: Self.reviewImmediatelyKey) }
+    }
     /// Also look for projects on plugged-in drives. Off by default.
     var scansExternalDrives: Bool = UserDefaults.standard.bool(forKey: ExternalVolumes.preferenceKey) {
         didSet { UserDefaults.standard.set(scansExternalDrives, forKey: ExternalVolumes.preferenceKey) }
@@ -134,6 +140,7 @@ final class ScanModel {
     static let menuBarIconKey = "showsMenuBarIcon"
     private static let safeToTrashKey = "movesSafeToTrash"
     private static let authenticationKey = "requiresAuthenticationToDelete"
+    private static let reviewImmediatelyKey = "deletesReviewItemsImmediately"
     private static let rescanInterval: Duration = .seconds(24 * 60 * 60)
 
     /// `scansAutomatically` is off for the headless modes, which drive the
@@ -663,6 +670,7 @@ final class ScanModel {
         }
         errorMessage = nil
         notice = nil
+        noticeOffersEmptyingTheTrash = false
         failures = []
         // What the disk says before any of it runs, to compare with what the
         // batch removed. They are not the same number as often as one would
@@ -742,6 +750,12 @@ final class ScanModel {
     /// The local snapshots row, when the last scan found any.
     var snapshotItem: StorageItem? { items.first { $0.id == "snapshots" } }
 
+    /// Set with the "moved to the Trash" notice, so the notice can offer the
+    /// one thing that finishes the job instead of only describing it.
+    private(set) var noticeOffersEmptyingTheTrash = false
+    /// The Trash row, when the scan found something in it.
+    var trashItem: StorageItem? { items.first { $0.category == .trash } }
+
     /// The wording, kept apart from the disk and the clock so it can be read
     /// back in a test.
     nonisolated static func shortfallNotice(askedToFree: Int64, gained: Int64, hasLocalSnapshots: Bool) -> String? {
@@ -783,7 +797,7 @@ final class ScanModel {
         // items regenerate anyway and are deleted outright — unless the person
         // has asked for the extra safety net, in which case they go to the
         // Trash too and free nothing until it is emptied.
-        let toTrash = affected.allSatisfy { $0.safety == .review }
+        let toTrash = (!deletesReviewItemsImmediately && affected.allSatisfy { $0.safety == .review })
             || (movesSafeToTrash && affected.allSatisfy { $0.safety == .safe })
         let before = DiskSize.freeSpace()
         do {
@@ -836,6 +850,7 @@ final class ScanModel {
         publishToWidget()
         if movedToTrash {
             anythingWentToTheTrash = true
+            noticeOffersEmptyingTheTrash = true
             notice = L("Moved to the Trash. Empty the Trash to free the space.")
         }
     }
