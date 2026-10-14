@@ -6,8 +6,8 @@
 <title>System Data Unpacked — see and clear macOS System Data</title>
 <meta name="description" content="A free Mac app that opens macOS System Data and lets you delete it, item by item, with every command shown first. Window or menu bar, your choice.">
 <link rel="canonical" href="https://macos-sysdata.yigitech.dev/">
-<meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#141413" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eceef1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131518" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="System Data Unpacked">
 <meta property="og:url" content="https://macos-sysdata.yigitech.dev/">
@@ -16,135 +16,376 @@
 <meta property="og:image" content="https://macos-sysdata.yigitech.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="System Data Unpacked listing macOS System Data categories largest first, with the size of each.">
+<meta property="og:image:alt" content="System Data Unpacked: the disk as a ring with the space safe to free in its middle, and the categories of System Data listed largest first.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@yigitech">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-  :root { --bg:#f7f6f3; --fg:#1c1b19; --muted:#6b6862; --line:#e4e1da; --card:#fff; --accent:#1f6feb; --safe:#1a7f37; }
+  /* The page is built around one object: the grey System Data bar from
+     macOS Storage settings, and what is inside it. Everything else stays
+     quiet so that bar can be the thing people remember. */
+  :root {
+    --paper: #eceef1;
+    --sheet: #f8f9fa;
+    --ink: #16181b;
+    --soft: #5d636b;
+    --rule: #d6d9de;
+    --mystery: #a3a8ae;     /* the grey macOS gives System Data */
+    --safe: #2a9d4b;
+    --review: #e08a2b;
+    --manual: #6f7782;
+    --apps: #3c7be0;
+    --docs: #8a63d2;
+    --free: #dfe2e6;
+    --link: #2563d4;
+    color-scheme: light dark;
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#141413; --fg:#ecebe7; --muted:#9a968e; --line:#2a2927; --card:#1c1b19; --accent:#5b9dff; --safe:#4ac26b; }
+    :root {
+      --paper: #131518;
+      --sheet: #1b1e22;
+      --ink: #e9ecef;
+      --soft: #9aa1a9;
+      --rule: #2b2f35;
+      --mystery: #6b7178;
+      --safe: #43c06a;
+      --review: #f0a04b;
+      --manual: #8a929c;
+      --apps: #5b95f0;
+      --docs: #a585e6;
+      --free: #2a2e33;
+      --link: #6ea2ff;
+    }
   }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-  main { max-width: 880px; margin: 0 auto; padding: 72px 24px 96px; }
-  @media (max-height: 520px) { main { padding-top: 28px; } section { margin-top: 64px; } }
-  header { display:grid; gap: 48px; align-items:center; }
-  header > div { min-width: 0; }
-  /* Side by side where the width allows, and also on wide-but-short screens such as a foldable's outer
-     display held sideways, where stacking would push the screenshot a whole screen below the text. */
-  @media (min-width: 761px), (orientation: landscape) and (min-width: 600px) { header { grid-template-columns: 1fr auto; } }
-  @media (orientation: landscape) and (max-width: 760px) { header { gap: 28px; align-items: start; } }
-  .icon { width:72px; height:72px; border-radius:16px; }
-  h1 { font-size: clamp(34px, 5vw, 50px); line-height:1.05; letter-spacing:-0.02em; margin: 20px 0 16px; }
-  .lede { font-size: 19px; color: var(--muted); max-width: 30em; }
-  /* Never taller than the screen: the width follows the height available, at the image's 920:1280 ratio. */
-  .shot { width: min(380px, calc((100dvh - 48px) * 0.71875)); max-width:100%; height:auto; border-radius: 12px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.35); }
-  .install { margin-top: 28px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
-  code.cmd { display:inline-block; max-width:100%; overflow-wrap:anywhere; vertical-align:middle; background: var(--card); border:1px solid var(--line); padding: 10px 14px; border-radius: 8px; font: 14px ui-monospace, "SF Mono", Menlo, monospace; }
-  a.btn { display:inline-block; padding:10px 16px; border-radius:8px; background:var(--fg); color:var(--bg); text-decoration:none; font-weight:600; }
-  a.ghost { background:transparent; color:var(--fg); border:1px solid var(--line); }
-  section { margin-top: 88px; }
-  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight:600; margin:0 0 20px; }
-  /* One column, or two: seven cards in three columns left empty cells, and an even count divides
-     cleanly at a fold. An odd last card spans the row. */
-  .grid { display:grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border:1px solid var(--line); border-radius: 12px; overflow:hidden; }
-  @media (min-width: 520px) {
-    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    font-variant-numeric: tabular-nums;
   }
-  .grid div { background: var(--card); padding: 22px; }
-  .grid h3 { margin:0 0 6px; font-size:16px; }
-  .grid p { margin:0; color:var(--muted); font-size:15px; }
-  ul.found { columns: 2; column-gap: 32px; padding-left: 18px; color: var(--muted); }
-  @media (max-width: 600px) { ul.found { columns: 1; } }
-  .qa { border-top:1px solid var(--line); }
-  .qa div { border-bottom:1px solid var(--line); padding: 22px 0; }
-  .qa h3 { margin:0 0 6px; font-size:17px; }
-  .qa p { margin:0; color:var(--muted); max-width: 62ch; }
-  .promise { font-size: 22px; line-height:1.4; max-width: 34em; }
-  .promise b { color: var(--safe); font-weight:600; }
-  footer { margin-top: 96px; padding-top: 24px; border-top:1px solid var(--line); color:var(--muted); font-size:14px; display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; }
+  a { color: var(--link); text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+
+  /* Top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--ink); text-decoration: none; }
+  .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  .top nav { display: flex; gap: 22px; font-size: 15px; }
+  .top nav a { color: var(--soft); text-decoration: none; }
+  .top nav a:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero { padding: 56px 0 40px; }
+  h1 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(40px, 7vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    margin: 0;
+    max-width: 13em;
+  }
+  h1 .quiet { color: var(--mystery); }
+  .lede { font-size: clamp(18px, 2.2vw, 21px); color: var(--soft); max-width: 36em; margin: 26px 0 0; }
+
+  /* The storage bar */
+  .storage { min-width: 0; margin: 54px 0 0; background: var(--sheet); border: 1px solid var(--rule); border-radius: 18px; padding: 26px 26px 22px; }
+  .storage-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 14px; }
+  .storage-head b { font-size: 17px; }
+  .storage-head span { color: var(--soft); font-size: 15px; }
+  .bar { display: flex; height: 34px; gap: 2px; border-radius: 9px; overflow: hidden; }
+  .bar > span { display: block; }
+  .apps { flex: 38; background: var(--apps); }
+  .docs { flex: 22; background: var(--docs); }
+  .free { flex: 27; background: var(--free); }
+  .bar > .sysdata { flex: 107.9; display: flex; }
+  .sysdata > span {
+    display: block;
+    flex: var(--g);
+    background: var(--mystery);
+    animation: unpack 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay: calc(0.9s + var(--i) * 0.09s);
+  }
+  .sysdata > span + span { animation-name: unpack, part; }
+  @keyframes unpack { to { background: var(--c); } }
+  @keyframes part { to { margin-left: 2px; } }
+  /* The old label fades and the new one takes its place, in the same spot. */
+  .sysdata-tag { display: grid; margin-top: 12px; font-size: 15px; color: var(--soft); }
+  .sysdata-tag > span { grid-area: 1 / 1; }
+  .sysdata-tag .was { animation: fade-out .4s ease forwards; animation-delay: 0.8s; }
+  .sysdata-tag .now { opacity: 0; animation: fade-in .5s ease forwards; animation-delay: 1.5s; }
+  @keyframes fade-out { to { opacity: 0; } }
+  @keyframes fade-in { to { opacity: 1; } }
+
+  .parts { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 4px 32px; }
+  .parts li {
+    min-width: 0;
+    display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 10px; align-items: baseline;
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    opacity: 0; animation: fade-in .5s ease forwards; animation-delay: calc(1.3s + var(--i) * 0.09s);
+  }
+  .parts i { width: 12px; height: 12px; border-radius: 3px; background: var(--c); transform: translateY(1px); }
+  .parts em { font-style: normal; color: var(--soft); font-size: 14px; }
+  .parts b { font-weight: 600; }
+  .note { color: var(--soft); font-size: 14px; margin: 16px 0 0; }
+
+  /* Install */
+  .install { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 34px 0 0; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 16px;
+    text-decoration: none; background: var(--ink); color: var(--paper);
+  }
+  .btn:hover { opacity: .9; }
+  .cmd {
+    display: inline-flex; align-items: center; gap: 4px; max-width: 100%; min-width: 0;
+    background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 4px 4px 4px 16px;
+  }
+  .cmd code { font: 15px ui-monospace, "SF Mono", Menlo, monospace; overflow-wrap: anywhere; min-width: 0; }
+  .cmd button {
+    border: 0; background: transparent; color: var(--soft); font: inherit; font-size: 14px;
+    padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  }
+  .cmd button:hover { background: var(--free); color: var(--ink); }
+  .fine { color: var(--soft); font-size: 15px; }
+
+  /* Sections */
+  section { padding: 92px 0 0; }
+  h2 { font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; letter-spacing: -0.025em; margin: 0 0 18px; max-width: 18em; }
+  .intro { color: var(--soft); max-width: 38em; margin: 0; font-size: 18px; }
+
+  /* The rule: three badges, three meanings */
+  .badges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 36px; border-top: 2px solid var(--ink); }
+  .badges div { padding: 20px 24px 0 0; }
+  .badges div + div { padding-left: 24px; border-left: 1px solid var(--rule); }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; padding: 3px 10px; border-radius: 999px; color: var(--c); background: color-mix(in srgb, var(--c) 15%, transparent); }
+  .badges p { margin: 12px 0 0; color: var(--soft); font-size: 16px; }
+  @media (max-width: 720px) {
+    .badges { grid-template-columns: 1fr; }
+    .badges div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); margin-top: 20px; }
+  }
+
+  /* The app, and what it does */
+  .tour { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 64px; align-items: start; margin-top: 44px; }
+  .tour img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 40px 80px -30px rgba(10, 14, 20, .55); position: sticky; top: 28px; }
+  dl.features { margin: 0; }
+  dl.features div { padding: 0 0 22px; margin: 0 0 22px; border-bottom: 1px solid var(--rule); }
+  dl.features div:last-child { border-bottom: 0; }
+  dl.features dt { font-weight: 650; font-size: 18px; margin-bottom: 4px; }
+  dl.features dd { margin: 0; color: var(--soft); }
+  dl.features code { font: 15px ui-monospace, "SF Mono", Menlo, monospace; color: var(--ink); }
+  @media (max-width: 860px) {
+    .tour { grid-template-columns: 1fr; gap: 40px; }
+    .tour img { position: static; max-width: 420px; margin: 0 auto; display: block; }
+  }
+
+  /* What it finds */
+  .finds { margin: 36px 0 0; padding: 0; list-style: none; columns: 3 240px; column-gap: 40px; }
+  .finds li { break-inside: avoid; padding: 9px 0; border-bottom: 1px solid var(--rule); }
+
+  /* Questions */
+  .qa { margin-top: 32px; border-top: 2px solid var(--ink); }
+  .qa details { border-bottom: 1px solid var(--rule); }
+  .qa summary { cursor: pointer; list-style: none; padding: 20px 36px 20px 0; font-weight: 600; font-size: 19px; position: relative; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font-size: 26px; font-weight: 300; color: var(--soft); transition: transform .2s; }
+  .qa details[open] summary::after { transform: rotate(45deg); }
+  .qa p { margin: 0 0 22px; color: var(--soft); max-width: 62ch; }
+
+  /* Closing */
+  .closing { padding: 110px 0 0; }
+  .closing h2 { max-width: 14em; }
+  footer { margin: 96px 0 0; padding: 26px 0 44px; border-top: 1px solid var(--rule); color: var(--soft); font-size: 15px; display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
   footer a { color: inherit; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 22px; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 18px; }
+    .top nav a.hide-sm { display: none; }
+    .storage { padding: 20px 16px 16px; border-radius: 14px; }
+    .bar { height: 26px; }
+    .hero { padding-top: 28px; }
+    section { padding-top: 72px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sysdata span, .parts li, .sysdata-tag .now, .sysdata-tag .was { animation-duration: 0s !important; animation-delay: 0s !important; }
+  }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"System Data Unpacked","alternateName":"macos-sysdata","description":"A free Mac app that opens macOS System Data and lets you delete it, item by item, with every command shown first.","applicationCategory":"UtilitiesApplication","operatingSystem":"macOS 14 or later","url":"https://macos-sysdata.yigitech.dev/","downloadUrl":"https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg","softwareHelp":"https://github.com/Jarvis322/macos-sysdata","image":"https://macos-sysdata.yigitech.dev/og.png","screenshot":"https://macos-sysdata.yigitech.dev/screenshot.png","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Yigit Can Polat","url":"https://yigitech.dev","sameAs":["https://x.com/yigitech","https://github.com/Jarvis322"]}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is System Data on a Mac?","acceptedAnswer":{"@type":"Answer","text":"System Data is the name Storage settings gives to everything it cannot file under Apps, Photos or Documents: caches, logs, simulator runtimes, local Time Machine snapshots, disk images, mail attachments and application support folders."}},{"@type":"Question","name":"Why is my System Data so large?","acceptedAnswer":{"@type":"Answer","text":"On a Mac used for development it is usually a handful of folders: Xcode DerivedData and archives, simulator runtimes, npm and Homebrew caches, Docker disks and downloaded models. Each regenerates on demand, and together they pass 100 GB."}},{"@type":"Question","name":"Can I delete System Data?","acceptedAnswer":{"@type":"Answer","text":"Parts of it. Caches and build folders regenerate on their own. Snapshots and device backups are a decision rather than a cleanup. System Data Unpacked labels every item and shows the command before it runs."}}]}]}</script>
 </head>
 <body>
-<main>
-  <header>
-    <div>
-      <img class="icon" src="icon.png" width="512" height="512" alt="">
-      <h2 style="margin: 20px 0 -8px">System Data Unpacked</h2>
-      <h1>See what is really inside macOS System Data.</h1>
-      <p class="lede">macOS files everything it cannot name under one line in Storage settings. This app opens it — simulator runtimes, Xcode caches, package stores, backups, snapshots — and lets you delete it item by item, in a window or from the menu bar.</p>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="/"><img src="icon.png" width="512" height="512" alt="">System Data Unpacked</a>
+    <nav aria-label="Site">
+      <a class="hide-sm" href="#how">How it works</a>
+      <a class="hide-sm" href="#questions">Questions</a>
+      <a href="https://github.com/Jarvis322/macos-sysdata">GitHub</a>
+    </nav>
+  </div>
+
+  <main>
+    <div class="hero">
+      <h1>macOS calls it System Data. <span class="quiet">This app opens it.</span></h1>
+      <p class="lede">Storage settings puts everything it cannot name into one grey bar. System Data Unpacked shows what is inside — simulators, Xcode builds, package caches, AI models, backups — and lets you delete it item by item, with every command shown first.</p>
+
+      <figure class="storage" aria-labelledby="storage-caption">
+        <div class="storage-head">
+          <b>Macintosh HD</b>
+          <span>218 GB of 245 GB used</span>
+        </div>
+        <div class="bar" role="img" aria-label="A storage bar: Apps 38 GB, Documents 22 GB, System Data 107.9 GB split into its parts, and 27 GB free.">
+          <span class="apps"></span>
+          <span class="docs"></span>
+          <span class="sysdata">
+            <span style="--g:23.8; --c:var(--review); --i:0"></span>
+            <span style="--g:19.5; --c:var(--review); --i:1"></span>
+            <span style="--g:15.9; --c:var(--review); --i:2"></span>
+            <span style="--g:13.3; --c:var(--manual); --i:3"></span>
+            <span style="--g:8.1; --c:var(--review); --i:4"></span>
+            <span style="--g:6.6; --c:var(--safe); --i:5"></span>
+            <span style="--g:20.7; --c:var(--mystery); --i:6"></span>
+          </span>
+          <span class="free"></span>
+        </div>
+        <div class="sysdata-tag">
+          <span class="was">System Data · 107.9 GB</span>
+          <span class="now">System Data, unpacked</span>
+        </div>
+        <ul class="parts">
+          <li style="--c:var(--review); --i:0"><i></i><span>Project build folders <em>node_modules, .next</em></span><b>23.8 GB</b></li>
+          <li style="--c:var(--review); --i:1"><i></i><span>Simulator devices</span><b>19.5 GB</b></li>
+          <li style="--c:var(--review); --i:2"><i></i><span>Simulator runtimes</span><b>15.9 GB</b></li>
+          <li style="--c:var(--manual); --i:3"><i></i><span>Package managers <em>Homebrew, uv</em></span><b>13.3 GB</b></li>
+          <li style="--c:var(--review); --i:4"><i></i><span>AI models and tools</span><b>8.1 GB</b></li>
+          <li style="--c:var(--safe); --i:5"><i></i><span>Caches that rebuild</span><b>6.6 GB</b></li>
+          <li style="--c:var(--mystery); --i:6"><i></i><span>Everything else</span><b>20.7 GB</b></li>
+        </ul>
+        <figcaption id="storage-caption" class="note">From a scan of a developer's Mac. Green rebuilds on its own, orange needs a look, grey is yours to remove by hand.</figcaption>
+      </figure>
+
       <div class="install">
-        <code class="cmd">brew install --cask jarvis322/tap/sysdata</code>
-        <a class="btn" href="https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg">Download</a>
-        <a class="btn ghost" href="https://github.com/Jarvis322/macos-sysdata">Source</a>
+        <a class="btn" href="https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg">Download for Mac</a>
+        <span class="cmd">
+          <code id="brew">brew install --cask jarvis322/tap/sysdata</code>
+          <button type="button" data-copy="brew" aria-label="Copy the Homebrew command">Copy</button>
+        </span>
+        <span class="fine">Free and open source. macOS 14 or later.</span>
       </div>
     </div>
-    <img class="shot" src="screenshot.png" width="920" height="1280" alt="System Data Unpacked: the whole disk as a ring with the space safe to free now in its middle and System Data over recent scans, then the categories listed largest first, each with its own icon and a bar split into safe, review and manual">
-  </header>
 
-  <section>
-    <h2>The promise</h2>
-    <p class="promise">It never deletes anything you did not click. Every item carries a badge — <b>Safe</b> regenerates on its own, Review goes to the Trash first — and every command is shown before it runs, including the ones that ask for your password.</p>
-  </section>
-
-  <section>
-    <h2>What it does</h2>
-    <div class="grid">
-      <div><h3>Maps the disk</h3><p>Categories largest first, each with a bar split into what is safe, what needs review and what is manual. Open one to see every item.</p></div>
-      <div><h3>Remembers</h3><p>A trend on every row, the change over the past week, and whether anything you deleted came back.</p></div>
-      <div><h3>Speaks up</h3><p>Optional alerts when a category grows unusually fast or space runs low, a weekly summary, and a one-tap way to free the safe items.</p></div>
-      <div><h3>Window or menu bar</h3><p>Open it from Applications like any app, resize it, leave it open. Or keep it in the menu bar with the size beside the icon. The icon can be switched off entirely.</p></div>
-      <div><h3>Widget and Shortcuts</h3><p>System Data at a glance on the desktop, and a Shortcuts action that frees the safe items on a schedule.</p></div>
-      <div><h3>Stays on your Mac</h3><p>No account, no analytics. The only request it can make is an update check, off by default.</p></div>
-      <div><h3>Nine languages</h3><p>English, Turkish, Chinese, Japanese, German, French, Spanish, Korean and Russian.</p></div>
-      <div><h3>Scriptable</h3><p><code>--json</code> prints the full inventory for your own tooling.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <h2>What it finds</h2>
-    <ul class="found">
-      <li>Simulator devices and runtimes</li>
-      <li>Xcode DerivedData, archives, device support</li>
-      <li>npm, pnpm, yarn, Cargo, uv, pip, Homebrew caches</li>
-      <li>Model caches: Ollama, Hugging Face, LM Studio</li>
-      <li>Docker and virtual machine disks</li>
-      <li>iOS device backups</li>
-      <li>Time Machine local snapshots</li>
-      <li>Logs, diagnostics and temporary files</li>
-      <li>Project build folders: node_modules, .build, Pods</li>
-      <li>Anything else over 500 MB it cannot explain</li>
-    </ul>
-  </section>
-
-
-  <section>
-    <h2>What System Data actually is</h2>
-    <div class="qa">
-      <div>
-        <h3>What is System Data on a Mac?</h3>
-        <p>It is the name Storage settings gives to everything it cannot file under Apps, Photos or Documents: caches, logs, simulator runtimes, local Time Machine snapshots, disk images, mail attachments, application support folders. It is not one thing, which is why the number gets large and why macOS shows you a bar instead of a list.</p>
+    <section id="how" aria-labelledby="rule-title">
+      <h2 id="rule-title">It never deletes anything you did not click.</h2>
+      <p class="intro">Every item carries one of three badges, and every command is shown before it runs, including the ones that ask for your password.</p>
+      <div class="badges">
+        <div>
+          <span class="chip" style="--c:var(--safe)">Safe</span>
+          <p>Rebuilds on its own: caches, build products, logs. Deleting it costs a rebuild and nothing else.</p>
+        </div>
+        <div>
+          <span class="chip" style="--c:var(--review)">Review</span>
+          <p>Worth a look first: a simulator with apps on it, a model you downloaded. It goes to the Trash unless you choose to delete it now.</p>
+        </div>
+        <div>
+          <span class="chip" style="--c:var(--manual)">Manual</span>
+          <p>Not the app's to remove: a Homebrew install, a local snapshot. You get the exact command instead.</p>
+        </div>
       </div>
-      <div>
-        <h3>Why is my System Data so large?</h3>
-        <p>On a Mac used for development it is usually a handful of folders: Xcode DerivedData and archives, simulator runtimes, npm and Homebrew caches, Docker disks, downloaded models. Each regenerates on demand, and together they pass 100 GB without anything being wrong.</p>
+    </section>
+
+    <section aria-labelledby="tour-title">
+      <h2 id="tour-title">One window for the whole disk.</h2>
+      <p class="intro">Open it from Applications or keep it in the menu bar. It scans in the background and remembers what changed.</p>
+      <div class="tour">
+        <img src="screenshot.png" width="920" height="1280" alt="System Data Unpacked: the whole disk as a ring with the space safe to free now in its middle and System Data over recent scans, then the categories listed largest first, each with its own icon and a bar split into safe, review and manual." loading="lazy">
+        <dl class="features">
+          <div><dt>Free up an amount</dt><dd>Ask for 20 GB and it selects the least worrying items that add up to it: safe ones first, then what has sat untouched longest.</dd></div>
+          <div><dt>Projects, not folders</dt><dd>One row per project with everything it costs: node_modules, build output, its DerivedData, its Docker images. Archive one in a click; source files are never touched.</dd></div>
+          <div><dt>Why it grew</dt><dd>A trend on every row, System Data over time, and a note when a category grows unusually fast, with the items behind it.</dd></div>
+          <div><dt>AI models, one by one</dt><dd>Ollama and Hugging Face models listed separately, sized without double counting shared layers, removed the way each tool expects.</dd></div>
+          <div><dt>Touch ID before a delete</dt><dd>An optional check with Touch ID, your Apple Watch or your password, so a click at an unlocked Mac is not enough.</dd></div>
+          <div><dt>External drives</dt><dd>Optionally looks for projects on plugged-in drives too. Time Machine disks and network shares are never walked.</dd></div>
+          <div><dt>Stays on your Mac</dt><dd>No account and no analytics. The only request it can make is an update check, off by default.</dd></div>
+          <div><dt>Scriptable</dt><dd><code>--json</code> prints the inventory, <code>--clean</code> shows the weekly clean and <code>--clean --apply</code> runs it. Shortcuts and a desktop widget too.</dd></div>
+        </dl>
       </div>
-      <div>
-        <h3>Can I delete System Data?</h3>
-        <p>Parts of it. Caches and build folders come back on their own, so removing them costs you a rebuild and nothing else. Snapshots and device backups are a decision rather than a cleanup. Nothing in macOS tells you which is which — this app labels every item before you touch it, and shows the command it will run.</p>
+    </section>
+
+    <section aria-labelledby="finds-title">
+      <h2 id="finds-title">What it finds</h2>
+      <ul class="finds">
+        <li>Simulator devices and runtimes</li>
+        <li>Xcode DerivedData, archives, device support</li>
+        <li>npm, pnpm, yarn, Cargo, uv, pip and Homebrew caches</li>
+        <li>Ollama, Hugging Face and LM Studio models</li>
+        <li>Claude Code, Codex and Gemini data</li>
+        <li>Docker images, volumes and VM disks</li>
+        <li>iOS device backups</li>
+        <li>Time Machine local snapshots</li>
+        <li>Logs, diagnostics and temporary files</li>
+        <li>Project build folders: node_modules, .build, Pods, .next</li>
+        <li>Android SDKs and emulators</li>
+        <li>Anything else large it cannot explain</li>
+      </ul>
+    </section>
+
+    <section id="questions" aria-labelledby="qa-title">
+      <h2 id="qa-title">What System Data actually is</h2>
+      <div class="qa">
+        <details open>
+          <summary>What is System Data on a Mac?</summary>
+          <p>It is the name Storage settings gives to everything it cannot file under Apps, Photos or Documents: caches, logs, simulator runtimes, local Time Machine snapshots, disk images, mail attachments, application support folders. It is not one thing, which is why the number gets large and why macOS shows you a bar instead of a list.</p>
+        </details>
+        <details>
+          <summary>Why is my System Data so large?</summary>
+          <p>On a Mac used for development it is usually a handful of folders: Xcode DerivedData and archives, simulator runtimes, npm and Homebrew caches, Docker disks, downloaded models. Each regenerates on demand, and together they pass 100 GB without anything being wrong.</p>
+        </details>
+        <details>
+          <summary>Can I delete System Data?</summary>
+          <p>Parts of it. Caches and build folders come back on their own, so removing them costs you a rebuild and nothing else. Snapshots and device backups are a decision rather than a cleanup. Nothing in macOS tells you which is which — this app labels every item before you touch it, and shows the command it will run.</p>
+        </details>
+        <details>
+          <summary>Why does it ask for Full Disk Access?</summary>
+          <p>Most of System Data sits in folders macOS protects, and without the grant they cannot even be measured. The app reads sizes and dates, not the contents of your files, and never your mail, messages or browsing history. It works without the grant too, with those places left out.</p>
+        </details>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <h2 id="closing-title">See your own number.</h2>
+      <div class="install">
+        <a class="btn" href="https://github.com/Jarvis322/macos-sysdata/releases/latest/download/SystemDataUnpacked.dmg">Download for Mac</a>
+        <span class="fine">Free, open source, signed and notarized by Apple.</span>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <span>Free for macOS 14 and later. Made by <a href="https://x.com/yigitech">@yigitech</a>.</span>
-    <span><a href="https://github.com/sponsors/Jarvis322">Sponsor</a> · <a href="https://github.com/Jarvis322/macos-sysdata/blob/main/CHANGELOG.md">Changelog</a></span>
+    <span>Made by <a href="https://x.com/yigitech">@yigitech</a> for macOS 14 and later.</span>
+    <nav aria-label="More">
+      <a href="https://github.com/Jarvis322/macos-sysdata/blob/main/CHANGELOG.md">Changelog</a>
+      <a href="https://github.com/Jarvis322/macos-sysdata">Source</a>
+      <a href="https://github.com/sponsors/Jarvis322">Sponsor</a>
+    </nav>
   </footer>
-</main>
+</div>
+<script>
+  // Copy the Homebrew command. The button says what happened, then goes back.
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var text = document.getElementById(button.dataset.copy).textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        button.textContent = "Copied";
+        setTimeout(function () { button.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+</script>
 </body>
 </html>
