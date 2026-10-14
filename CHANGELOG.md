@@ -5,6 +5,24 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.9.0 — 2026-10-14
+
+- **A new look, top to bottom.** The disk is drawn as a ring, with the space
+  safe to free in its middle, and under it a line of System Data over the
+  recent scans, orange when it has grown and green when it has shrunk.
+  Pointing at a row of the legend brings its part of the ring forward.
+- **Cards and depth.** Each category is a card holding its header, its bar
+  and its rows, lifting slightly on hover. Category icons are lit tiles that
+  tilt towards the pointer. Safety badges carry a symbol as well as a word,
+  and drop the word before a long name is cut.
+- **A header that shows the scan.** Rescan draws the scan's progress as a ring
+  around its arrow, which turns while it runs. By category and By project are
+  a switch whose pill slides between them.
+- **History with charts.** System Data over time, and what was freed each day.
+  History is now a scroll view of cards: as a list it logged the AppKit
+  warning that came before the crash in #18.
+- Motion is skipped under Reduce Motion.
+
 ## v1.8.0 — 2026-10-14
 
 - **Free up…** "I need 20 GB" instead of adding up rows. A menu under
