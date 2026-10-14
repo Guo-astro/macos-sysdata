@@ -643,7 +643,8 @@ struct MenuView: View {
             canSelectSafe: !model.isScanning && model.safeBytes > 0,
             onSelectSafe: { model.selectAllSafe() },
             onPlan: { model.planSpace(freeing: $0) },
-            justFreed: freedFlash
+            justFreed: freedFlash,
+            trend: model.keepsHistory ? model.history.scans.suffix(30).map(\.totalBytes) : []
         )
         .animation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.85), value: model.safeBytes)
     }
@@ -880,7 +881,7 @@ struct MenuView: View {
                 set: { model.setSelection(category, selected: $0) }
             )) {
                 HStack(spacing: 7) {
-                    CategoryIcon(category: category)
+                    CategoryIcon(category: category, isRaised: hoveredCategory == category)
                     Text(category.title)
                         .fontWeight(.semibold)
                 }

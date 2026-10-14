@@ -1,13 +1,15 @@
+import Charts
 import SwiftUI
 
-/// The top of the list: the one number the person can act on, and the whole
-/// disk as a single bar so that number has a scale.
+/// The top of the list: the one number the person can act on, the whole disk
+/// as a ring so that number has a scale, and where System Data has been
+/// heading.
 ///
-/// The bar is drawn against the volume's capacity, not against System Data,
+/// The ring is drawn against the volume's capacity, not against System Data,
 /// because "how much of my disk is this" is the question people open the app
 /// with. System Data is split by how much thought deleting it needs, in the
 /// same green, orange and grey as the badges; everything else on the disk is
-/// one quiet segment, and free space is left open.
+/// one quiet part, and free space is the faint remainder.
 struct DiskOverview: View {
     let safe: Int64
     let review: Int64
@@ -15,7 +17,7 @@ struct DiskOverview: View {
     let free: Int64
     let capacity: Int64
     let purgeable: Int64
-    /// The line under the bar: System Data, free space and the weekly change.
+    /// The line under the trend: System Data, free space and the weekly change.
     let pulse: String
     let showsGrowthArrow: Bool
     let allSafeSelected: Bool
@@ -23,17 +25,27 @@ struct DiskOverview: View {
     let onSelectSafe: () -> Void
     /// Asked for from the "Free up…" menu: how much space is wanted.
     var onPlan: (Int64) -> Void = { _ in }
-    /// What the last delete gave back, shown for a few seconds as a small
-    /// celebration over the headline number. Nil the rest of the time.
+    /// What the last delete gave back, shown for a few seconds in the middle
+    /// of the ring. Nil the rest of the time.
     var justFreed: Int64?
+    /// System Data at each recent scan, oldest first. Under two, no trend.
+    var trend: [Int64] = []
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var hovered: Slice?
-    @State private var revealed = false
+    /// 0 when the card first appears, 1 once the ring and the trend have drawn
+    /// themselves in. Straight to 1 under Reduce Motion.
+    @State private var progress: Double = 0
 
-    /// The parts of the bar, so pointing at one in the bar or the legend can
-    /// bring that part forward and let the others recede.
-    private enum Slice { case safe, review, manual, other, free }
+    /// The parts of the ring, so pointing at one in the legend can bring that
+    /// part forward and let the others recede.
+    private enum Slice: Hashable { case safe, review, manual, other, free }
+
+    private struct Part: Identifiable {
+        let slice: Slice
+        let bytes: Int64
+        var id: Slice { slice }
+    }
 
     private static let otherColor = Color.gray.opacity(0.45)
 
@@ -44,75 +56,30 @@ struct DiskOverview: View {
         max(capacity - free - safe - review - manual, 0)
     }
 
+    private var parts: [Part] {
+        [
+            Part(slice: .safe, bytes: safe), Part(slice: .review, bytes: review),
+            Part(slice: .manual, bytes: manual), Part(slice: .other, bytes: other),
+            Part(slice: .free, bytes: free),
+        ]
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 0) {
-                    if let justFreed {
-                        Label(L("Freed %@", justFreed.byteString), systemImage: "sparkles")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.green)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 3)
-                            .background(.green.opacity(0.16), in: Capsule())
-                            .symbolEffect(.bounce, value: justFreed)
-                            .transition(reduceMotion ? .opacity : .scale(scale: 0.6, anchor: .leading).combined(with: .opacity))
-                            .padding(.bottom, 4)
-                    }
-                    Text(safe.byteString)
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundStyle(.green)
-                        .contentTransition(.numericText(value: Double(safe)))
-                    Text(L("safe to free now"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                Spacer(minLength: 8)
-                VStack(alignment: .trailing, spacing: 6) {
-                    Button(allSafeSelected ? L("Deselect safe") : L("Select safe"), action: onSelectSafe)
-                        .buttonStyle(.borderedProminent)
-                        .tint(.green)
-                        .disabled(!canSelectSafe)
-                        .help(L("Select every item that is regenerated automatically"))
-                    Menu {
-                        ForEach(Self.planTargets, id: \.self) { bytes in
-                            Button(L("Free up %@", bytes.byteString)) { onPlan(bytes) }
-                        }
-                    } label: {
-                        Label(L("Free up…"), systemImage: "target")
-                    }
-                    .menuStyle(.borderlessButton)
-                    .controlSize(.small)
-                    .fixedSize()
-                    .help(L("Selects the least worrying items that add up to this much. Nothing is deleted until you confirm."))
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 14) {
+                ring
+                    .frame(width: 128, height: 128)
+                VStack(alignment: .leading, spacing: 10) {
+                    actions
+                    legend
                 }
             }
-
-            bar
-                .frame(height: 12)
-
-            legend
-
-            HStack(spacing: 4) {
-                if showsGrowthArrow {
-                    Image(systemName: "arrow.up.right")
-                        .foregroundStyle(.orange)
-                        .accessibilityHidden(true)
-                }
-                Text(pulse)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                Spacer(minLength: 0)
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .monospacedDigit()
+            trendStrip
         }
         .padding(14)
         .background {
-            // A wash of green at the corner the headline sits in, fading to
-            // the usual card: the number is the one thing this card is for.
+            // A wash of green at the corner the ring sits in, fading to the
+            // usual card: the number in it is what this card is for.
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(.quaternary.opacity(0.35))
                 .overlay {
@@ -129,38 +96,74 @@ struct DiskOverview: View {
         }
         .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.8), value: justFreed)
         .onAppear {
-            guard !revealed else { return }
-            if reduceMotion { revealed = true } else { withAnimation(.spring(response: 0.8, dampingFraction: 0.85).delay(0.1)) { revealed = true } }
+            guard progress == 0 else { return }
+            if reduceMotion {
+                progress = 1
+            } else {
+                withAnimation(.spring(response: 1.1, dampingFraction: 0.9).delay(0.1)) { progress = 1 }
+            }
         }
     }
 
-    private var bar: some View {
-        GeometryReader { geometry in
-            let whole = CGFloat(max(capacity, 1))
-            let gap: CGFloat = 2
-            let parts: [(Slice, Int64, AnyShapeStyle)] = [
-                (.safe, safe, AnyShapeStyle(Color.green.gradient)),
-                (.review, review, AnyShapeStyle(Color.orange.gradient)),
-                (.manual, manual, AnyShapeStyle(Color.secondary.gradient)),
-                (.other, other, AnyShapeStyle(Self.otherColor)),
-            ].filter { $0.1 > 0 }
-            let room = geometry.size.width - gap * CGFloat(parts.count)
-            HStack(spacing: gap) {
-                ForEach(Array(parts.enumerated()), id: \.offset) { _, part in
-                    Capsule()
-                        .fill(part.2)
-                        .frame(width: revealed ? max(room * CGFloat(part.1) / whole, 3) : 3)
-                        .opacity(dimmed(part.0) ? 0.35 : 1)
-                        .shadow(color: part.0 == .safe && hovered == .safe ? .green.opacity(0.6) : .clear, radius: 5)
-                        .onHover { hovered = $0 ? part.0 : (hovered == part.0 ? nil : hovered) }
+    // MARK: Ring
+
+    private var ring: some View {
+        ZStack {
+            Chart {
+                ForEach(parts) { part in
+                    SectorMark(
+                        angle: .value("Bytes", Double(part.bytes) * progress),
+                        innerRadius: .ratio(0.7),
+                        angularInset: 1.2
+                    )
+                    .cornerRadius(3)
+                    .foregroundStyle(style(for: part.slice))
+                    .opacity(dimmed(part.slice) ? 0.25 : 1)
                 }
-                Spacer(minLength: 0)
+                // The part of the circle not drawn yet, so the ring sweeps in
+                // from the top instead of popping into place.
+                SectorMark(angle: .value("Bytes", Double(max(capacity, 1)) * (1 - progress)), innerRadius: .ratio(0.7))
+                    .foregroundStyle(.clear)
             }
-            .background(Capsule().strokeBorder(.quaternary, lineWidth: 1))
+            .chartLegend(.hidden)
+            .animation(reduceMotion ? nil : .easeOut(duration: 0.15), value: hovered)
+            .animation(reduceMotion ? nil : .smooth(duration: 0.5), value: [safe, review, manual, free])
+
+            VStack(spacing: 1) {
+                if let justFreed {
+                    Label(L("Freed %@", justFreed.byteString), systemImage: "sparkles")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(.green)
+                        .symbolEffect(.bounce, value: justFreed)
+                        .transition(reduceMotion ? .opacity : .scale(scale: 0.6).combined(with: .opacity))
+                }
+                Text(safe.byteString)
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                    .monospacedDigit()
+                    .foregroundStyle(.green)
+                    .contentTransition(.numericText(value: Double(safe)))
+                    .minimumScaleFactor(0.6)
+                Text(L("safe to free now"))
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .lineLimit(1)
+            .frame(width: 80)
         }
-        .accessibilityElement()
+        .accessibilityElement(children: .ignore)
         .accessibilityLabel(L("%@ safe · %@ to review · %@ manual",
                               safe.byteString, review.byteString, manual.byteString))
+    }
+
+    private func style(for slice: Slice) -> AnyShapeStyle {
+        switch slice {
+        case .safe: AnyShapeStyle(Color.green.gradient)
+        case .review: AnyShapeStyle(Color.orange.gradient)
+        case .manual: AnyShapeStyle(Color.secondary.gradient)
+        case .other: AnyShapeStyle(Self.otherColor)
+        case .free: AnyShapeStyle(Color.secondary.opacity(0.08))
+        }
     }
 
     /// Something is pointed at and this is not it.
@@ -168,15 +171,41 @@ struct DiskOverview: View {
         hovered != nil && hovered != slice
     }
 
-    /// Five equal columns, the figure under its label: on one line the
-    /// labels were cut to "Revi…" at the panel's width.
+    // MARK: Actions
+
+    private var actions: some View {
+        HStack(spacing: 8) {
+            Button(allSafeSelected ? L("Deselect safe") : L("Select safe"), action: onSelectSafe)
+                .buttonStyle(.borderedProminent)
+                .tint(.green)
+                .disabled(!canSelectSafe)
+                .help(L("Select every item that is regenerated automatically"))
+            Menu {
+                ForEach(Self.planTargets, id: \.self) { bytes in
+                    Button(L("Free up %@", bytes.byteString)) { onPlan(bytes) }
+                }
+            } label: {
+                Label(L("Free up…"), systemImage: "target")
+            }
+            .menuStyle(.borderlessButton)
+            .controlSize(.small)
+            .fixedSize()
+            .help(L("Selects the least worrying items that add up to this much. Nothing is deleted until you confirm."))
+        }
+    }
+
+    // MARK: Legend
+
+    /// One row per part of the ring, the figure at the end of its line, so the
+    /// labels never have to be cut to fit.
     private var legend: some View {
-        HStack(alignment: .top, spacing: 6) {
+        VStack(alignment: .leading, spacing: 3) {
             key(L("Safe"), safe, .green, slice: .safe)
             key(L("Review"), review, .orange, slice: .review)
             key(L("Manual"), manual, .secondary, slice: .manual)
             key(L("Other files"), other, Self.otherColor, slice: .other)
-            key(L("Free"), free, .clear, slice: .free, outlined: true, note: purgeable > 0 ? L("%@ purgeable", purgeable.byteString) : nil)
+            key(L("Free"), free, .clear, slice: .free, outlined: true,
+                note: purgeable > 0 ? L("%@ purgeable", purgeable.byteString) : nil)
                 // The purgeable figure is the one number here nobody can act
                 // on, and the one people meet in Finder wondering why free
                 // space they can see will not open a file. Measured on this
@@ -191,34 +220,93 @@ struct DiskOverview: View {
     }
 
     private func key(_ title: String, _ bytes: Int64, _ color: Color, slice: Slice, outlined: Bool = false, note: String? = nil) -> some View {
-        VStack(alignment: .leading, spacing: 1) {
-            HStack(spacing: 4) {
-                Circle()
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 6) {
+                RoundedRectangle(cornerRadius: 2.5, style: .continuous)
                     .fill(color)
-                    .overlay { if outlined { Circle().strokeBorder(.secondary, lineWidth: 1) } }
-                    .frame(width: 7, height: 7)
+                    .overlay {
+                        if outlined {
+                            RoundedRectangle(cornerRadius: 2.5, style: .continuous).strokeBorder(.secondary, lineWidth: 1)
+                        }
+                    }
+                    .frame(width: 9, height: 9)
                 Text(title)
                     .foregroundStyle(.secondary)
+                Spacer(minLength: 6)
+                Text(bytes.byteString)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.primary)
             }
-            .font(.caption2)
-            Text(bytes.byteString)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.primary)
+            .font(.caption)
             if let note {
                 Text(note)
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.leading, 15)
             }
         }
         .lineLimit(1)
-        .minimumScaleFactor(0.75)
-        .frame(maxWidth: .infinity, alignment: .leading)
         .opacity(dimmed(slice) ? 0.4 : 1)
         .contentShape(Rectangle())
         .onHover { hovered = $0 ? slice : (hovered == slice ? nil : hovered) }
         .animation(reduceMotion ? nil : .easeOut(duration: 0.15), value: hovered)
         .accessibilityElement(children: .combine)
+    }
+
+    // MARK: Trend
+
+    /// System Data over the recent scans, drawn left to right. Orange when it
+    /// ended higher than it started, green when lower: the direction is the
+    /// news, the exact figures are in the line under it.
+    @ViewBuilder
+    private var trendStrip: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if trend.count >= 2, let low = trend.min(), let high = trend.max() {
+                let tint: Color = (trend.last ?? 0) > (trend.first ?? 0) ? .orange : .green
+                let floor = Double(low) * 0.97
+                let ceiling = Double(max(high, low + 1)) * 1.01
+                Chart(Array(trend.enumerated()), id: \.offset) { index, bytes in
+                    AreaMark(
+                        x: .value("Scan", index),
+                        yStart: .value("Floor", floor),
+                        yEnd: .value("System Data", Double(bytes))
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(LinearGradient(
+                        colors: [tint.opacity(0.32), tint.opacity(0.02)], startPoint: .top, endPoint: .bottom
+                    ))
+                    LineMark(x: .value("Scan", index), y: .value("System Data", Double(bytes)))
+                        .interpolationMethod(.catmullRom)
+                        .foregroundStyle(tint)
+                        .lineStyle(StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
+                }
+                .chartXAxis(.hidden)
+                .chartYAxis(.hidden)
+                .chartYScale(domain: floor...ceiling)
+                .chartXScale(domain: 0...(trend.count - 1))
+                .frame(height: 34)
+                // Drawn in from the left, once, with the ring.
+                .mask(alignment: .leading) {
+                    GeometryReader { geometry in
+                        Rectangle().frame(width: geometry.size.width * progress)
+                    }
+                }
+                .accessibilityHidden(true)
+            }
+            HStack(spacing: 4) {
+                if showsGrowthArrow {
+                    Image(systemName: "arrow.up.right")
+                        .foregroundStyle(.orange)
+                        .accessibilityHidden(true)
+                }
+                Text(pulse)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                Spacer(minLength: 0)
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .monospacedDigit()
+        }
     }
 }

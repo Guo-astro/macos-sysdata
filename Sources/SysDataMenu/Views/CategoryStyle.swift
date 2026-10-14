@@ -48,22 +48,57 @@ extension StorageCategory {
         case .apps: .red
         case .projects: .yellow
         case .system: .gray
-        case .other: .secondary
+        case .other: .gray
         }
     }
 }
 
-/// The category's symbol on a small rounded tile, the way System Settings
-/// marks its panes.
+/// The category's symbol on a small tile with depth: lit from above, a
+/// sheen across the top half, an edge that catches the light and a soft
+/// shadow in its own colour, so the list reads like a shelf of objects rather
+/// than a column of flat squares. Pointed at, it lifts and tilts towards the
+/// pointer; under Reduce Motion it stays still.
 struct CategoryIcon: View {
     let category: StorageCategory
+    var size: CGFloat = 24
+    /// Lifted, because the row it heads is being pointed at.
+    var isRaised = false
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
+        let shape = RoundedRectangle(cornerRadius: size * 0.3, style: .continuous)
         Image(systemName: category.symbol)
-            .font(.system(size: 11, weight: .semibold))
+            .font(.system(size: size * 0.5, weight: .semibold))
+            .symbolRenderingMode(.hierarchical)
             .foregroundStyle(.white)
-            .frame(width: 22, height: 22)
-            .background(category.tint.gradient, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .shadow(color: .black.opacity(0.28), radius: 0.6, y: 0.8)
+            .frame(width: size, height: size)
+            .background {
+                shape.fill(category.tint)
+                // Lit from above: lighter at the top, deeper at the bottom.
+                shape.fill(LinearGradient(
+                    colors: [.white.opacity(0.30), .clear, .black.opacity(0.22)],
+                    startPoint: .top, endPoint: .bottom
+                ))
+                // A sheen across the top half, the way glass and enamel catch light.
+                shape.fill(LinearGradient(
+                    colors: [.white.opacity(0.32), .white.opacity(0)],
+                    startPoint: .top, endPoint: .center
+                ))
+                .padding(1)
+                shape.strokeBorder(LinearGradient(
+                    colors: [.white.opacity(0.55), .white.opacity(0.08)],
+                    startPoint: .top, endPoint: .bottom
+                ), lineWidth: 0.75)
+            }
+            .shadow(color: category.tint.opacity(0.45), radius: isRaised ? 5 : 2, y: isRaised ? 3 : 1.5)
+            .rotation3DEffect(
+                .degrees(isRaised && !reduceMotion ? 14 : 0),
+                axis: (x: 1, y: -0.7, z: 0), perspective: 0.5
+            )
+            .scaleEffect(isRaised && !reduceMotion ? 1.08 : 1)
+            .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: isRaised)
             .accessibilityHidden(true)
     }
 }

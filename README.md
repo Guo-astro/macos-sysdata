@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/screenshot.png" width="460" alt="The System Data Unpacked window: an overview with the space safe to free now and the whole disk as one bar split into safe, review, manual, other files and free, then the categories listed largest first, each with its own icon and a bar split the same way">
+  <img src="assets/screenshot.png" width="460" alt="The System Data Unpacked window: an overview with the whole disk as a ring split into safe, review, manual, other files and free, the space safe to free now in its middle and a line of System Data over recent scans, then the categories listed largest first, each with its own icon and a bar split the same way">
 </p>
 
 ---
