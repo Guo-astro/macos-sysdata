@@ -100,6 +100,12 @@ scripts/make-llms.sh >/dev/null
 # page last changed; both would otherwise drift a release behind.
 sed -i '' -E "s/\"softwareVersion\":\"[0-9.]+\"/\"softwareVersion\":\"$version\"/" docs/index.html
 sed -i '' -E "s|<lastmod>[0-9-]+</lastmod>|<lastmod>$(date +%F)</lastmod>|" docs/sitemap.xml
+# GitHub stars, exact in the structured data and rounded down on the page so
+# the figure shown stays true between releases.
+if stars=$(gh api "repos/$repo" --jq .stargazers_count 2>/dev/null) && [ -n "$stars" ]; then
+  sed -i '' -E "s/\"userInteractionCount\":[0-9]+/\"userInteractionCount\":$stars/" docs/index.html
+  sed -i '' -E "s|<span id=\"star-count\">[0-9,]+\+</span>|<span id=\"star-count\">$((stars / 10 * 10))+</span>|" docs/index.html
+fi
 git add VERSION docs/llms.txt docs/llms-full.txt docs/index.html docs/sitemap.xml
 git commit -q -m "chore: release $tag"
 trap - ERR
