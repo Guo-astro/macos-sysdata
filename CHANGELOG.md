@@ -5,6 +5,29 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.8.0 — 2026-10-14
+
+- **Free up…** "I need 20 GB" instead of adding up rows. A menu under
+  **Select safe** takes an amount (5, 10, 20, 50 or 100 GB) and selects the
+  least worrying items that add up to it: everything marked Safe first,
+  largest first, then only as much of Review as is needed, longest
+  untouched first, and the Trash last. It selects and deletes nothing: the
+  batch goes through the usual confirmation, and the plan ends the moment
+  you change the selection. When the amount is out of reach it says how far
+  short everything falls and selects only the Safe items rather than the
+  whole list.
+- **A clearer delete confirmation.** It leads with what is being deleted
+  and how much, shows how many items are safe, how many need a look and
+  whether a password will be asked for, and puts the destination before the
+  click: **Move to the Trash**, which is recoverable and frees nothing yet,
+  or **Delete now**, which frees the space at once. The Trash stays the
+  default and the choice is remembered. The footer no longer repeats the
+  Delete button beside the card, and while Touch ID is waiting the button
+  says so instead of going grey.
+- **Empty the Trash from the notice.** After items move to the Trash, the
+  notice offers **Empty the Trash…**, through the same confirmation as any
+  other delete.
+
 ## v1.7.1 — 2026-10-13
 
 - **Hidden models stay hidden.** Ollama and Hugging Face are listed model
