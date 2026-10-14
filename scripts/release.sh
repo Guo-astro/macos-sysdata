@@ -96,7 +96,11 @@ notes=$(mktemp)
 # The site's llms files state the current version, so they are regenerated
 # with it; left alone they were a release behind on main every time.
 scripts/make-llms.sh >/dev/null
-git add VERSION docs/llms.txt docs/llms-full.txt
+# The page's structured data names the version, and the sitemap says when the
+# page last changed; both would otherwise drift a release behind.
+sed -i '' -E "s/\"softwareVersion\":\"[0-9.]+\"/\"softwareVersion\":\"$version\"/" docs/index.html
+sed -i '' -E "s|<lastmod>[0-9-]+</lastmod>|<lastmod>$(date +%F)</lastmod>|" docs/sitemap.xml
+git add VERSION docs/llms.txt docs/llms-full.txt docs/index.html docs/sitemap.xml
 git commit -q -m "chore: release $tag"
 trap - ERR
 git tag -a "$tag" -m "$tag"
