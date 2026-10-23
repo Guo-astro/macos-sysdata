@@ -10,6 +10,11 @@ struct NeedsAdministrator: LocalizedError {
 /// Executes a `ReclaimAction`. Every filesystem mutation in the app goes
 /// through here.
 enum Reclaimer {
+    /// Deletes run one batch after another, so a CoreSimulator that never
+    /// answers would hold every later delete — the weekly clean included —
+    /// behind it. An erase of a large device takes well under this.
+    static let simulatorTimeout: Duration = .seconds(180)
+
     /// `preferTrash` moves user-owned paths to the Trash instead of deleting
     /// them, so a Review item can be recovered for 30 days.
     ///
@@ -55,7 +60,7 @@ enum Reclaimer {
             // clear failure. Ten minutes is far past any real clean.
             let command = ([executable] + arguments).joined(separator: " ")
             let result = try await Shell.run(executable, arguments, timeout: commandTimeout)
-            if result.status == SIGTERM {
+            if result.timedOut {
                 throw CommandError(command: command, result: CommandResult(
                     status: SIGTERM,
                     output: L("It was still running after %lld minutes, so it was stopped. Another program may be holding it; try again once that one has finished.",
@@ -76,7 +81,7 @@ enum Reclaimer {
             return false
 
         case .shutdownSimulators:
-            _ = try? await Shell.run("/usr/bin/xcrun", ["simctl", "shutdown", "all"])
+            _ = try? await Shell.run("/usr/bin/xcrun", ["simctl", "shutdown", "all"], timeout: simulatorTimeout)
             return false
 
         case .eraseSimulator(let udid):
@@ -85,11 +90,11 @@ enum Reclaimer {
             // refusal is retried once after shutting everything down, for when
             // something booted it again in between.
             let xcrun = "/usr/bin/xcrun"
-            _ = try? await Shell.run(xcrun, ["simctl", "shutdown", udid])
-            var result = try await Shell.run(xcrun, ["simctl", "erase", udid])
-            if !result.succeeded {
-                _ = try? await Shell.run(xcrun, ["simctl", "shutdown", "all"])
-                result = try await Shell.run(xcrun, ["simctl", "erase", udid])
+            _ = try? await Shell.run(xcrun, ["simctl", "shutdown", udid], timeout: simulatorTimeout)
+            var result = try await Shell.run(xcrun, ["simctl", "erase", udid], timeout: simulatorTimeout)
+            if !result.succeeded && !result.timedOut {
+                _ = try? await Shell.run(xcrun, ["simctl", "shutdown", "all"], timeout: simulatorTimeout)
+                result = try await Shell.run(xcrun, ["simctl", "erase", udid], timeout: simulatorTimeout)
             }
             guard result.succeeded else {
                 throw CommandError(command: "\(xcrun) simctl erase \(udid)", result: result)

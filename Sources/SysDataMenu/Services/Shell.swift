@@ -4,6 +4,10 @@ import os
 struct CommandResult: Sendable {
     let status: Int32
     let output: String
+    /// Stopped by the timeout rather than ended by itself. Not inferred from
+    /// the status: a program may exit 15 of its own accord, and one that
+    /// ignored SIGTERM ends with SIGKILL's 9.
+    var timedOut = false
 
     var succeeded: Bool { status == 0 }
 }
@@ -44,13 +48,24 @@ enum Shell {
         mergeStderr: Bool = true,
         timeout: Duration? = nil
     ) async throws -> CommandResult {
-        try await Task.detached(priority: .userInitiated) {
-            try runBlocking(executable, arguments, mergeStderr: mergeStderr, timeout: timeout)
-        }.value
+        // On a dispatch queue, not a detached task: the wait blocks its
+        // thread for as long as the program runs, and a scan asks a dozen
+        // programs at once. Blocking that many of the concurrency pool's
+        // threads — one per core — stalls every other probe behind them.
+        try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global(qos: .userInitiated).async {
+                continuation.resume(with: Result {
+                    try runBlocking(executable, arguments, mergeStderr: mergeStderr, timeout: timeout)
+                })
+            }
+        }
     }
 
+    /// How long a program has to exit after SIGTERM before it is killed.
+    private static let terminationGrace: Double = 5
+
     /// The blocking half of `run`, kept synchronous because it waits on the
-    /// pipe and the process; it only ever runs on the detached task above.
+    /// pipe and the process; it only ever runs on the queue above.
     private static func runBlocking(
         _ executable: String, _ arguments: [String], mergeStderr: Bool, timeout: Duration?
     ) throws -> CommandResult {
@@ -86,10 +101,16 @@ enum Shell {
         // on another queue, and a pid is a plain number to hand across.
         let pid = process.processIdentifier
         let timedOut = OSAllocatedUnfairLock(initialState: false)
+        let exited = OSAllocatedUnfairLock(initialState: false)
         let deadline = timeout.map { limit in
             let item = DispatchWorkItem {
                 timedOut.withLock { $0 = true }
                 kill(pid, SIGTERM)
+                // A program that ignores SIGTERM — a wedged daemon client —
+                // would otherwise hold `waitUntilExit` for good.
+                DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + terminationGrace) {
+                    if !exited.withLock({ $0 }) { kill(pid, SIGKILL) }
+                }
             }
             let seconds = Double(limit.components.seconds) + Double(limit.components.attoseconds) / 1e18
             // Not .utility: the disk walk runs at that level, and while a scan
@@ -99,8 +120,10 @@ enum Shell {
             return item
         }
         process.waitUntilExit()
+        exited.withLock { $0 = true }
         deadline?.cancel()
-        if timedOut.withLock({ $0 }) {
+        let wasStopped = timedOut.withLock { $0 }
+        if wasStopped {
             // Whatever still holds the pipe is not waited for.
             pipe.fileHandleForReading.readabilityHandler = nil
         } else {
@@ -109,7 +132,8 @@ enum Shell {
 
         return CommandResult(
             status: process.terminationStatus,
-            output: String(decoding: output.withLock { $0 }, as: UTF8.self)
+            output: String(decoding: output.withLock { $0 }, as: UTF8.self),
+            timedOut: wasStopped
         )
     }
 
