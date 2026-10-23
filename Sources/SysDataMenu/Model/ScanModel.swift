@@ -853,9 +853,7 @@ final class ScanModel {
             // Written before the size is forgotten, and before the free
             // space is re-read, so it records what was asked for even if
             // the disk disagrees about what it got.
-            for item in affected {
-                ScanHistory.record(deleted: item, bytes: item.sizeBytes ?? 0)
-            }
+            ScanHistory.record(deleted: affected.map { ($0, $0.sizeBytes ?? 0) })
             history = ScanHistory.load()
         }
         items.removeAll { ids.contains($0.id) }

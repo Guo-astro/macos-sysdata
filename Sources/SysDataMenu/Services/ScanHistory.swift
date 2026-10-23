@@ -106,7 +106,9 @@ enum ScanHistory {
     // MARK: Writing
 
     static func record(_ items: [StorageItem], freeBytes: Int64, at date: Date = .now) {
-        var log = load()
+        writeLock.lock()
+        defer { writeLock.unlock() }
+        guard var log = loadForWriting() else { return }
         var sizes: [String: Int64] = [:]
         var names: [String: String] = [:]
         var categories: [String: String] = [:]
@@ -128,15 +130,25 @@ enum ScanHistory {
     }
 
     static func record(deleted item: StorageItem, bytes: Int64, at date: Date = .now) {
-        var log = load()
-        log.deletions.append(Deletion(
-            date: date,
-            itemID: item.id,
-            name: item.name,
-            category: item.category.rawValue,
-            paths: item.action.paths.map(\.path),
-            bytes: bytes
-        ))
+        record(deleted: [(item, bytes)], at: date)
+    }
+
+    /// A whole batch in one read and one write, rather than one per item.
+    static func record(deleted batch: [(item: StorageItem, bytes: Int64)], at date: Date = .now) {
+        guard !batch.isEmpty else { return }
+        writeLock.lock()
+        defer { writeLock.unlock() }
+        guard var log = loadForWriting() else { return }
+        for (item, bytes) in batch {
+            log.deletions.append(Deletion(
+                date: date,
+                itemID: item.id,
+                name: item.name,
+                category: item.category.rawValue,
+                paths: item.action.paths.map(\.path),
+                bytes: bytes
+            ))
+        }
         save(prune(log, now: date))
     }
 
@@ -300,6 +312,28 @@ enum ScanHistory {
     }
 
     // MARK: Storage
+
+    /// The scan records from a detached task and a delete from the main
+    /// actor, each reading the file, appending and writing it back. Without
+    /// this, a delete that lands while a scan is being written loses one of
+    /// the two.
+    private static let writeLock = NSLock()
+
+    /// The log to append to, or nil when there is a file that cannot be read
+    /// and it could not be moved out of the way.
+    ///
+    /// `load()` answers an unreadable file with an empty log, which is right
+    /// for showing it and wrong for writing: the next save would replace six
+    /// months of history with one scan. The file is kept beside the new one
+    /// instead, so a newer version's format or one damaged entry costs the
+    /// trend lines, not the record.
+    static func loadForWriting(at url: URL = fileURL) -> Log? {
+        guard let data = try? Data(contentsOf: url) else { return Log() }
+        if let log = try? decoder.decode(Log.self, from: data) { return log }
+        let stamp = ISO8601DateFormatter().string(from: .now).replacingOccurrences(of: ":", with: "-")
+        let aside = url.deletingLastPathComponent().appending(path: "history-unreadable-\(stamp).json")
+        return (try? FileManager.default.moveItem(at: url, to: aside)) != nil ? Log() : nil
+    }
 
     private static var decoder: JSONDecoder {
         let decoder = JSONDecoder()
