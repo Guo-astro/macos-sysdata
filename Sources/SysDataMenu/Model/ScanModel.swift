@@ -814,6 +814,15 @@ final class ScanModel {
             affected, deletesReviewItemsImmediately: deletesReviewItemsImmediately,
             movesSafeToTrash: movesSafeToTrash
         )
+        // Gone since the scan — a drive unplugged, a tool that cleaned up
+        // after itself. Nothing is deleted, so nothing is credited or written
+        // into the history as deleted; the row just leaves the list.
+        let paths = action.paths
+        if !paths.isEmpty, !paths.contains(where: \.exists) {
+            items.removeAll { ids.contains($0.id) }
+            if isScanning { deletedDuringScan.formUnion(ids) }
+            return true
+        }
         let before = DiskSize.freeSpace()
         do {
             let movedToTrash = try await Reclaimer.perform(
