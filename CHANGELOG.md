@@ -5,6 +5,45 @@ What changed in each release, and where it is worth saying, why.
 Versions up to and including v0.3.7 were released under the MIT License; see
 [LICENSE](LICENSE).
 
+## v1.10.0 — 2026-10-23
+
+- **More of System Data has a name.** JetBrains IDEs: the current
+  version's caches, and every version a newer one replaced, with its
+  caches, settings and plugins, as one row to review. Unity's package
+  cache and Asset Store downloads, and the editors Unity Hub installed.
+  The Logic Pro, GarageBand and Apple Loops sound libraries. WhatsApp's
+  chats and media.
+- **Some things are no longer offered for deletion.** The sound
+  libraries used to appear as system app data with a Delete button; they
+  are now listed with how to remove them from Logic Pro. WhatsApp's
+  folder was an app group row whose delete signed you out and took every
+  chat not backed up; it is now listed with that warning instead. Unity
+  editors are left to Unity Hub, which keeps its own list of installs.
+- **Sizes that counted the same space twice.** The shared DerivedData
+  row measured the whole folder, so every project's DerivedData was
+  counted again inside it. A generic hidden folder holding a virtual
+  machine or a pnpm store listed elsewhere counted those bytes twice
+  too. Both inflated the total, **Free up…** and the weekly clean.
+- **Emptying the Trash works with "Move safe items to the Trash" on.**
+  The Trash row was moved to the Trash, which leaves it where it is:
+  nothing was freed, and the notice asked again for it to be emptied.
+- **History survives a file it cannot read.** It used to read as empty
+  and was overwritten by the next scan. It is now kept beside the new
+  one. A delete that finished while a scan was being written could also
+  lose one of the two records.
+- **Nothing is credited for what was already gone.** An item whose
+  folder disappeared after the scan, on a drive since unplugged, counted
+  as freed and went into the history as deleted.
+- **A program that will not stop no longer stalls the app.** A tool
+  that ignored the scan's timeout is now killed, and simulator shutdown
+  and erase have a time limit, so a wedged CoreSimulator cannot hold up
+  every later delete. Temporary-file pruning stays out of disk images
+  mounted inside the temporary folder.
+- **An inactive Xcode is told apart correctly** when Xcode.app is a link
+  to the selected version, as Xcodes.app sets it up.
+- **A faster scan.** Folders are measured concurrently and the catch-all
+  walks each top-level folder on its own; the sizes are the same.
+
 ## v1.9.0 — 2026-10-14
 
 - **A new look, top to bottom.** The disk is drawn as a ring, with the space
