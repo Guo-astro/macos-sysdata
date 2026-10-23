@@ -785,6 +785,19 @@ final class ScanModel {
             : L("Cancelled. %d already deleted, the rest left alone.", deleted)
     }
 
+    /// Whether a batch is moved to the Trash rather than deleted.
+    ///
+    /// Never for the Trash itself: moving an item that is already in the
+    /// Trash to the Trash succeeds and leaves it where it was, so emptying it
+    /// would free nothing and then ask for the Trash to be emptied again.
+    nonisolated static func goesToTrash(
+        _ affected: [StorageItem], deletesReviewItemsImmediately: Bool, movesSafeToTrash: Bool
+    ) -> Bool {
+        guard !affected.contains(where: { $0.category == .trash }) else { return false }
+        return (!deletesReviewItemsImmediately && affected.allSatisfy { $0.safety == .review })
+            || (movesSafeToTrash && affected.allSatisfy { $0.safety == .safe })
+    }
+
     /// Returns false when the person dismissed the authorization dialog, so
     /// the caller can stop instead of carrying on down the list.
     @discardableResult
@@ -797,8 +810,10 @@ final class ScanModel {
         // items regenerate anyway and are deleted outright — unless the person
         // has asked for the extra safety net, in which case they go to the
         // Trash too and free nothing until it is emptied.
-        let toTrash = (!deletesReviewItemsImmediately && affected.allSatisfy { $0.safety == .review })
-            || (movesSafeToTrash && affected.allSatisfy { $0.safety == .safe })
+        let toTrash = Self.goesToTrash(
+            affected, deletesReviewItemsImmediately: deletesReviewItemsImmediately,
+            movesSafeToTrash: movesSafeToTrash
+        )
         let before = DiskSize.freeSpace()
         do {
             let movedToTrash = try await Reclaimer.perform(
