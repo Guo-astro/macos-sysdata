@@ -268,12 +268,22 @@ struct XcodeProbe: StorageProbe {
                 ))
             }
         }
-        if !shared.isEmpty, let item = await ProbeSupport.directoryItem(
-            id: "xcode-DerivedData", category: .xcode, name: "DerivedData",
-            detail: "Module and symbol caches shared by every project. \(detail)",
-            url: folder, safety: .safe, action: .removePaths(shared)
-        ) {
-            items.append(item)
+        // Sized on the shared entries alone: the folder as a whole also holds
+        // every project row above, which would then be counted twice.
+        var sharedBytes: Int64 = 0
+        var sharedModified: Date?
+        for entry in shared {
+            let measured = await DiskSize.measure(at: entry)
+            sharedBytes += measured.bytes
+            if let date = measured.lastModified, date > (sharedModified ?? .distantPast) { sharedModified = date }
+        }
+        if sharedBytes > 0 {
+            items.append(StorageItem(
+                id: "xcode-DerivedData", category: .xcode, name: "DerivedData",
+                detail: "Module and symbol caches shared by every project. \(detail)",
+                sizeBytes: sharedBytes, safety: .safe, action: .removePaths(shared),
+                revealURL: folder, lastModified: sharedModified
+            ))
         }
         return items
     }
