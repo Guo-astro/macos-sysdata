@@ -581,6 +581,7 @@ final class ScanModel {
         // The catch-all pass needs to know what is already explained, so it
         // runs after everything else and streams in as a second update.
         phase = L("Looking for anything else over 500 MB…")
+        results = ProbeRegistry.withoutOverlaps(results)
         let claimed = results.flatMap(\.claimedURLs)
         let found = (results + (await LargeFolderProbe(claimed: claimed).probe()))
             .filter { !deletedDuringScan.contains($0.id) }

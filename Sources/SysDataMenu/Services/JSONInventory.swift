@@ -17,9 +17,33 @@ enum ProbeRegistry {
             }
             var collected: [StorageItem] = []
             for await batch in group { collected += batch }
-            return collected
+            return withoutOverlaps(collected)
         }
         return results + (await LargeFolderProbe(claimed: results.flatMap(\.claimedURLs)).probe())
+    }
+
+    /// Rows built by walking whatever is in a folder rather than by knowing
+    /// what it is. The probes run at once and cannot see each other's
+    /// claims, so one of these can contain a location another probe names.
+    private static let genericPrefixes = [
+        "tool-hidden-", "tool-cache-", "app-support-", "app-cache-", "app-container-", "app-group-",
+    ]
+
+    /// Drops every generic row that contains another row's location: its
+    /// size counts those bytes a second time, in the header, the plan and
+    /// the weekly clean. The catch-all then walks the dropped folder, sees
+    /// the claimed part inside it and reports only what is left over.
+    static func withoutOverlaps(_ items: [StorageItem]) -> [StorageItem] {
+        let claims = items.map { item in
+            (id: item.id, paths: item.claimedURLs.map { DiskSize.realPath($0.standardizedFileURL.path) })
+        }
+        return items.filter { item in
+            guard genericPrefixes.contains(where: item.id.hasPrefix), let root = item.revealURL else { return true }
+            let prefix = DiskSize.realPath(root.standardizedFileURL.path) + "/"
+            return !claims.contains { other in
+                other.id != item.id && other.paths.contains { $0.hasPrefix(prefix) }
+            }
+        }
     }
 }
 
