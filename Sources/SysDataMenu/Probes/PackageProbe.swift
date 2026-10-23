@@ -4,7 +4,7 @@ import Foundation
 /// refilled on demand, and the tool's own prune command is used when it has one
 /// so its bookkeeping stays consistent.
 struct PackageProbe: StorageProbe {
-    private struct Cache {
+    private struct Cache: Sendable {
         let id: String
         let name: String
         let url: URL
@@ -84,8 +84,9 @@ struct PackageProbe: StorageProbe {
             caches[index].detail = "\(running) running, such as tools started with uvx. They hold this cache: cleaning it would wait for them and remove the environments they run from. Quit them first."
         }
 
-        var items: [StorageItem] = []
-        for cache in caches {
+        // Measured together with the Homebrew prefixes below; one after
+        // another, this was the slowest probe of the scan.
+        async let cacheItems = ProbeSupport.items(for: caches) { cache in
             let action: ReclaimAction
             if cache.id == "uv", runningUV > 0 {
                 action = .manual("# Quit the programs started with uvx first, then:\nuv cache clean")
@@ -94,29 +95,27 @@ struct PackageProbe: StorageProbe {
             } else {
                 action = .emptyDirectories([cache.url])
             }
-            if let item = await ProbeSupport.directoryItem(
+            return await ProbeSupport.directoryItem(
                 id: "pkg-\(cache.id)", category: .packages, name: cache.name, detail: cache.detail,
                 url: cache.url, safety: cache.safety, action: action, minimumBytes: ProbeSupport.megabyte
-            ) {
-                items.append(item)
-            }
+            )
         }
 
         // The whole prefix, not just Cellar: formulae also install real files
         // into share/ and lib/, and casks live in Caskroom.
-        for prefix in ["/opt/homebrew", "/usr/local"] {
-            let url = URL(fileURLWithPath: prefix)
-            guard url.appending(path: "bin/brew").exists else { continue }
-            if let item = await ProbeSupport.directoryItem(
+        let prefixes = ["/opt/homebrew", "/usr/local"].map { URL(fileURLWithPath: $0) }
+            .filter { $0.appending(path: "bin/brew").exists }
+        async let homebrewItems = ProbeSupport.items(for: prefixes) { url in
+            let prefix = url.path
+            return await ProbeSupport.directoryItem(
                 id: "pkg-homebrew-\(prefix)", category: .packages, name: "Homebrew installation",
                 detail: "\(prefix): every formula and cask installed with brew. Remove what you no longer use.",
                 url: url, safety: .manual,
                 action: .manual("brew leaves            # formulae you asked for\nbrew list --cask\nbrew uninstall <formula>\nbrew uninstall --cask <name>\nbrew autoremove"),
                 minimumBytes: 100 * ProbeSupport.megabyte
-            ) {
-                items.append(item)
-            }
+            )
         }
+        let items = await cacheItems + homebrewItems
 
         return items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) }
     }

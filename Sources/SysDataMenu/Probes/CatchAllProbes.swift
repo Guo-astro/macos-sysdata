@@ -204,26 +204,37 @@ struct LargeFolderProbe: StorageProbe {
             // Data, and walking it is what left one machine's scan running for
             // over a day. The targeted probes still measure known caches there
             // by their own paths; this safety net does not walk the disk.
+            // One walk per top-level folder rather than one per root: the home
+            // folder alone was most of the scan's time, walked by one thread
+            // while the others had finished. `visit` starts one level below a
+            // root and never reads a root's own total, so the per-folder
+            // sizes are exactly the ones a single walk produced.
+            let skipping = Set((claimedPaths + excludedPaths).map(DiskSize.realPath))
             for root in Self.roots where root.exists && DiskSize.isOnBootVolume(root) {
-                group.addTask {
-                    await Task.detached(priority: .utility) {
-                        // Nothing under a claimed or excluded directory can ever
-                        // be reported: `visit` returns on both before it looks at
-                        // a size. Their bytes only ever fed the totals of parents,
-                        // and a parent holding a claimed child is recursed into
-                        // rather than listed, so leaving those bytes out cannot
-                        // hide an item — a child that survives the filters is
-                        // smaller than the reduced parent total by definition.
-                        let sizes = DiskSize.directorySizes(
-                            under: root, maxDepth: Self.maxDepth,
-                            skipping: Set(claimedPaths + excludedPaths)
-                        )
-                        var items: [StorageItem] = []
-                        for child in root.children(includeHidden: true) where child.isDirectory {
+                for child in root.children(includeHidden: true) where child.isDirectory {
+                    // The root-level walk never left the boot volume, and a
+                    // walk that starts on another one would take that volume
+                    // as its own.
+                    guard DiskSize.isOnBootVolume(child),
+                          !skipping.contains(DiskSize.realPath(child.path)) else { continue }
+                    group.addTask {
+                        await Task.detached(priority: .utility) {
+                            // Nothing under a claimed or excluded directory can
+                            // ever be reported: `visit` returns on both before it
+                            // looks at a size. Their bytes only ever fed the totals
+                            // of parents, and a parent holding a claimed child is
+                            // recursed into rather than listed, so leaving those
+                            // bytes out cannot hide an item — a child that survives
+                            // the filters is smaller than the reduced parent total
+                            // by definition.
+                            let sizes = DiskSize.directorySizes(
+                                under: child, maxDepth: Self.maxDepth - 1, skipping: skipping
+                            )
+                            var items: [StorageItem] = []
                             Self.visit(child, depth: 1, sizes: sizes, claimed: claimedPaths, excluded: excludedPaths, apps: apps, into: &items)
-                        }
-                        return items
-                    }.value
+                            return items
+                        }.value
+                    }
                 }
             }
             var all: [StorageItem] = []

@@ -261,16 +261,15 @@ struct SystemProbe: StorageProbe {
             ))
         }
 
-        for entry in URL(fileURLWithPath: "/Library/Application Support").children()
-        where entry.isDirectory && !SoundLibraryProbe.appSupportFolders.contains(entry.lastPathComponent) {
-            if let item = await ProbeSupport.directoryItem(
+        let appSupport = URL(fileURLWithPath: "/Library/Application Support").children()
+            .filter { $0.isDirectory && !SoundLibraryProbe.appSupportFolders.contains($0.lastPathComponent) }
+        items += await ProbeSupport.items(for: appSupport) { entry in
+            await ProbeSupport.directoryItem(
                 id: "sys-app-support-\(entry.lastPathComponent)", category: .system,
                 name: "System app data: \(entry.lastPathComponent)",
                 detail: "/Library/Application Support. Installed for all users; uninstall the app instead when it has an uninstaller.",
                 url: entry, safety: .review, action: .removePaths([entry]), minimumBytes: 200 * ProbeSupport.megabyte
-            ) {
-                items.append(item)
-            }
+            )
         }
 
         let commandLineTools = URL(fileURLWithPath: "/Library/Developer/CommandLineTools")

@@ -34,6 +34,25 @@ enum ProbeSupport {
         )
     }
 
+    /// Builds one item per input concurrently. The walks behind each item
+    /// wait on the disk, and a probe that measured fifty folders one after
+    /// another was the longest part of the scan. Order is not kept; every
+    /// caller sorts by size afterwards.
+    static func items<Input: Sendable>(
+        for inputs: [Input], _ build: @escaping @Sendable (Input) async -> StorageItem?
+    ) async -> [StorageItem] {
+        await withTaskGroup(of: StorageItem?.self) { group in
+            for input in inputs {
+                group.addTask { await build(input) }
+            }
+            var items: [StorageItem] = []
+            for await item in group {
+                if let item { items.append(item) }
+            }
+            return items
+        }
+    }
+
     /// Runs a JSON-producing command and decodes its top-level object.
     static func json(_ executable: String, _ arguments: [String]) async -> [String: Any]? {
         guard let result = try? await Shell.run(executable, arguments, mergeStderr: false, timeout: Shell.probeTimeout),

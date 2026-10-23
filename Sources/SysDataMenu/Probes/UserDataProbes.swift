@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 // MARK: - iOS device backups
 
@@ -245,10 +246,10 @@ struct AppDataProbe: StorageProbe {
         _ root: URL, prefix: String, label: String, detail: String, safety: Safety,
         threshold: Int64, skipping: Set<String>, protectsAppleData: Bool = false
     ) async -> [StorageItem] {
-        var items: [StorageItem] = []
-        for entry in root.children() where entry.isDirectory && !skipping.contains(entry.lastPathComponent) {
+        let entries = root.children().filter { $0.isDirectory && !skipping.contains($0.lastPathComponent) }
+        return await ProbeSupport.items(for: entries) { entry in
             let isProtected = protectsAppleData && Self.isAppleOwned(entry.lastPathComponent)
-            if let item = await ProbeSupport.directoryItem(
+            return await ProbeSupport.directoryItem(
                 id: "\(prefix)-\(entry.lastPathComponent)", category: .apps,
                 name: "\(label): \(entry.lastPathComponent)",
                 detail: isProtected ? "Apple app data, some of it synced with iCloud. Not deleted by this app." : detail,
@@ -256,11 +257,8 @@ struct AppDataProbe: StorageProbe {
                 safety: isProtected ? .manual : safety,
                 action: isProtected ? .manual(Self.appleDataInstructions) : .removePaths([entry]),
                 minimumBytes: threshold
-            ) {
-                items.append(item)
-            }
+            )
         }
-        return items
     }
 
     /// Whether a container or group container belongs to Apple, by the bundle
@@ -313,8 +311,11 @@ struct ProjectProbe: StorageProbe {
             collect(root, depth: 0, into: &found)
         }
 
-        var items: [StorageItem] = []
-        for folder in found {
+        let stops = Self.roots + external
+        // A monorepo's node_modules and .build folders share one root, and
+        // each used to walk it again for the same date.
+        let activity = ActivityCache()
+        let items = await ProbeSupport.items(for: found) { folder in
             let project = folder.deletingLastPathComponent()
             let tool: String = switch folder.lastPathComponent {
             case "node_modules": "npm install"
@@ -327,26 +328,40 @@ struct ProjectProbe: StorageProbe {
             case ".angular", ".turbo", ".parcel-cache", ".expo": "the next build"
             default: "the next build"
             }
-            if let measured = await ProbeSupport.directoryItem(
+            guard let measured = await ProbeSupport.directoryItem(
                 id: "project-\(folder.path)", category: .projects,
                 name: "\(project.lastPathComponent)/\(folder.lastPathComponent)",
                 detail: "\(project.abbreviatedPath). Recreated by \(tool).",
                 url: folder, safety: .review, action: .removePaths([folder]), minimumBytes: Self.threshold
-            ) {
-                // Dated by the project, not by the folder: node_modules is as
-                // old as the last install, which says nothing about whether
-                // anyone still works on the code next to it.
-                let root = Self.projectRoot(of: project, stoppingAt: Self.roots + external)
-                items.append(StorageItem(
-                    id: measured.id, category: measured.category, name: measured.name,
-                    detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
-                    action: measured.action, revealURL: measured.revealURL,
-                    lastModified: Self.lastActivity(in: root) ?? measured.lastModified,
-                    project: root, builtAt: measured.lastModified
-                ))
-            }
+            ) else { return nil }
+            // Dated by the project, not by the folder: node_modules is as
+            // old as the last install, which says nothing about whether
+            // anyone still works on the code next to it.
+            let root = Self.projectRoot(of: project, stoppingAt: stops)
+            return StorageItem(
+                id: measured.id, category: measured.category, name: measured.name,
+                detail: measured.detail, sizeBytes: measured.sizeBytes, safety: measured.safety,
+                action: measured.action, revealURL: measured.revealURL,
+                lastModified: activity.lastActivity(in: root) ?? measured.lastModified,
+                project: root, builtAt: measured.lastModified
+            )
         }
         return items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) }
+    }
+
+    /// `lastActivity` per project root, for one scan.
+    private final class ActivityCache: Sendable {
+        private let dates = OSAllocatedUnfairLock<[URL: Date?]>(initialState: [:])
+
+        func lastActivity(in root: URL) -> Date? {
+            if let known = dates.withLock({ $0[root] }) { return known }
+            // Walked outside the lock: two folders of one project that ask at
+            // the same moment may both walk it, which costs time, not
+            // correctness.
+            let date = ProjectProbe.lastActivity(in: root)
+            dates.withLock { $0[root] = .some(date) }
+            return date
+        }
     }
 
     /// The project a folder belongs to: the nearest enclosing git repository,
