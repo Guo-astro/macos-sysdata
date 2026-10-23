@@ -132,3 +132,78 @@ struct AppCacheProbe: StorageProbe {
         return items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) }
     }
 }
+
+// MARK: - Logic Pro and GarageBand sound libraries
+
+/// The instruments, loops and Apple Loops that Logic Pro and GarageBand
+/// download, tens of gigabytes in /Library where no app lists them.
+///
+/// Never deleted here: the two apps share the content, and Logic keeps a
+/// record of which packs are installed that a plain delete would leave wrong.
+struct SoundLibraryProbe: StorageProbe {
+    var root = URL(fileURLWithPath: "/Library")
+
+    /// Folders under `/Library/Application Support` this probe reports, so
+    /// the system probe does not offer them again with a delete button.
+    static let appSupportFolders: Set<String> = ["Logic", "GarageBand"]
+
+    private static let instructions = """
+        Logic Pro > Sound Library > Open Sound Library Manager removes packs \
+        you do not use. GarageBand has no remove option and downloads what a \
+        project needs again.
+        """
+
+    func probe() async -> [StorageItem] {
+        let entries: [(id: String, name: String, path: String)] = [
+            ("logic", "Logic Pro sound library", "Application Support/Logic"),
+            ("garageband", "GarageBand sound library", "Application Support/GarageBand"),
+            ("apple-loops", "Apple Loops", "Audio/Apple Loops/Apple"),
+        ]
+        var items: [StorageItem] = []
+        for entry in entries {
+            let url = root.appending(path: entry.path)
+            if let item = await ProbeSupport.directoryItem(
+                id: "sound-\(entry.id)", category: .apps, name: entry.name,
+                detail: "Instruments and loops downloaded by Logic Pro and GarageBand, shared by both.",
+                url: url, safety: .manual, action: .manual(Self.instructions),
+                minimumBytes: 100 * ProbeSupport.megabyte
+            ) {
+                items.append(item)
+            }
+        }
+        return items.sorted { ($0.sizeBytes ?? 0) > ($1.sizeBytes ?? 0) }
+    }
+}
+
+// MARK: - Chat apps
+
+/// Chat apps keep every photo and video they ever received in a group
+/// container. The generic scan would offer the whole container for deletion,
+/// which signs the person out and takes every chat not backed up with it.
+struct ChatAppProbe: StorageProbe {
+    var groupContainers = URL.home("Library/Group Containers")
+
+    static let containers: [(folder: String, app: String)] = [
+        ("group.net.whatsapp.WhatsApp.shared", "WhatsApp"),
+    ]
+
+    func probe() async -> [StorageItem] {
+        // Group containers prompt one app at a time until Full Disk Access
+        // covers them all.
+        guard ProbeSupport.hasFullDiskAccess else { return [] }
+        var items: [StorageItem] = []
+        for (folder, app) in Self.containers {
+            let url = groupContainers.appending(path: folder)
+            if let item = await ProbeSupport.directoryItem(
+                id: "chat-\(folder)", category: .apps, name: "\(app) chats and media",
+                detail: "Messages and every photo, video and document received in \(app).",
+                url: url, safety: .manual,
+                action: .manual("Remove large chats or media from inside \(app). Deleting this folder signs you out and loses any chat that is not backed up."),
+                minimumBytes: 100 * ProbeSupport.megabyte
+            ) {
+                items.append(item)
+            }
+        }
+        return items
+    }
+}

@@ -6,7 +6,7 @@ enum ProbeRegistry {
         SnapshotProbe(), SimulatorProbe(), RuntimeProbe(), XcodeProbe(), PackageProbe(),
         DeveloperToolProbe(), AIModelProbe(), LogProbe(), TempProbe(), DockerProbe(), VirtualMachineProbe(),
         TrashProbe(), BackupProbe(), SharedProbe(), AndroidProbe(), AppCacheProbe(), AppDataProbe(),
-        ProjectProbe(), SystemProbe(),
+        ProjectProbe(), SystemProbe(), JetBrainsProbe(), UnityProbe(), SoundLibraryProbe(), ChatAppProbe(),
     ]
 
     /// Runs every probe concurrently, then the catch-all with what they claimed.

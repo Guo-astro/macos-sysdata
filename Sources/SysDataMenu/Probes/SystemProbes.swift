@@ -261,7 +261,8 @@ struct SystemProbe: StorageProbe {
             ))
         }
 
-        for entry in URL(fileURLWithPath: "/Library/Application Support").children() where entry.isDirectory {
+        for entry in URL(fileURLWithPath: "/Library/Application Support").children()
+        where entry.isDirectory && !SoundLibraryProbe.appSupportFolders.contains(entry.lastPathComponent) {
             if let item = await ProbeSupport.directoryItem(
                 id: "sys-app-support-\(entry.lastPathComponent)", category: .system,
                 name: "System app data: \(entry.lastPathComponent)",

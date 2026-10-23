@@ -164,9 +164,11 @@ struct AppDataProbe: StorageProbe {
     private static let coveredCaches: Set<String> = [
         "Homebrew", "Yarn", "pip", "CocoaPods", "org.swift.swiftpm", "go-build", "Cypress",
         "ms-playwright", "com.apple.dt.Xcode", "Google", "Adobe", "com.apple.QuickLook.thumbnailcache",
+        "JetBrains",
     ]
     private static let coveredAppSupport: Set<String> = [
         "MobileSync", "Claude", "Google", "Slack", "discord", "zoom.us", "Spotify", "Adobe", "Steam", "Epic",
+        "JetBrains",
     ]
     private static let coveredContainers: Set<String> = [
         "com.microsoft.teams2", "com.apple.Safari", "com.apple.photolibraryd", "com.utmapp.UTM", "com.apple.mail",
@@ -213,7 +215,7 @@ struct AppDataProbe: StorageProbe {
         items += await scan(
             URL.home("Library/Group Containers"), prefix: "app-group", label: "App group data",
             detail: "Shared between an app and its extensions. Deleting resets them.", safety: .review,
-            threshold: Self.threshold, skipping: [], protectsAppleData: true
+            threshold: Self.threshold, skipping: Set(ChatAppProbe.containers.map(\.folder)), protectsAppleData: true
         )
         }
         items += await scan(
