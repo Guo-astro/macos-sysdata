@@ -167,15 +167,22 @@ enum Reclaimer {
     private static func prune(_ directory: URL, olderThanDays days: Int) {
         let cutoff = Date().addingTimeInterval(-Double(days) * 86_400)
         let fileManager = FileManager.default
-        let keys: Set<URLResourceKey> = [.isRegularFileKey, .contentModificationDateKey]
+        let keys: Set<URLResourceKey> = [.isRegularFileKey, .contentModificationDateKey, .volumeIdentifierKey]
         guard let enumerator = fileManager.enumerator(
             at: directory, includingPropertiesForKeys: Array(keys), options: [], errorHandler: { _, _ in true }
         ) else { return }
+        // A disk image an installer mounted inside $TMPDIR is someone's data
+        // on another volume, not this folder's old files.
+        let volume = (try? directory.resourceValues(forKeys: [.volumeIdentifierKey]))?.volumeIdentifier
 
         var emptied: Set<URL> = []
         for case let url as URL in enumerator {
-            guard let values = try? url.resourceValues(forKeys: keys),
-                  values.isRegularFile == true,
+            guard let values = try? url.resourceValues(forKeys: keys) else { continue }
+            if let volume, let other = values.volumeIdentifier, !other.isEqual(volume) {
+                enumerator.skipDescendants()
+                continue
+            }
+            guard values.isRegularFile == true,
                   let modified = values.contentModificationDate, modified < cutoff
             else { continue }
             if (try? fileManager.removeItem(at: url)) != nil {
