@@ -302,6 +302,12 @@ struct XcodeProbe: StorageProbe {
         return workspace.exists ? ProjectProbe.projectRoot(of: workspace) : workspace
     }
 
+    /// A link to another Xcode is listed through the bundle it points to;
+    /// deleting the link itself would free nothing.
+    private static func isSymlink(_ url: URL) -> Bool {
+        (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]))?.isSymbolicLink == true
+    }
+
     func probe() async -> [StorageItem] {
         var items: [StorageItem] = []
 
@@ -338,8 +344,13 @@ struct XcodeProbe: StorageProbe {
         // Without an answer there is no telling which Xcode is in use, and
         // offering the active one for deletion is the mistake to avoid.
         guard let active = await ProbeSupport.activeDeveloperDirectory() else { return items }
+        // Compared with symlinks resolved: Xcodes.app can make Xcode.app a
+        // link to Xcode-16.0.app and select the link, and the real bundle
+        // behind it must not read as inactive.
+        let activeReal = DiskSize.realPath(active) + "/"
         for app in URL(fileURLWithPath: "/Applications").children()
-        where app.lastPathComponent.hasPrefix("Xcode") && app.pathExtension == "app" && !active.hasPrefix(app.path) {
+        where app.lastPathComponent.hasPrefix("Xcode") && app.pathExtension == "app"
+            && !activeReal.hasPrefix(DiskSize.realPath(app.path) + "/") && !Self.isSymlink(app) {
             if let item = await ProbeSupport.directoryItem(
                 id: "xcode-app-\(app.lastPathComponent)", category: .xcode,
                 name: "Inactive \(app.lastPathComponent)",
